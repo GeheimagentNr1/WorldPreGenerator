@@ -14,8 +14,6 @@ public class ChunkRegion {
 	
 	private final int size_x;
 	
-	private final int size_z;
-	
 	private int chunk_index;
 	
 	private final int chunk_count;
@@ -27,7 +25,7 @@ public class ChunkRegion {
 		int stop_x = Math.min( x * SIZE + SIZE - 1, _stop_x );
 		int stop_z = Math.min( z * SIZE + SIZE - 1, _stop_z );
 		size_x = stop_x - start_x + 1;
-		size_z = stop_z - start_z + 1;
+		int size_z = stop_z - start_z + 1;
 		chunk_index = -1;
 		chunk_count = size_x * size_z;
 	}
@@ -35,10 +33,10 @@ public class ChunkRegion {
 	public ChunkPos nextChunk() {
 		
 		chunk_index++;
-		if( chunk_index > chunk_count ) {
+		if( chunk_index >= chunk_count ) {
 			return null;
 		}
-		int dz = chunk_index / size_z;
+		int dz = chunk_index / size_x;
 		int dx = chunk_index - dz * size_x;
 		return new ChunkPos( start_x + dx, start_z + dz );
 	}

@@ -44,8 +44,8 @@ public class PreGeneratorTask {
 		region_index = 0;
 		int start_x = center_x - radius;
 		int start_z = center_z - radius;
-		int stop_x = center_x + radius;
-		int stop_z = center_z + radius;
+		int stop_x = center_x + radius - 1;
+		int stop_z = center_z + radius - 1;
 		int diameter = radius << 1;//* 2
 		int start_x_region = start_x / 32 - ( start_x < 0 ? 1 : 0 );
 		int start_z_region = start_z / 32 - ( start_z < 0 ? 1 : 0 );
@@ -71,7 +71,7 @@ public class PreGeneratorTask {
 	private ChunkPos next() {
 		
 		chunk_index++;
-		if( chunk_index > chunk_count ) {
+		if( chunk_index >= chunk_count ) {
 			return null;
 		}
 		ChunkPos chunkPos = regions[region_index].nextChunk();
