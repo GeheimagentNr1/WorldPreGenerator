@@ -91,7 +91,7 @@ public class PreGeneratorTask {
 		if( current_pos == null ) {
 			return true;
 		}
-		server.getWorld( dimension ).getChunkProvider().getChunk( current_pos.x, current_pos.z, ChunkStatus.FULL,
+		server.func_71218_a( dimension ).getChunkProvider().getChunk( current_pos.x, current_pos.z, ChunkStatus.FULL,
 			true );
 		return chunk_index == chunk_count;
 	}
