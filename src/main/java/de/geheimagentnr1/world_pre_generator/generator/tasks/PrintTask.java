@@ -4,6 +4,8 @@ import com.google.common.base.Stopwatch;
 import de.geheimagentnr1.world_pre_generator.generator.queue.TaskQueue;
 import de.geheimagentnr1.world_pre_generator.helpers.DimensionHelper;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.Util;
+import net.minecraft.util.text.ChatType;
 import net.minecraft.util.text.StringTextComponent;
 
 import java.util.concurrent.TimeUnit;
@@ -43,13 +45,13 @@ public class PrintTask {
 		if( task.getChunkIndex() < chunks ) {
 			chunks = 0;
 		}
-		server.getPlayerList().sendMessage( new StringTextComponent( "pregen " )
-			.appendText( DimensionHelper.getNameOfDim( task.getDimension() ) )
-			.appendText( " " ).appendText( String.valueOf( task.getChunkIndex() ) )
-			.appendText( "/" ).appendText( String.valueOf( task.getChunkCount() ) )
-			.appendText( "(" ).appendText( String.valueOf( task.getProgress() ) )
-			.appendText( "%) " ).appendText( String.valueOf( ( task.getChunkIndex() - chunks ) / TIMING ) )
-			.appendText( " chunks/s" ) );
+		server.getPlayerList().func_232641_a_( new StringTextComponent( "pregen " )
+			.func_240702_b_( DimensionHelper.getNameOfDim( task.getDimension() ) )
+			.func_240702_b_( " " ).func_240702_b_( String.valueOf( task.getChunkIndex() ) )
+			.func_240702_b_( "/" ).func_240702_b_( String.valueOf( task.getChunkCount() ) )
+			.func_240702_b_( "(" ).func_240702_b_( String.valueOf( task.getProgress() ) )
+			.func_240702_b_( "%) " ).func_240702_b_( String.valueOf( ( task.getChunkIndex() - chunks ) / TIMING ) )
+			.func_240702_b_( " chunks/s" ), ChatType.SYSTEM, Util.field_240973_b_ );
 		chunks = task.getChunkIndex();
 	}
 	

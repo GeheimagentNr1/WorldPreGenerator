@@ -45,4 +45,9 @@ public class ChunkRegion {
 		
 		return ( radius - 1 ) / 32 + 1;
 	}
+	
+	public boolean isNotEmpty() {
+		
+		return chunk_count != 0;
+	}
 }

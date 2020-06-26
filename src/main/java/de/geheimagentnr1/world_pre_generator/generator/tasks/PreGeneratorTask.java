@@ -2,11 +2,13 @@ package de.geheimagentnr1.world_pre_generator.generator.tasks;
 
 import de.geheimagentnr1.world_pre_generator.generator.region.ChunkRegion;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.RegistryKey;
 import net.minecraft.util.math.ChunkPos;
+import net.minecraft.world.World;
 import net.minecraft.world.chunk.ChunkStatus;
-import net.minecraft.world.dimension.DimensionType;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 
 public class PreGeneratorTask {
@@ -20,7 +22,7 @@ public class PreGeneratorTask {
 	
 	private final int radius;
 	
-	private final DimensionType dimension;
+	private final RegistryKey<World> dimension;
 	
 	private int chunk_index;
 	
@@ -33,7 +35,7 @@ public class PreGeneratorTask {
 	private boolean canceled = false;
 	
 	public PreGeneratorTask( MinecraftServer _server, int _center_x, int _center_z, int _radius,
-		DimensionType _dimension ) {
+		RegistryKey<World> _dimension ) {
 		
 		server = _server;
 		center_x = _center_x;
@@ -55,14 +57,17 @@ public class PreGeneratorTask {
 		
 		for( int x = start_x_region; x < start_x_region + diameter_region; x++ ) {
 			for( int z = start_z_region; z < start_z_region + diameter_region; z++ ) {
-				chunkRegions.add( new ChunkRegion( x, z, start_x, start_z, stop_x, stop_z ) );
+				ChunkRegion chunkRegion = new ChunkRegion( x, z, start_x, start_z, stop_x, stop_z );
+				if( chunkRegion.isNotEmpty() ) {
+					chunkRegions.add( chunkRegion );
+				}
 			}
 		}
 		regions = chunkRegions.toArray( new ChunkRegion[0] );
 	}
 	
 	public PreGeneratorTask( MinecraftServer _server, int _center_x, int _center_z, int _radius,
-		DimensionType _dimension, int _chunk_index ) {
+		RegistryKey<World> _dimension, int _chunk_index ) {
 		
 		this( _server, _center_x, _center_z, _radius, _dimension );
 		chunk_index = _chunk_index;
@@ -91,7 +96,8 @@ public class PreGeneratorTask {
 		if( current_pos == null ) {
 			return true;
 		}
-		server.getWorld( dimension ).getChunkProvider().getChunk( current_pos.x, current_pos.z, ChunkStatus.FULL,
+		Objects.requireNonNull( server.getWorld( dimension ) ).getChunkProvider()
+			.getChunk( current_pos.x, current_pos.z, ChunkStatus.FULL,
 			true );
 		return chunk_index == chunk_count;
 	}
@@ -131,7 +137,7 @@ public class PreGeneratorTask {
 		return chunk_count;
 	}
 	
-	public DimensionType getDimension() {
+	public RegistryKey<World> getDimension() {
 		
 		return dimension;
 	}

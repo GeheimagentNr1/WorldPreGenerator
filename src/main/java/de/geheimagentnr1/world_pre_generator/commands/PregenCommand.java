@@ -13,9 +13,10 @@ import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import net.minecraft.command.arguments.DimensionArgument;
 import net.minecraft.command.arguments.Vec2Argument;
-import net.minecraft.util.math.Vec2f;
+import net.minecraft.util.RegistryKey;
+import net.minecraft.util.math.vector.Vector2f;
 import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.world.dimension.DimensionType;
+import net.minecraft.world.World;
 
 
 @SuppressWarnings( "SameReturnValue" )
@@ -47,9 +48,9 @@ public class PregenCommand {
 		for( PreGeneratorTask task : TaskQueue.getTasks() ) {
 			context.getSource().sendFeedback(
 				new StringTextComponent( DimensionHelper.getNameOfDim( task.getDimension() ) )
-					.appendText( " " ).appendText( String.valueOf( task.getCenterX() ) ).appendText( " " )
-					.appendText( String.valueOf( task.getCenterZ() ) ).appendText( " " )
-					.appendText( String.valueOf( task.getRadius() ) )
+					.func_240702_b_( " " ).func_240702_b_( String.valueOf( task.getCenterX() ) ).func_240702_b_( " " )
+					.func_240702_b_( String.valueOf( task.getCenterZ() ) ).func_240702_b_( " " )
+					.func_240702_b_( String.valueOf( task.getRadius() ) )
 				, false );
 		}
 		return Command.SINGLE_SUCCESS;
@@ -57,23 +58,23 @@ public class PregenCommand {
 	
 	private static int start( CommandContext<CommandSource> context ) throws CommandSyntaxException {
 		
-		Vec2f center = Vec2Argument.getVec2f( context, "center" );
+		Vector2f center = Vec2Argument.getVec2f( context, "center" );
 		int radius = IntegerArgumentType.getInteger( context, "radius" );
-		DimensionType dimension = DimensionArgument.getDimensionArgument( context, "dimension" );
+		RegistryKey<World> dimension = DimensionArgument.getDimensionArgument( context, "dimension" ).func_234923_W_();
 		
 		TaskQueue.add( new PreGeneratorTask( context.getSource().getServer(), (int)center.x, (int)center.y, radius,
 			dimension ) );
 		context.getSource().sendFeedback( new StringTextComponent( "Task for " )
-			.appendText( DimensionHelper.getNameOfDim( dimension ) ).appendText( " got queued." ), true );
+			.func_240702_b_( DimensionHelper.getNameOfDim( dimension ) ).func_240702_b_( " got queued." ), true );
 		return Command.SINGLE_SUCCESS;
 	}
 	
-	private static int cancel( CommandContext<CommandSource> context ) {
+	private static int cancel( CommandContext<CommandSource> context ) throws CommandSyntaxException {
 		
-		DimensionType dimension = DimensionArgument.getDimensionArgument( context, "dimension" );
+		RegistryKey<World> dimension = DimensionArgument.getDimensionArgument( context, "dimension" ).func_234923_W_();
 		TaskQueue.cancelTask( dimension );
 		context.getSource().sendFeedback( new StringTextComponent( "Task for " )
-			.appendText( DimensionHelper.getNameOfDim( dimension ) ).appendText( " was canceled." ), true );
+			.func_240702_b_( DimensionHelper.getNameOfDim( dimension ) ).func_240702_b_( " was canceled." ), true );
 		return Command.SINGLE_SUCCESS;
 	}
 	

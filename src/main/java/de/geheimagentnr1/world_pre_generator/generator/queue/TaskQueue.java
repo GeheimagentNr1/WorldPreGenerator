@@ -1,7 +1,8 @@
 package de.geheimagentnr1.world_pre_generator.generator.queue;
 
 import de.geheimagentnr1.world_pre_generator.generator.tasks.PreGeneratorTask;
-import net.minecraft.world.dimension.DimensionType;
+import net.minecraft.util.RegistryKey;
+import net.minecraft.world.World;
 
 import java.util.ArrayList;
 
@@ -48,7 +49,7 @@ public class TaskQueue {
 		return tasks;
 	}
 	
-	public static void cancelTask( DimensionType dimension ) {
+	public static void cancelTask( RegistryKey<World> dimension ) {
 		
 		for( PreGeneratorTask task : tasks ) {
 			if( task.getDimension() == dimension ) {
