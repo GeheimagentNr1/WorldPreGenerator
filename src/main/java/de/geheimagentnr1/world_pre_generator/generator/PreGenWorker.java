@@ -56,8 +56,8 @@ public class PreGenWorker implements WorldWorkerManager.IWorker {
 			printTask.stop();
 			printTask.print();
 			task.getServer().getPlayerList().func_232641_a_( new StringTextComponent( "Generation of " )
-					.func_240702_b_( DimensionHelper.getNameOfDim( task.getDimension() ) ).func_240702_b_( " finished" +
-						"." ),
+					.func_240702_b_( DimensionHelper.getNameOfDim( task.getDimension() ) )
+					.func_240702_b_( " finished." ),
 				ChatType.SYSTEM, Util.field_240973_b_ );
 			cleanUpTask.clean();
 			cleanUpTask = null;
