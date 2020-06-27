@@ -53,9 +53,12 @@ public class PreGeneratorTask {
 		chunk_count = diameter * diameter;
 		ArrayList<ChunkRegion> chunkRegions = new ArrayList<>();
 		
-		for( int x = start_x_region; x < start_x_region + diameter_region; x++ ) {
-			for( int z = start_z_region; z < start_z_region + diameter_region; z++ ) {
-				chunkRegions.add( new ChunkRegion( x, z, start_x, start_z, stop_x, stop_z ) );
+		for( int x = start_x_region; x <= start_x_region + diameter_region; x++ ) {
+			for( int z = start_z_region; z <= start_z_region + diameter_region; z++ ) {
+				ChunkRegion chunkRegion = new ChunkRegion( x, z, start_x, start_z, stop_x, stop_z );
+				if( chunkRegion.isNotEmpty() ) {
+					chunkRegions.add( chunkRegion );
+				}
 			}
 		}
 		regions = chunkRegions.toArray( new ChunkRegion[0] );
