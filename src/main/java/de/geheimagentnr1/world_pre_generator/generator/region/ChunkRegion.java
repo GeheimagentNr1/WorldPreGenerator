@@ -24,10 +24,10 @@ public class ChunkRegion {
 		start_z = Math.max( z * SIZE, _start_z );
 		int stop_x = Math.min( x * SIZE + SIZE - 1, _stop_x );
 		int stop_z = Math.min( z * SIZE + SIZE - 1, _stop_z );
-		size_x = stop_x - start_x + 1;
-		int size_z = stop_z - start_z + 1;
+		size_x = Math.max( stop_x - start_x + 1, 0 );
+		int size_z = Math.max( stop_z - start_z + 1, 0 );
 		chunk_index = -1;
-		chunk_count = size_x * size_z;
+		chunk_count = Math.max( size_x * size_z, 0 );
 	}
 	
 	public ChunkPos nextChunk() {
@@ -44,5 +44,10 @@ public class ChunkRegion {
 	public static int calculateRadius( int radius ) {
 		
 		return ( radius - 1 ) / 32 + 1;
+	}
+	
+	public boolean isNotEmpty() {
+		
+		return chunk_count > 0;
 	}
 }
