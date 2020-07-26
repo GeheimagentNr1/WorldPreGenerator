@@ -4,6 +4,7 @@ import de.geheimagentnr1.world_pre_generator.commands.PregenCommand;
 import de.geheimagentnr1.world_pre_generator.generator.PreGenWorker;
 import de.geheimagentnr1.world_pre_generator.generator.util.TasksSaver;
 import net.minecraftforge.common.WorldWorkerManager;
+import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
@@ -18,9 +19,13 @@ public class ForgeRegistryEventHandler {
 	@SubscribeEvent
 	public static void handlerServerStartingEvent( FMLServerStartingEvent event ) {
 		
-		PregenCommand.register( event.getCommandDispatcher() );
 		WorldWorkerManager.addWorker( new PreGenWorker() );
 		TasksSaver.loadTasks( event.getServer() );
+	}
+	@SubscribeEvent
+	public static void handlerRegisterCommandsEvent( RegisterCommandsEvent event ) {
+		
+		PregenCommand.register( event.getDispatcher() );
 	}
 	
 	@SubscribeEvent

@@ -18,7 +18,7 @@ public class PrintTask {
 	
 	private final Stopwatch timer = Stopwatch.createStarted();
 	
-	private final static int TIMING = 1;
+	private static final int TIMING = 1;
 	
 	private int chunks;
 	
@@ -62,7 +62,8 @@ public class PrintTask {
 		}
 	}
 	
-	public void start() {
+	//package-private
+	void start() {
 		
 		timer.start();
 	}
