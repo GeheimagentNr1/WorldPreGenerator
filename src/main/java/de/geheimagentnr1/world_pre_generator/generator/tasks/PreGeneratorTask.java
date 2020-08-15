@@ -119,7 +119,8 @@ public class PreGeneratorTask {
 		return radius;
 	}
 	
-	public int getProgress() {
+	//package-private
+	int getProgress() {
 		
 		return chunk_index * 100 / chunk_count;
 	}
@@ -129,7 +130,8 @@ public class PreGeneratorTask {
 		return chunk_index;
 	}
 	
-	public int getChunkCount() {
+	//package-private
+	int getChunkCount() {
 		
 		return chunk_count;
 	}

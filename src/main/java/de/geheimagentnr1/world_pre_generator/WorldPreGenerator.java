@@ -7,6 +7,5 @@ import net.minecraftforge.fml.common.Mod;
 public class WorldPreGenerator {
 	
 	
-	@SuppressWarnings( "WeakerAccess" )
-	public final static String MODID = "world_pre_generator";
+	public static final String MODID = "world_pre_generator";
 }

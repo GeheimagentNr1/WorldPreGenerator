@@ -6,7 +6,7 @@ import net.minecraft.util.math.ChunkPos;
 public class ChunkRegion {
 	
 	
-	private final static int SIZE = 32;
+	private static final int SIZE = 32;
 	
 	private final int start_x;
 	
