@@ -40,9 +40,9 @@ public class PregenCommand {
 	private static int printList( CommandContext<CommandSource> context ) {
 		
 		if( TaskQueue.isNotEmpty() ) {
-			context.getSource().sendFeedback( new StringTextComponent( "World PreGen Tasklist is empty." ), false );
-		} else {
 			context.getSource().sendFeedback( new StringTextComponent( "World PreGen Tasklist:" ), false );
+		} else {
+			context.getSource().sendFeedback( new StringTextComponent( "World PreGen Tasklist is empty." ), false );
 		}
 		for( PreGeneratorTask task : TaskQueue.getTasks() ) {
 			context.getSource().sendFeedback(
