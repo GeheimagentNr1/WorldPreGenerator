@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class TaskQueue {
 	
 	
-	private final static ArrayList<PreGeneratorTask> tasks = new ArrayList<>();
+	private static final ArrayList<PreGeneratorTask> tasks = new ArrayList<>();
 	
 	public static synchronized void add( PreGeneratorTask task ) {
 		

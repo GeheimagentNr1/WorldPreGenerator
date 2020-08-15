@@ -19,17 +19,17 @@ import java.util.ArrayList;
 public class TasksSaver {
 	
 	
-	private final static Logger LOGGER = LogManager.getLogger();
+	private static final Logger LOGGER = LogManager.getLogger();
 	
-	private final static String dimensionName = "dimension";
+	private static final String dimensionName = "dimension";
 	
-	private final static String centerXName = "centerX";
+	private static final String centerXName = "centerX";
 	
-	private final static String centerZName = "centerZ";
+	private static final String centerZName = "centerZ";
 	
-	private final static String radiusName = "radius";
+	private static final String radiusName = "radius";
 	
-	private final static String chunkIndexName = "chunkIndex";
+	private static final String chunkIndexName = "chunkIndex";
 	
 	public static void saveTasks() {
 		
