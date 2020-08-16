@@ -22,6 +22,7 @@ public class ForgeRegistryEventHandler {
 		WorldWorkerManager.addWorker( new PreGenWorker() );
 		TasksSaver.loadTasks( event.getServer() );
 	}
+	
 	@SubscribeEvent
 	public static void handlerRegisterCommandsEvent( RegisterCommandsEvent event ) {
 		
