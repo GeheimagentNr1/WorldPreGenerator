@@ -4,6 +4,7 @@ import com.google.gson.*;
 import de.geheimagentnr1.world_pre_generator.WorldPreGenerator;
 import de.geheimagentnr1.world_pre_generator.generator.queue.TaskQueue;
 import de.geheimagentnr1.world_pre_generator.generator.tasks.PreGeneratorTask;
+import de.geheimagentnr1.world_pre_generator.generator.tasks.PrintTask;
 import de.geheimagentnr1.world_pre_generator.helpers.DimensionHelper;
 import net.minecraft.server.MinecraftServer;
 import org.apache.logging.log4j.LogManager;
@@ -20,6 +21,10 @@ public class TasksSaver {
 	
 	
 	private static final Logger LOGGER = LogManager.getLogger();
+	
+	private static final String isFeedbackEnabledName = "isFeedbackEnabled";
+	
+	private static final String tasksName = "tasks";
 	
 	private static final String dimensionName = "dimension";
 	
@@ -39,7 +44,10 @@ public class TasksSaver {
 			try {
 				if( tasksFile.exists() || tasksFile.getParentFile().mkdirs() && tasksFile.createNewFile() ) {
 					FileWriter fileWriter = new FileWriter( tasksFile );
-					new GsonBuilder().setPrettyPrinting().create().toJson( getTasksAsJson(), fileWriter );
+					JsonObject saveJson = new JsonObject();
+					saveJson.addProperty( isFeedbackEnabledName, PrintTask.isFeedbackEnabled() );
+					saveJson.add( tasksName, getTasksAsJson() );
+					new GsonBuilder().setPrettyPrinting().create().toJson( saveJson, fileWriter );
 					fileWriter.flush();
 					fileWriter.close();
 				}
@@ -72,9 +80,16 @@ public class TasksSaver {
 		if( tasksFile.exists() ) {
 			try {
 				FileReader reader = new FileReader( tasksFile );
-				JsonElement element = new JsonParser().parse( reader );
-				if( element.isJsonArray() ) {
-					loadTasksFromJson( server, element.getAsJsonArray() );
+				JsonElement saveJsonElement = new JsonParser().parse( reader );
+				if( saveJsonElement.isJsonObject() ) {
+					JsonObject saveJson = saveJsonElement.getAsJsonObject();
+					JsonElement tasksJsonElement = saveJson.get( tasksName );
+					if( tasksJsonElement.isJsonArray() ) {
+						PrintTask.setIsFeedbackEnabled( saveJson.get( isFeedbackEnabledName ).getAsBoolean() );
+						loadTasksFromJson( server, tasksJsonElement.getAsJsonArray() );
+					} else {
+						corruptSaveFileError();
+					}
 				} else {
 					corruptSaveFileError();
 				}
