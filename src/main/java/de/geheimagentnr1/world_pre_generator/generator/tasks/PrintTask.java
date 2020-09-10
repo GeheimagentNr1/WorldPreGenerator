@@ -4,6 +4,7 @@ import com.google.common.base.Stopwatch;
 import de.geheimagentnr1.world_pre_generator.generator.queue.TaskQueue;
 import de.geheimagentnr1.world_pre_generator.helpers.DimensionHelper;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.Util;
 import net.minecraft.util.text.ChatType;
 import net.minecraft.util.text.StringTextComponent;
@@ -17,6 +18,8 @@ public class PrintTask {
 	private final MinecraftServer server;
 	
 	private final Stopwatch timer = Stopwatch.createStarted();
+	
+	private static boolean isFeedbackEnabled = true;
 	
 	private static final int TIMING = 1;
 	
@@ -45,13 +48,18 @@ public class PrintTask {
 		if( task.getChunkIndex() < chunks ) {
 			chunks = 0;
 		}
-		server.getPlayerList().func_232641_a_( new StringTextComponent( "pregen " )
+		ITextComponent message = new StringTextComponent( "pregen " )
 			.func_240702_b_( DimensionHelper.getNameOfDim( task.getDimension() ) )
 			.func_240702_b_( " " ).func_240702_b_( String.valueOf( task.getChunkIndex() ) )
 			.func_240702_b_( "/" ).func_240702_b_( String.valueOf( task.getChunkCount() ) )
 			.func_240702_b_( "(" ).func_240702_b_( String.valueOf( task.getProgress() ) )
 			.func_240702_b_( "%) " ).func_240702_b_( String.valueOf( ( task.getChunkIndex() - chunks ) / TIMING ) )
-			.func_240702_b_( " chunks/s" ), ChatType.SYSTEM, Util.field_240973_b_ );
+			.func_240702_b_( " chunks/s" );
+		if( isFeedbackEnabled() ) {
+			server.getPlayerList().func_232641_a_( message, ChatType.SYSTEM, Util.field_240973_b_ );
+		} else {
+			server.sendMessage( message, Util.field_240973_b_ );
+		}
 		chunks = task.getChunkIndex();
 	}
 	
@@ -66,5 +74,15 @@ public class PrintTask {
 	void start() {
 		
 		timer.start();
+	}
+	
+	public static void setIsFeedbackEnabled( boolean _isFeedbackEnabled ) {
+		
+		isFeedbackEnabled = _isFeedbackEnabled;
+	}
+	
+	public static boolean isFeedbackEnabled() {
+		
+		return isFeedbackEnabled;
 	}
 }
