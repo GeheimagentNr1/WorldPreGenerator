@@ -58,7 +58,7 @@ public class PrintTask {
 		if( isFeedbackEnabled() ) {
 			server.getPlayerList().func_232641_a_( message, ChatType.SYSTEM, Util.field_240973_b_ );
 		} else {
-			server.sendMessage( message );
+			server.sendMessage( message, Util.field_240973_b_ );
 		}
 		chunks = task.getChunkIndex();
 	}
