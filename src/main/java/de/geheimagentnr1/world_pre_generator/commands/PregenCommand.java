@@ -2,12 +2,14 @@ package de.geheimagentnr1.world_pre_generator.commands;
 
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.arguments.BoolArgumentType;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import de.geheimagentnr1.world_pre_generator.generator.queue.TaskQueue;
 import de.geheimagentnr1.world_pre_generator.generator.tasks.PreGeneratorTask;
+import de.geheimagentnr1.world_pre_generator.generator.tasks.PrintTask;
 import de.geheimagentnr1.world_pre_generator.helpers.DimensionHelper;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
@@ -34,6 +36,9 @@ public class PregenCommand {
 		pregenCommand.then( Commands.literal( "cancel" ).then( Commands.argument( "dimension",
 			DimensionArgument.getDimension() ).executes( PregenCommand::cancel ) ) );
 		pregenCommand.then( Commands.literal( "clear" ).executes( PregenCommand::clear ) );
+		pregenCommand.then( Commands.literal( "sendFeedback" ).executes( PregenCommand::sendFeedback )
+			.then( Commands.argument( "isFeedbackEnabled", BoolArgumentType.bool() )
+				.executes( PregenCommand::changeSendFeedback ) ) );
 		dispatcher.register( pregenCommand );
 	}
 	
@@ -81,6 +86,30 @@ public class PregenCommand {
 		
 		TaskQueue.clear();
 		context.getSource().sendFeedback( new StringTextComponent( "All Task were canceled." ), true );
+		return Command.SINGLE_SUCCESS;
+	}
+	
+	private static int sendFeedback( CommandContext<CommandSource> context ) {
+		
+		CommandSource source = context.getSource();
+		if( PrintTask.isFeedbackEnabled() ) {
+			source.sendFeedback( new StringTextComponent( "Feedback is enabled." ), false );
+		} else {
+			source.sendFeedback( new StringTextComponent( "Feedback is disabled." ), false );
+		}
+		return Command.SINGLE_SUCCESS;
+	}
+	
+	private static int changeSendFeedback( CommandContext<CommandSource> context ) {
+		
+		boolean sendFeedback = BoolArgumentType.getBool( context, "isFeedbackEnabled" );
+		CommandSource source = context.getSource();
+		PrintTask.setIsFeedbackEnabled( sendFeedback );
+		if( PrintTask.isFeedbackEnabled() ) {
+			source.sendFeedback( new StringTextComponent( "Feedback is now enabled." ), false );
+		} else {
+			source.sendFeedback( new StringTextComponent( "Feedback is now disabled." ), false );
+		}
 		return Command.SINGLE_SUCCESS;
 	}
 }
