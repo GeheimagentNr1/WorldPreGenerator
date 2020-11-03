@@ -49,16 +49,16 @@ public class PrintTask {
 			chunks = 0;
 		}
 		ITextComponent message = new StringTextComponent( "pregen " )
-			.func_240702_b_( DimensionHelper.getNameOfDim( task.getDimension() ) )
-			.func_240702_b_( " " ).func_240702_b_( String.valueOf( task.getChunkIndex() ) )
-			.func_240702_b_( "/" ).func_240702_b_( String.valueOf( task.getChunkCount() ) )
-			.func_240702_b_( "(" ).func_240702_b_( String.valueOf( task.getProgress() ) )
-			.func_240702_b_( "%) " ).func_240702_b_( String.valueOf( ( task.getChunkIndex() - chunks ) / TIMING ) )
-			.func_240702_b_( " chunks/s" );
+			.appendString( DimensionHelper.getNameOfDim( task.getDimension() ) )
+			.appendString( " " ).appendString( String.valueOf( task.getChunkIndex() ) )
+			.appendString( "/" ).appendString( String.valueOf( task.getChunkCount() ) )
+			.appendString( "(" ).appendString( String.valueOf( task.getProgress() ) )
+			.appendString( "%) " ).appendString( String.valueOf( ( task.getChunkIndex() - chunks ) / TIMING ) )
+			.appendString( " chunks/s" );
 		if( isFeedbackEnabled() ) {
-			server.getPlayerList().func_232641_a_( message, ChatType.SYSTEM, Util.field_240973_b_ );
+			server.getPlayerList().func_232641_a_( message, ChatType.SYSTEM, Util.DUMMY_UUID );
 		} else {
-			server.sendMessage( message, Util.field_240973_b_ );
+			server.sendMessage( message, Util.DUMMY_UUID );
 		}
 		chunks = task.getChunkIndex();
 	}

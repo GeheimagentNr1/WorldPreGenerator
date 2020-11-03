@@ -53,9 +53,9 @@ public class PregenCommand {
 		for( PreGeneratorTask task : TaskQueue.getTasks() ) {
 			context.getSource().sendFeedback(
 				new StringTextComponent( DimensionHelper.getNameOfDim( task.getDimension() ) )
-					.func_240702_b_( " " ).func_240702_b_( String.valueOf( task.getCenterX() ) ).func_240702_b_( " " )
-					.func_240702_b_( String.valueOf( task.getCenterZ() ) ).func_240702_b_( " " )
-					.func_240702_b_( String.valueOf( task.getRadius() ) )
+					.appendString( " " ).appendString( String.valueOf( task.getCenterX() ) ).appendString( " " )
+					.appendString( String.valueOf( task.getCenterZ() ) ).appendString( " " )
+					.appendString( String.valueOf( task.getRadius() ) )
 				, false );
 		}
 		return Command.SINGLE_SUCCESS;
@@ -65,21 +65,21 @@ public class PregenCommand {
 		
 		Vector2f center = Vec2Argument.getVec2f( context, "center" );
 		int radius = IntegerArgumentType.getInteger( context, "radius" );
-		RegistryKey<World> dimension = DimensionArgument.getDimensionArgument( context, "dimension" ).func_234923_W_();
+		RegistryKey<World> dimension = DimensionArgument.getDimensionArgument( context, "dimension" ).getDimensionKey();
 		
 		TaskQueue.add( new PreGeneratorTask( context.getSource().getServer(), (int)center.x, (int)center.y, radius,
 			dimension ) );
 		context.getSource().sendFeedback( new StringTextComponent( "Task for " )
-			.func_240702_b_( DimensionHelper.getNameOfDim( dimension ) ).func_240702_b_( " got queued." ), true );
+			.appendString( DimensionHelper.getNameOfDim( dimension ) ).appendString( " got queued." ), true );
 		return Command.SINGLE_SUCCESS;
 	}
 	
 	private static int cancel( CommandContext<CommandSource> context ) throws CommandSyntaxException {
 		
-		RegistryKey<World> dimension = DimensionArgument.getDimensionArgument( context, "dimension" ).func_234923_W_();
+		RegistryKey<World> dimension = DimensionArgument.getDimensionArgument( context, "dimension" ).getDimensionKey();
 		TaskQueue.cancelTask( dimension );
 		context.getSource().sendFeedback( new StringTextComponent( "Task for " )
-			.func_240702_b_( DimensionHelper.getNameOfDim( dimension ) ).func_240702_b_( " was canceled." ), true );
+			.appendString( DimensionHelper.getNameOfDim( dimension ) ).appendString( " was canceled." ), true );
 		return Command.SINGLE_SUCCESS;
 	}
 	
