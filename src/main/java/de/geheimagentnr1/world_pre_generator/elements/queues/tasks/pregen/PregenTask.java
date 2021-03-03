@@ -90,13 +90,13 @@ public class PregenTask implements Savable<CompoundNBT> {
 	
 	private boolean isNotGenerated( MinecraftServer server, WorldPos pos ) {
 		
-		return server.func_71218_a( dimension ).getChunkProvider()
+		return server.getWorld( dimension ).getChunkProvider()
 			.getChunk( pos.getX(), pos.getZ(), ChunkStatus.FULL, false ) == null;
 	}
 	
 	private void generate( MinecraftServer server, WorldPos pos ) {
 		
-		server.func_71218_a( dimension ).getChunkProvider().getChunk( pos.getX(), pos.getZ(), ChunkStatus.FULL, true );
+		server.getWorld( dimension ).getChunkProvider().getChunk( pos.getX(), pos.getZ(), ChunkStatus.FULL, true );
 	}
 	
 	public void cancel() {
