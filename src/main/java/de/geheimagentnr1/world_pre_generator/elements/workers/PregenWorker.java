@@ -76,10 +76,11 @@ public class PregenWorker implements WorldWorkerManager.IWorker {
 				printer.stop();
 				saver.stop();
 				printer.execute();
-				server.getPlayerList().func_232641_a_(
-					new StringTextComponent( "Generation of " )
-						.appendText( DimensionHelper.getNameOfDim( task.getDimension() ) )
-						.appendText( " finished." ),
+				server.getPlayerList().sendMessage(
+					new StringTextComponent( String.format(
+						"Generation of %s finished.",
+						DimensionHelper.getNameOfDim( task.getDimension() )
+					) ),
 					ChatType.SYSTEM,
 					Util.field_240973_b_
 				);
