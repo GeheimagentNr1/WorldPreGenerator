@@ -312,12 +312,12 @@
   {
     "project": "client",
     "description": null,
-    "version": "1.16.4",
+    "version": "1.16.5",
     "developers": [],
     "url": null,
     "year": null,
     "licenses": [],
-    "dependency": "net.minecraft:client:1.16.4"
+    "dependency": "net.minecraft:client:1.16.5"
   },
   {
     "project": "Common utilities for the Game Technology Group",
@@ -368,7 +368,7 @@
   {
     "project": "Core Mods",
     "description": "Core modding framework for use with forge",
-    "version": "4.0.3",
+    "version": "4.0.6",
     "developers": [
       "cpw"
     ],
@@ -380,7 +380,7 @@
         "license_url": "https://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt"
       }
     ],
-    "dependency": "net.minecraftforge:coremods:4.0.3"
+    "dependency": "net.minecraftforge:coremods:4.0.6"
   },
   {
     "project": "datafixerupper",
@@ -445,12 +445,12 @@
   {
     "project": "forge",
     "description": null,
-    "version": "1.16.4-35.1.37_mapped_snapshot_20201028-1.16.3",
+    "version": "1.16.5-36.0.46_mapped_snapshot_20201028-1.16.3",
     "developers": [],
     "url": null,
     "year": null,
     "licenses": [],
-    "dependency": "net.minecraftforge:forge:1.16.4-35.1.37_mapped_snapshot_20201028-1.16.3"
+    "dependency": "net.minecraftforge:forge:1.16.5-36.0.46_mapped_snapshot_20201028-1.16.3"
   },
   {
     "project": "Forge Service Provider Interface",
