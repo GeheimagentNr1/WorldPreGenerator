@@ -67,9 +67,9 @@ public class PrinterSubTask extends TimedSubTask {
 				Math.max( 0, task.getChunkIndex() - old_chunks ) / ( duration == 0 ? 1 : duration )
 			) );
 			if( ServerConfig.isSendFeedbackEnabled() ) {
-				server.getPlayerList().func_232641_a_( message, ChatType.SYSTEM, Util.field_240973_b_ );
+				server.getPlayerList().func_232641_a_( message, ChatType.SYSTEM, Util.DUMMY_UUID );
 			} else {
-				server.sendMessage( message, Util.field_240973_b_ );
+				server.sendMessage( message, Util.DUMMY_UUID );
 			}
 			old_time = new_time;
 			old_chunks = task.getChunkIndex();

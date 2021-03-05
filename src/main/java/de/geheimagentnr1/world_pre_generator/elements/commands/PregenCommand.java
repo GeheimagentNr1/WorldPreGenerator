@@ -99,7 +99,8 @@ public class PregenCommand {
 		CommandSource source = context.getSource();
 		WorldPos center = WorldPosArgument.getWorldPos( context, "center" );
 		int radius = IntegerArgumentType.getInteger( context, "radius" );
-		RegistryKey<World> dimension = DimensionArgument.getDimensionArgument( context, "dimension" ).func_234923_W_();
+		RegistryKey<World> dimension = DimensionArgument.getDimensionArgument( context, "dimension" )
+			.getDimensionKey();
 		
 		pregenWorker.getQueue().startTask( new PregenTask( center, radius, dimension ) );
 		source.sendFeedback(
@@ -115,7 +116,8 @@ public class PregenCommand {
 	private static int resume( CommandContext<CommandSource> context ) throws CommandSyntaxException {
 		
 		CommandSource source = context.getSource();
-		RegistryKey<World> dimension = DimensionArgument.getDimensionArgument( context, "dimension" ).func_234923_W_();
+		RegistryKey<World> dimension = DimensionArgument.getDimensionArgument( context, "dimension" )
+			.getDimensionKey();
 		pregenWorker.getQueue().resumeTask( dimension );
 		source.sendFeedback(
 			new StringTextComponent( String.format(
@@ -130,7 +132,8 @@ public class PregenCommand {
 	private static int pause( CommandContext<CommandSource> context ) throws CommandSyntaxException {
 		
 		CommandSource source = context.getSource();
-		RegistryKey<World> dimension = DimensionArgument.getDimensionArgument( context, "dimension" ).func_234923_W_();
+		RegistryKey<World> dimension = DimensionArgument.getDimensionArgument( context, "dimension" )
+			.getDimensionKey();
 		pregenWorker.getQueue().pauseTask( dimension );
 		source.sendFeedback(
 			new StringTextComponent( String.format(
@@ -145,7 +148,8 @@ public class PregenCommand {
 	private static int cancel( CommandContext<CommandSource> context ) throws CommandSyntaxException {
 		
 		CommandSource source = context.getSource();
-		RegistryKey<World> dimension = DimensionArgument.getDimensionArgument( context, "dimension" ).func_234923_W_();
+		RegistryKey<World> dimension = DimensionArgument.getDimensionArgument( context, "dimension" )
+			.getDimensionKey();
 		pregenWorker.getQueue().cancelTask( dimension );
 		source.sendFeedback(
 			new StringTextComponent( String.format(

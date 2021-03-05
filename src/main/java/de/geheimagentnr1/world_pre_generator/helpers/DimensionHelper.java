@@ -13,11 +13,11 @@ public class DimensionHelper {
 	
 	public static String getNameOfDim( RegistryKey<World> dimension ) {
 		
-		return Objects.requireNonNull( dimension.func_240901_a_() ).toString();
+		return Objects.requireNonNull( dimension.getLocation() ).toString();
 	}
 	
 	public static RegistryKey<World> getDimFromName( String registry_name ) {
 		
-		return RegistryKey.func_240903_a_( Registry.field_239699_ae_, new ResourceLocation( registry_name ) );
+		return RegistryKey.getOrCreateKey( Registry.WORLD_KEY, new ResourceLocation( registry_name ) );
 	}
 }

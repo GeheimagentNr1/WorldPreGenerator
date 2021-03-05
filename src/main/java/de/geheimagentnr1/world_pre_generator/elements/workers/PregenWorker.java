@@ -64,7 +64,7 @@ public class PregenWorker implements WorldWorkerManager.IWorker {
 						DimensionHelper.getNameOfDim( task.getDimension() )
 					) ),
 					ChatType.SYSTEM,
-					Util.field_240973_b_
+					Util.DUMMY_UUID
 				);
 				printer.start();
 				saver.start();
@@ -82,7 +82,7 @@ public class PregenWorker implements WorldWorkerManager.IWorker {
 						DimensionHelper.getNameOfDim( task.getDimension() )
 					) ),
 					ChatType.SYSTEM,
-					Util.field_240973_b_
+					Util.DUMMY_UUID
 				);
 				saver.execute();
 				queue.removeCurrentTask();

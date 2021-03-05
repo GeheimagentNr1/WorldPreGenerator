@@ -78,7 +78,7 @@ public class WorldPosArgument implements ArgumentType<ILocationArgument> {
 				remaining,
 				suggestions,
 				builder,
-				Commands.func_212590_a( this::parse )
+				Commands.predicate( this::parse )
 			);
 		} else {
 			return Suggestions.empty();
