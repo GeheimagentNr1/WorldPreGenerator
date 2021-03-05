@@ -7,7 +7,8 @@ import de.geheimagentnr1.world_pre_generator.save.NBTType;
 import de.geheimagentnr1.world_pre_generator.save.Savable;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.world.dimension.DimensionType;
+import net.minecraft.util.RegistryKey;
+import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -64,20 +65,20 @@ public class PregenTaskQueue implements Savable<CompoundNBT> {
 		SaveHelper.saveWorld( server );
 	}
 	
-	public synchronized void resumeTask( DimensionType dimension ) {
+	public synchronized void resumeTask( RegistryKey<World> dimension ) {
 		
 		paused_tasks.getAndRemoveBy( dimension ).ifPresent( active_tasks::addOrReplace );
 		SaveHelper.saveWorld( server );
 		
 	}
 	
-	public synchronized void pauseTask( DimensionType dimension ) {
+	public synchronized void pauseTask( RegistryKey<World> dimension ) {
 		
 		active_tasks.getAndRemoveBy( dimension ).ifPresent( paused_tasks::addOrReplace );
 		SaveHelper.saveWorld( server );
 	}
 	
-	public synchronized void cancelTask( DimensionType dimension ) {
+	public synchronized void cancelTask( RegistryKey<World> dimension ) {
 		
 		active_tasks.runFor( dimension, ( list, index ) -> list.get( index ).cancel() );
 		paused_tasks.removeBy( dimension );

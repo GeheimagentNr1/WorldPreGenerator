@@ -4,6 +4,8 @@ import de.geheimagentnr1.world_pre_generator.config.ServerConfig;
 import de.geheimagentnr1.world_pre_generator.elements.queues.PregenTaskQueue;
 import de.geheimagentnr1.world_pre_generator.helpers.DimensionHelper;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.Util;
+import net.minecraft.util.text.ChatType;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 
@@ -65,9 +67,9 @@ public class PrinterSubTask extends TimedSubTask {
 				Math.max( 0, task.getChunkIndex() - old_chunks ) / ( duration == 0 ? 1 : duration )
 			) );
 			if( ServerConfig.isSendFeedbackEnabled() ) {
-				server.getPlayerList().sendMessage( message );
+				server.getPlayerList().func_232641_a_( message, ChatType.SYSTEM, Util.field_240973_b_ );
 			} else {
-				server.sendMessage( message );
+				server.sendMessage( message, Util.field_240973_b_ );
 			}
 			old_time = new_time;
 			old_chunks = task.getChunkIndex();

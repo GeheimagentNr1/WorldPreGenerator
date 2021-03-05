@@ -6,6 +6,7 @@ import com.mojang.brigadier.arguments.BoolArgumentType;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import de.geheimagentnr1.world_pre_generator.config.ServerConfig;
 import de.geheimagentnr1.world_pre_generator.elements.commands.arguments.world_pos.WorldPosArgument;
 import de.geheimagentnr1.world_pre_generator.elements.queues.tasks.pregen.PregenTask;
@@ -15,8 +16,9 @@ import de.geheimagentnr1.world_pre_generator.helpers.DimensionHelper;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import net.minecraft.command.arguments.DimensionArgument;
+import net.minecraft.util.RegistryKey;
 import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.world.dimension.DimensionType;
+import net.minecraft.world.World;
 
 import java.util.ArrayList;
 
@@ -92,12 +94,12 @@ public class PregenCommand {
 		return Command.SINGLE_SUCCESS;
 	}
 	
-	private static int start( CommandContext<CommandSource> context ) {
+	private static int start( CommandContext<CommandSource> context ) throws CommandSyntaxException {
 		
 		CommandSource source = context.getSource();
 		WorldPos center = WorldPosArgument.getWorldPos( context, "center" );
 		int radius = IntegerArgumentType.getInteger( context, "radius" );
-		DimensionType dimension = DimensionArgument.getDimensionArgument( context, "dimension" );
+		RegistryKey<World> dimension = DimensionArgument.getDimensionArgument( context, "dimension" ).func_234923_W_();
 		
 		pregenWorker.getQueue().startTask( new PregenTask( center, radius, dimension ) );
 		source.sendFeedback(
@@ -110,10 +112,10 @@ public class PregenCommand {
 		return Command.SINGLE_SUCCESS;
 	}
 	
-	private static int resume( CommandContext<CommandSource> context ) {
+	private static int resume( CommandContext<CommandSource> context ) throws CommandSyntaxException {
 		
 		CommandSource source = context.getSource();
-		DimensionType dimension = DimensionArgument.getDimensionArgument( context, "dimension" );
+		RegistryKey<World> dimension = DimensionArgument.getDimensionArgument( context, "dimension" ).func_234923_W_();
 		pregenWorker.getQueue().resumeTask( dimension );
 		source.sendFeedback(
 			new StringTextComponent( String.format(
@@ -125,10 +127,10 @@ public class PregenCommand {
 		return Command.SINGLE_SUCCESS;
 	}
 	
-	private static int pause( CommandContext<CommandSource> context ) {
+	private static int pause( CommandContext<CommandSource> context ) throws CommandSyntaxException {
 		
 		CommandSource source = context.getSource();
-		DimensionType dimension = DimensionArgument.getDimensionArgument( context, "dimension" );
+		RegistryKey<World> dimension = DimensionArgument.getDimensionArgument( context, "dimension" ).func_234923_W_();
 		pregenWorker.getQueue().pauseTask( dimension );
 		source.sendFeedback(
 			new StringTextComponent( String.format(
@@ -140,10 +142,10 @@ public class PregenCommand {
 		return Command.SINGLE_SUCCESS;
 	}
 	
-	private static int cancel( CommandContext<CommandSource> context ) {
+	private static int cancel( CommandContext<CommandSource> context ) throws CommandSyntaxException {
 		
 		CommandSource source = context.getSource();
-		DimensionType dimension = DimensionArgument.getDimensionArgument( context, "dimension" );
+		RegistryKey<World> dimension = DimensionArgument.getDimensionArgument( context, "dimension" ).func_234923_W_();
 		pregenWorker.getQueue().cancelTask( dimension );
 		source.sendFeedback(
 			new StringTextComponent( String.format(

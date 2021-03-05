@@ -6,6 +6,8 @@ import de.geheimagentnr1.world_pre_generator.elements.queues.tasks.SaverSubTask;
 import de.geheimagentnr1.world_pre_generator.elements.queues.tasks.pregen.PregenTask;
 import de.geheimagentnr1.world_pre_generator.helpers.DimensionHelper;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.Util;
+import net.minecraft.util.text.ChatType;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.common.WorldWorkerManager;
 
@@ -56,11 +58,13 @@ public class PregenWorker implements WorldWorkerManager.IWorker {
 			PregenTask task = next_task.get();
 			if( startingNewTask ) {
 				startingNewTask = false;
-				server.getPlayerList().sendMessage(
+				server.getPlayerList().func_232641_a_(
 					new StringTextComponent( String.format(
 						"Generation of %s started.",
 						DimensionHelper.getNameOfDim( task.getDimension() )
-					) )
+					) ),
+					ChatType.SYSTEM,
+					Util.field_240973_b_
 				);
 				printer.start();
 				saver.start();
@@ -72,10 +76,12 @@ public class PregenWorker implements WorldWorkerManager.IWorker {
 				printer.stop();
 				saver.stop();
 				printer.execute();
-				server.getPlayerList().sendMessage(
+				server.getPlayerList().func_232641_a_(
 					new StringTextComponent( "Generation of " )
 						.appendText( DimensionHelper.getNameOfDim( task.getDimension() ) )
-						.appendText( " finished." )
+						.appendText( " finished." ),
+					ChatType.SYSTEM,
+					Util.field_240973_b_
 				);
 				saver.execute();
 				queue.removeCurrentTask();

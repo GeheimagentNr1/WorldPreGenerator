@@ -14,7 +14,7 @@ import net.minecraft.command.ISuggestionProvider;
 import net.minecraft.command.arguments.ILocationArgument;
 import net.minecraft.command.arguments.LocationInput;
 import net.minecraft.command.arguments.LocationPart;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.StringTextComponent;
 
 import java.util.Arrays;
@@ -40,7 +40,7 @@ public class WorldPosArgument implements ArgumentType<ILocationArgument> {
 	
 	public static WorldPos getWorldPos( CommandContext<CommandSource> context, String name ) {
 		
-		Vec3d vector3d = context.getArgument( name, ILocationArgument.class ).getPosition( context.getSource() );
+		Vector3d vector3d = context.getArgument( name, ILocationArgument.class ).getPosition( context.getSource() );
 		return new WorldPos( (int)vector3d.x, (int)vector3d.z );
 	}
 	

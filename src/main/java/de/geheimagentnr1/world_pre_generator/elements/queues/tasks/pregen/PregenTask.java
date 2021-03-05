@@ -9,11 +9,13 @@ import de.geheimagentnr1.world_pre_generator.save.NBTType;
 import de.geheimagentnr1.world_pre_generator.save.Savable;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.RegistryKey;
 import net.minecraft.util.ResourceLocationException;
+import net.minecraft.world.World;
 import net.minecraft.world.chunk.ChunkStatus;
-import net.minecraft.world.dimension.DimensionType;
 
 import javax.annotation.Nonnull;
+import java.util.Objects;
 
 
 public class PregenTask implements Savable<CompoundNBT> {
@@ -35,7 +37,7 @@ public class PregenTask implements Savable<CompoundNBT> {
 	
 	private int radius;
 	
-	private DimensionType dimension;
+	private RegistryKey<World> dimension;
 	
 	private boolean canceled = false;
 	
@@ -43,7 +45,7 @@ public class PregenTask implements Savable<CompoundNBT> {
 	
 	private final ThreadData threadData = new ThreadData();
 	
-	public PregenTask( WorldPos center, int _radius, DimensionType _dimension ) {
+	public PregenTask( WorldPos center, int _radius, RegistryKey<World> _dimension ) {
 		
 		center_x = center.getX();
 		center_z = center.getZ();
@@ -90,13 +92,14 @@ public class PregenTask implements Savable<CompoundNBT> {
 	
 	private boolean isNotGenerated( MinecraftServer server, WorldPos pos ) {
 		
-		return server.getWorld( dimension ).getChunkProvider()
+		return Objects.requireNonNull( server.getWorld( dimension ) ).getChunkProvider()
 			.getChunk( pos.getX(), pos.getZ(), ChunkStatus.FULL, false ) == null;
 	}
 	
 	private void generate( MinecraftServer server, WorldPos pos ) {
 		
-		server.getWorld( dimension ).getChunkProvider().getChunk( pos.getX(), pos.getZ(), ChunkStatus.FULL, true );
+		Objects.requireNonNull( server.getWorld( dimension ) ).getChunkProvider()
+			.getChunk( pos.getX(), pos.getZ(), ChunkStatus.FULL, true );
 	}
 	
 	public void cancel() {
@@ -170,7 +173,7 @@ public class PregenTask implements Savable<CompoundNBT> {
 		return radius;
 	}
 	
-	public DimensionType getDimension() {
+	public RegistryKey<World> getDimension() {
 		
 		return dimension;
 	}

@@ -6,7 +6,8 @@ import de.geheimagentnr1.world_pre_generator.save.Savable;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
-import net.minecraft.world.dimension.DimensionType;
+import net.minecraft.util.RegistryKey;
+import net.minecraft.world.World;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -23,7 +24,9 @@ public class PregenTaskList implements Savable<ListNBT> {
 	
 	private final ArrayList<PregenTask> task_list = new ArrayList<>();
 	
-	public Optional<PregenTask> runFor( DimensionType dimension, BiConsumer<ArrayList<PregenTask>, Integer> runner ) {
+	public Optional<PregenTask> runFor(
+		RegistryKey<World> dimension,
+		BiConsumer<ArrayList<PregenTask>, Integer> runner ) {
 		
 		for( int i = 0; i < task_list.size(); i++ ) {
 			PregenTask task = task_list.get( i );
@@ -60,7 +63,7 @@ public class PregenTaskList implements Savable<ListNBT> {
 		return task_list.isEmpty();
 	}
 	
-	public Optional<PregenTask> getAndRemoveBy( DimensionType dimension ) {
+	public Optional<PregenTask> getAndRemoveBy( RegistryKey<World> dimension ) {
 		
 		return runFor( dimension, ( list, index ) -> task_list.remove( index.intValue() ) );
 	}
@@ -70,7 +73,7 @@ public class PregenTaskList implements Savable<ListNBT> {
 		task_list.remove( 0 );
 	}
 	
-	public void removeBy( DimensionType dimension ) {
+	public void removeBy( RegistryKey<World> dimension ) {
 		
 		runFor( dimension, ( list, index ) -> task_list.remove( index.intValue() ) );
 	}

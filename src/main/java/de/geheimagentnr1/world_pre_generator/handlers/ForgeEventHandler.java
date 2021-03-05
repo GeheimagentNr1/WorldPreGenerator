@@ -4,6 +4,7 @@ import de.geheimagentnr1.world_pre_generator.elements.commands.PregenCommand;
 import de.geheimagentnr1.world_pre_generator.elements.commands.arguments.ModArgumentTypes;
 import de.geheimagentnr1.world_pre_generator.elements.workers.PregenWorker;
 import net.minecraftforge.common.WorldWorkerManager;
+import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
@@ -24,10 +25,10 @@ public class ForgeEventHandler {
 	}
 	
 	@SubscribeEvent
-	public static void handlerServerStartingEvent( FMLServerStartingEvent event ) {
+	public static void handleRegisterCommandsEvent( RegisterCommandsEvent event ) {
 		
 		ModArgumentTypes.registerArgumentTypes();
-		PregenCommand.register( event.getCommandDispatcher(), PregenWorker.getInstance() );
+		PregenCommand.register( event.getDispatcher(), PregenWorker.getInstance() );
 	}
 	
 	@SubscribeEvent
