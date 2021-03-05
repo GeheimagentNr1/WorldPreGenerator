@@ -76,7 +76,7 @@ public class PregenWorker implements WorldWorkerManager.IWorker {
 				printer.stop();
 				saver.stop();
 				printer.execute();
-				server.getPlayerList().sendMessage(
+				server.getPlayerList().func_232641_a_(
 					new StringTextComponent( String.format(
 						"Generation of %s finished.",
 						DimensionHelper.getNameOfDim( task.getDimension() )
