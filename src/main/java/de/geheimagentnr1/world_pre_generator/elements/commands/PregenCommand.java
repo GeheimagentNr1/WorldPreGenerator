@@ -31,7 +31,8 @@ public class PregenCommand {
 		
 		LiteralArgumentBuilder<CommandSource> pregenCommand = Commands.literal( "pregen" )
 			.requires( source -> source.hasPermissionLevel( 2 ) );
-		pregenCommand.then( Commands.literal( "list" ).executes( PregenCommand::printList ) );
+		pregenCommand.then( Commands.literal( "list" )
+			.executes( PregenCommand::printList ) );
 		pregenCommand.then( Commands.literal( "start" )
 			.then( Commands.argument( "center", WorldPosArgument.worldPos() )
 				.then( Commands.argument( "radius", IntegerArgumentType.integer( 1 ) )
@@ -46,7 +47,8 @@ public class PregenCommand {
 		pregenCommand.then( Commands.literal( "cancel" )
 			.then( Commands.argument( "dimension", DimensionArgument.getDimension() )
 				.executes( PregenCommand::cancel ) ) );
-		pregenCommand.then( Commands.literal( "clear" ).executes( PregenCommand::clear ) );
+		pregenCommand.then( Commands.literal( "clear" )
+			.executes( PregenCommand::clear ) );
 		pregenCommand.then( Commands.literal( "sendFeedback" )
 			.executes( PregenCommand::showSendFeedback )
 			.then( Commands.argument( "isFeedbackEnabled", BoolArgumentType.bool() )
