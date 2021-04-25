@@ -5,9 +5,7 @@ import de.geheimagentnr1.world_pre_generator.elements.queues.PregenTaskQueue;
 import de.geheimagentnr1.world_pre_generator.helpers.DimensionHelper;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.Util;
-import net.minecraft.util.text.ChatType;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.*;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -65,7 +63,7 @@ public class PrinterSubTask extends TimedSubTask {
 				task.getChunkCount(),
 				task.getProgress(),
 				Math.max( 0, task.getChunkIndex() - old_chunks ) / ( duration == 0 ? 1 : duration )
-			) );
+			) ).func_230530_a_( Style.field_240709_b_.func_240712_a_( TextFormatting.GRAY ) );
 			if( ServerConfig.isSendFeedbackEnabled() ) {
 				server.getPlayerList().func_232641_a_( message, ChatType.SYSTEM, Util.field_240973_b_ );
 			} else {
