@@ -9,6 +9,8 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.Util;
 import net.minecraft.util.text.ChatType;
 import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.Style;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.WorldWorkerManager;
 
 import java.util.Optional;
@@ -62,7 +64,7 @@ public class PregenWorker implements WorldWorkerManager.IWorker {
 					new StringTextComponent( String.format(
 						"Generation of %s started.",
 						DimensionHelper.getNameOfDim( task.getDimension() )
-					) ),
+					) ).setStyle( Style.EMPTY.setFormatting( TextFormatting.GRAY ) ),
 					ChatType.SYSTEM,
 					Util.DUMMY_UUID
 				);
@@ -80,7 +82,7 @@ public class PregenWorker implements WorldWorkerManager.IWorker {
 					new StringTextComponent( String.format(
 						"Generation of %s finished.",
 						DimensionHelper.getNameOfDim( task.getDimension() )
-					) ),
+					) ).setStyle( Style.EMPTY.setFormatting( TextFormatting.GRAY ) ),
 					ChatType.SYSTEM,
 					Util.DUMMY_UUID
 				);

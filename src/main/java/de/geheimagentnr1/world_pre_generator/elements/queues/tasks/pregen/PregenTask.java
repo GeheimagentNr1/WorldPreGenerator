@@ -13,6 +13,7 @@ import net.minecraft.util.RegistryKey;
 import net.minecraft.util.ResourceLocationException;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.ChunkStatus;
+import net.minecraftforge.fml.server.ServerLifecycleHooks;
 
 import javax.annotation.Nonnull;
 import java.util.Objects;
@@ -66,26 +67,22 @@ public class PregenTask implements Savable<CompoundNBT> {
 		}
 		if( ServerConfig.isRunParallel() ) {
 			if( threadData.getCount() < ServerConfig.getThreadCount() ) {
-				worldPregenData.nextChunk().ifPresent(
-					currentPos -> {
-						if( isNotGenerated( server, currentPos ) ) {
-							threadData.incCount();
-							new Thread( () -> {
-								generate( server, currentPos );
-								threadData.decCount();
-							} ).start();
-						}
+				worldPregenData.nextChunk().ifPresent( currentPos -> {
+					if( isNotGenerated( server, currentPos ) ) {
+						threadData.incCount();
+						new Thread( () -> {
+							generate( server, currentPos );
+							threadData.decCount();
+						} ).start();
 					}
-				);
+				} );
 			}
 		} else {
-			worldPregenData.nextChunk().ifPresent(
-				currentPos -> {
-					if( isNotGenerated( server, currentPos ) ) {
-						generate( server, currentPos );
-					}
+			worldPregenData.nextChunk().ifPresent( currentPos -> {
+				if( isNotGenerated( server, currentPos ) ) {
+					generate( server, currentPos );
 				}
-			);
+			} );
 		}
 		return worldPregenData.fullyGenerated();
 	}
@@ -141,7 +138,7 @@ public class PregenTask implements Savable<CompoundNBT> {
 		if( nbt.contains( dimensionName, NBTType.STRING.getId() ) ) {
 			try {
 				dimension = DimensionHelper.getDimFromName( nbt.getString( dimensionName ) );
-				if( dimension == null ) {
+				if( ServerLifecycleHooks.getCurrentServer().getWorld( dimension ) != null ) {
 					throw new IllegalArgumentException( "Dimension not found." );
 				}
 			} catch( ResourceLocationException exception ) {
