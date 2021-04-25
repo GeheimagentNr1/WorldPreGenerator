@@ -13,6 +13,7 @@ import net.minecraft.util.RegistryKey;
 import net.minecraft.util.ResourceLocationException;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.ChunkStatus;
+import net.minecraftforge.fml.server.ServerLifecycleHooks;
 
 import javax.annotation.Nonnull;
 import java.util.Objects;
@@ -137,7 +138,7 @@ public class PregenTask implements Savable<CompoundNBT> {
 		if( nbt.contains( dimensionName, NBTType.STRING.getId() ) ) {
 			try {
 				dimension = DimensionHelper.getDimFromName( nbt.getString( dimensionName ) );
-				if( dimension == null ) {
+				if( ServerLifecycleHooks.getCurrentServer().getWorld( dimension ) != null ) {
 					throw new IllegalArgumentException( "Dimension not found." );
 				}
 			} catch( ResourceLocationException exception ) {
