@@ -1,5 +1,6 @@
 package de.geheimagentnr1.world_pre_generator.handlers;
 
+import de.geheimagentnr1.world_pre_generator.WorldPreGenerator;
 import de.geheimagentnr1.world_pre_generator.config.ServerConfig;
 import de.geheimagentnr1.world_pre_generator.elements.workers.PregenWorker;
 import de.geheimagentnr1.world_pre_generator.save.PregenerationWorldPersistenceHook;
@@ -10,7 +11,7 @@ import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 
 
-@Mod.EventBusSubscriber( bus = Mod.EventBusSubscriber.Bus.MOD )
+@Mod.EventBusSubscriber( modid = WorldPreGenerator.MODID, bus = Mod.EventBusSubscriber.Bus.MOD )
 public class ModEventHandler {
 	
 	

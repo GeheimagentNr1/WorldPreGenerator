@@ -7,6 +7,8 @@ import de.geheimagentnr1.world_pre_generator.elements.queues.tasks.pregen.Pregen
 import de.geheimagentnr1.world_pre_generator.helpers.DimensionHelper;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.Style;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.WorldWorkerManager;
 
 import java.util.Optional;
@@ -60,7 +62,8 @@ public class PregenWorker implements WorldWorkerManager.IWorker {
 					new StringTextComponent( String.format(
 						"Generation of %s started.",
 						DimensionHelper.getNameOfDim( task.getDimension() )
-					) )
+					) ).setStyle( new Style().setColor( TextFormatting.GRAY ) ),
+					true
 				);
 				printer.start();
 				saver.start();
@@ -72,10 +75,13 @@ public class PregenWorker implements WorldWorkerManager.IWorker {
 				printer.stop();
 				saver.stop();
 				printer.execute();
-				server.getPlayerList().sendMessage( new StringTextComponent( String.format(
-					"Generation of %s finished.",
-					DimensionHelper.getNameOfDim( task.getDimension() )
-				) ) );
+				server.getPlayerList().sendMessage(
+					new StringTextComponent( String.format(
+						"Generation of %s finished.",
+						DimensionHelper.getNameOfDim( task.getDimension() )
+					) ).setStyle( new Style().setColor( TextFormatting.GRAY ) ),
+					true
+				);
 				saver.execute();
 				queue.removeCurrentTask();
 				startingNewTask = true;
