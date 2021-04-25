@@ -66,26 +66,22 @@ public class PregenTask implements Savable<CompoundNBT> {
 		}
 		if( ServerConfig.isRunParallel() ) {
 			if( threadData.getCount() < ServerConfig.getThreadCount() ) {
-				worldPregenData.nextChunk().ifPresent(
-					currentPos -> {
-						if( isNotGenerated( server, currentPos ) ) {
-							threadData.incCount();
-							new Thread( () -> {
-								generate( server, currentPos );
-								threadData.decCount();
-							} ).start();
-						}
+				worldPregenData.nextChunk().ifPresent( currentPos -> {
+					if( isNotGenerated( server, currentPos ) ) {
+						threadData.incCount();
+						new Thread( () -> {
+							generate( server, currentPos );
+							threadData.decCount();
+						} ).start();
 					}
-				);
+				} );
 			}
 		} else {
-			worldPregenData.nextChunk().ifPresent(
-				currentPos -> {
-					if( isNotGenerated( server, currentPos ) ) {
-						generate( server, currentPos );
-					}
+			worldPregenData.nextChunk().ifPresent( currentPos -> {
+				if( isNotGenerated( server, currentPos ) ) {
+					generate( server, currentPos );
 				}
-			);
+			} );
 		}
 		return worldPregenData.fullyGenerated();
 	}

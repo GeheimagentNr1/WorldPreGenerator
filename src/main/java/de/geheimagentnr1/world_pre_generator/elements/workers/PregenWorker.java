@@ -9,6 +9,8 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.Util;
 import net.minecraft.util.text.ChatType;
 import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.Style;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.WorldWorkerManager;
 
 import java.util.Optional;
@@ -62,7 +64,7 @@ public class PregenWorker implements WorldWorkerManager.IWorker {
 					new StringTextComponent( String.format(
 						"Generation of %s started.",
 						DimensionHelper.getNameOfDim( task.getDimension() )
-					) ),
+					) ).setStyle( new Style().setColor( TextFormatting.GRAY ) ),
 					ChatType.SYSTEM,
 					Util.field_240973_b_
 				);
@@ -76,11 +78,11 @@ public class PregenWorker implements WorldWorkerManager.IWorker {
 				printer.stop();
 				saver.stop();
 				printer.execute();
-				server.getPlayerList().func_232641_a_(
+				server.getPlayerList().sendMessage(
 					new StringTextComponent( String.format(
 						"Generation of %s finished.",
 						DimensionHelper.getNameOfDim( task.getDimension() )
-					) ),
+					) ).setStyle( new Style().setColor( TextFormatting.GRAY ) ),
 					ChatType.SYSTEM,
 					Util.field_240973_b_
 				);
