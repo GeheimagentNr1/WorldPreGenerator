@@ -19,7 +19,7 @@ import java.util.function.BiConsumer;
 public class PregenTaskList implements Savable<ListNBT> {
 	
 	
-	private static final Logger LOGGER = LogManager.getLogger();
+	private static final Logger LOGGER = LogManager.getLogger( PregenTaskList.class );
 	
 	private final ArrayList<PregenTask> task_list = new ArrayList<>();
 	

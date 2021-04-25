@@ -6,6 +6,8 @@ import de.geheimagentnr1.world_pre_generator.helpers.DimensionHelper;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.Style;
+import net.minecraft.util.text.TextFormatting;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -63,9 +65,9 @@ public class PrinterSubTask extends TimedSubTask {
 				task.getChunkCount(),
 				task.getProgress(),
 				Math.max( 0, task.getChunkIndex() - old_chunks ) / ( duration == 0 ? 1 : duration )
-			) );
+			) ).setStyle( new Style().setColor( TextFormatting.GRAY ) );
 			if( ServerConfig.isSendFeedbackEnabled() ) {
-				server.getPlayerList().sendMessage( message );
+				server.getPlayerList().sendMessage( message, true );
 			} else {
 				server.sendMessage( message );
 			}
