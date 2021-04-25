@@ -33,7 +33,8 @@ public class PregenCommand {
 		
 		LiteralArgumentBuilder<CommandSource> pregenCommand = Commands.literal( "pregen" )
 			.requires( source -> source.hasPermission( 2 ) );
-		pregenCommand.then( Commands.literal( "list" ).executes( PregenCommand::printList ) );
+		pregenCommand.then( Commands.literal( "list" )
+			.executes( PregenCommand::printList ) );
 		pregenCommand.then( Commands.literal( "start" )
 			.then( Commands.argument( "center", WorldPosArgument.worldPos() )
 				.then( Commands.argument( "radius", IntegerArgumentType.integer( 1 ) )
