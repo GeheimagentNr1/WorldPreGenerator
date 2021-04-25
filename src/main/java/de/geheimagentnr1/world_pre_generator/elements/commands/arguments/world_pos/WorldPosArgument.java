@@ -72,13 +72,13 @@ public class WorldPosArgument implements ArgumentType<ILocationArgument> {
 			if( !remaining.isEmpty() && remaining.charAt( 0 ) == '^' ) {
 				suggestions = Collections.singleton( ISuggestionProvider.Coordinates.DEFAULT_LOCAL );
 			} else {
-				suggestions = ( (ISuggestionProvider)context.getSource() ).func_217293_r();
+				suggestions = ( (ISuggestionProvider)context.getSource() ).getAbsoluteCoordinates();
 			}
-			return ISuggestionProvider.func_211269_a(
+			return ISuggestionProvider.suggest2DCoordinates(
 				remaining,
 				suggestions,
 				builder,
-				Commands.predicate( this::parse )
+				Commands.createValidator( this::parse )
 			);
 		} else {
 			return Suggestions.empty();

@@ -89,13 +89,13 @@ public class PregenTask implements Savable<CompoundNBT> {
 	
 	private boolean isNotGenerated( MinecraftServer server, WorldPos pos ) {
 		
-		return Objects.requireNonNull( server.getWorld( dimension ) ).getChunkProvider()
+		return Objects.requireNonNull( server.getLevel( dimension ) ).getChunkSource()
 			.getChunk( pos.getX(), pos.getZ(), ChunkStatus.FULL, false ) == null;
 	}
 	
 	private void generate( MinecraftServer server, WorldPos pos ) {
 		
-		Objects.requireNonNull( server.getWorld( dimension ) ).getChunkProvider()
+		Objects.requireNonNull( server.getLevel( dimension ) ).getChunkSource()
 			.getChunk( pos.getX(), pos.getZ(), ChunkStatus.FULL, true );
 	}
 	
@@ -138,7 +138,7 @@ public class PregenTask implements Savable<CompoundNBT> {
 		if( nbt.contains( dimensionName, NBTType.STRING.getId() ) ) {
 			try {
 				dimension = DimensionHelper.getDimFromName( nbt.getString( dimensionName ) );
-				if( ServerLifecycleHooks.getCurrentServer().getWorld( dimension ) != null ) {
+				if( ServerLifecycleHooks.getCurrentServer().getLevel( dimension ) != null ) {
 					throw new IllegalArgumentException( "Dimension not found." );
 				}
 			} catch( ResourceLocationException exception ) {

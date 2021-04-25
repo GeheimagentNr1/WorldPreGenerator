@@ -8,6 +8,6 @@ public class SaveHelper {
 	
 	public static void saveWorld( MinecraftServer server ) {
 		
-		server.save( false, true, true );
+		server.saveAllChunks( false, true, true );
 	}
 }

@@ -60,13 +60,13 @@ public class PregenWorker implements WorldWorkerManager.IWorker {
 			PregenTask task = next_task.get();
 			if( startingNewTask ) {
 				startingNewTask = false;
-				server.getPlayerList().func_232641_a_(
+				server.getPlayerList().broadcastMessage(
 					new StringTextComponent( String.format(
 						"Generation of %s started.",
 						DimensionHelper.getNameOfDim( task.getDimension() )
-					) ).setStyle( Style.EMPTY.setFormatting( TextFormatting.GRAY ) ),
+					) ).setStyle( Style.EMPTY.withColor( TextFormatting.GRAY ) ),
 					ChatType.SYSTEM,
-					Util.DUMMY_UUID
+					Util.NIL_UUID
 				);
 				printer.start();
 				saver.start();
@@ -78,13 +78,13 @@ public class PregenWorker implements WorldWorkerManager.IWorker {
 				printer.stop();
 				saver.stop();
 				printer.execute();
-				server.getPlayerList().func_232641_a_(
+				server.getPlayerList().broadcastMessage(
 					new StringTextComponent( String.format(
 						"Generation of %s finished.",
 						DimensionHelper.getNameOfDim( task.getDimension() )
-					) ).setStyle( Style.EMPTY.setFormatting( TextFormatting.GRAY ) ),
+					) ).setStyle( Style.EMPTY.withColor( TextFormatting.GRAY ) ),
 					ChatType.SYSTEM,
-					Util.DUMMY_UUID
+					Util.NIL_UUID
 				);
 				saver.execute();
 				queue.removeCurrentTask();

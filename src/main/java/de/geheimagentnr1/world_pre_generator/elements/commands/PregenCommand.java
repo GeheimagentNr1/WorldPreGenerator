@@ -32,23 +32,24 @@ public class PregenCommand {
 	public static void register( CommandDispatcher<CommandSource> dispatcher, PregenWorker _pregenWorker ) {
 		
 		LiteralArgumentBuilder<CommandSource> pregenCommand = Commands.literal( "pregen" )
-			.requires( source -> source.hasPermissionLevel( 2 ) );
+			.requires( source -> source.hasPermission( 2 ) );
 		pregenCommand.then( Commands.literal( "list" ).executes( PregenCommand::printList ) );
 		pregenCommand.then( Commands.literal( "start" )
 			.then( Commands.argument( "center", WorldPosArgument.worldPos() )
 				.then( Commands.argument( "radius", IntegerArgumentType.integer( 1 ) )
-					.then( Commands.argument( "dimension", DimensionArgument.getDimension() )
+					.then( Commands.argument( "dimension", DimensionArgument.dimension() )
 						.executes( PregenCommand::start ) ) ) ) );
 		pregenCommand.then( Commands.literal( "resume" )
-			.then( Commands.argument( "dimension", DimensionArgument.getDimension() )
+			.then( Commands.argument( "dimension", DimensionArgument.dimension() )
 				.executes( PregenCommand::resume ) ) );
 		pregenCommand.then( Commands.literal( "pause" )
-			.then( Commands.argument( "dimension", DimensionArgument.getDimension() )
+			.then( Commands.argument( "dimension", DimensionArgument.dimension() )
 				.executes( PregenCommand::pause ) ) );
 		pregenCommand.then( Commands.literal( "cancel" )
-			.then( Commands.argument( "dimension", DimensionArgument.getDimension() )
+			.then( Commands.argument( "dimension", DimensionArgument.dimension() )
 				.executes( PregenCommand::cancel ) ) );
-		pregenCommand.then( Commands.literal( "clear" ).executes( PregenCommand::clear ) );
+		pregenCommand.then( Commands.literal( "clear" )
+			.executes( PregenCommand::clear ) );
 		pregenCommand.then( Commands.literal( "sendFeedback" )
 			.executes( PregenCommand::showSendFeedback )
 			.then( Commands.argument( "isFeedbackEnabled", BoolArgumentType.bool() )
@@ -60,7 +61,7 @@ public class PregenCommand {
 	private static void printTasks( CommandSource source, ArrayList<PregenTask> tasks ) {
 		
 		for( PregenTask task : tasks ) {
-			source.sendFeedback(
+			source.sendSuccess(
 				new StringTextComponent( String.format(
 					"%s %d %d %d",
 					DimensionHelper.getNameOfDim( task.getDimension() ),
@@ -77,17 +78,17 @@ public class PregenCommand {
 		
 		CommandSource source = context.getSource();
 		if( pregenWorker.getQueue().noTasks() ) {
-			source.sendFeedback( new StringTextComponent( "Pregeneration Tasklist is empty." ), false );
+			source.sendSuccess( new StringTextComponent( "Pregeneration Tasklist is empty." ), false );
 		} else {
-			source.sendFeedback( new StringTextComponent( "Pregeneration Tasklist:" ), false );
+			source.sendSuccess( new StringTextComponent( "Pregeneration Tasklist:" ), false );
 			ArrayList<PregenTask> activeTasks = pregenWorker.getQueue().getActiveTasks();
 			ArrayList<PregenTask> pausedTasks = pregenWorker.getQueue().getPausedTasks();
 			if( !activeTasks.isEmpty() ) {
-				source.sendFeedback( new StringTextComponent( "Queued Tasks:" ), false );
+				source.sendSuccess( new StringTextComponent( "Queued Tasks:" ), false );
 				printTasks( source, activeTasks );
 			}
 			if( !pausedTasks.isEmpty() ) {
-				source.sendFeedback( new StringTextComponent( "Paused Tasks:" ), false );
+				source.sendSuccess( new StringTextComponent( "Paused Tasks:" ), false );
 				printTasks( source, pausedTasks );
 			}
 		}
@@ -99,11 +100,10 @@ public class PregenCommand {
 		CommandSource source = context.getSource();
 		WorldPos center = WorldPosArgument.getWorldPos( context, "center" );
 		int radius = IntegerArgumentType.getInteger( context, "radius" );
-		RegistryKey<World> dimension = DimensionArgument.getDimensionArgument( context, "dimension" )
-			.getDimensionKey();
+		RegistryKey<World> dimension = DimensionArgument.getDimension( context, "dimension" ).dimension();
 		
 		pregenWorker.getQueue().startTask( new PregenTask( center, radius, dimension ) );
-		source.sendFeedback(
+		source.sendSuccess(
 			new StringTextComponent( String.format(
 				"Task for %s got queued.",
 				DimensionHelper.getNameOfDim( dimension )
@@ -116,10 +116,9 @@ public class PregenCommand {
 	private static int resume( CommandContext<CommandSource> context ) throws CommandSyntaxException {
 		
 		CommandSource source = context.getSource();
-		RegistryKey<World> dimension = DimensionArgument.getDimensionArgument( context, "dimension" )
-			.getDimensionKey();
+		RegistryKey<World> dimension = DimensionArgument.getDimension( context, "dimension" ).dimension();
 		pregenWorker.getQueue().resumeTask( dimension );
-		source.sendFeedback(
+		source.sendSuccess(
 			new StringTextComponent( String.format(
 				"Task for %s was resumed.",
 				DimensionHelper.getNameOfDim( dimension )
@@ -132,10 +131,9 @@ public class PregenCommand {
 	private static int pause( CommandContext<CommandSource> context ) throws CommandSyntaxException {
 		
 		CommandSource source = context.getSource();
-		RegistryKey<World> dimension = DimensionArgument.getDimensionArgument( context, "dimension" )
-			.getDimensionKey();
+		RegistryKey<World> dimension = DimensionArgument.getDimension( context, "dimension" ).dimension();
 		pregenWorker.getQueue().pauseTask( dimension );
-		source.sendFeedback(
+		source.sendSuccess(
 			new StringTextComponent( String.format(
 				"Task for %s was paused.",
 				DimensionHelper.getNameOfDim( dimension )
@@ -148,10 +146,9 @@ public class PregenCommand {
 	private static int cancel( CommandContext<CommandSource> context ) throws CommandSyntaxException {
 		
 		CommandSource source = context.getSource();
-		RegistryKey<World> dimension = DimensionArgument.getDimensionArgument( context, "dimension" )
-			.getDimensionKey();
+		RegistryKey<World> dimension = DimensionArgument.getDimension( context, "dimension" ).dimension();
 		pregenWorker.getQueue().cancelTask( dimension );
-		source.sendFeedback(
+		source.sendSuccess(
 			new StringTextComponent( String.format(
 				"Task for %s was canceled.",
 				DimensionHelper.getNameOfDim( dimension )
@@ -165,7 +162,7 @@ public class PregenCommand {
 		
 		CommandSource source = context.getSource();
 		pregenWorker.getQueue().clear();
-		source.sendFeedback( new StringTextComponent( "All Task were canceled." ), true );
+		source.sendSuccess( new StringTextComponent( "All Task were canceled." ), true );
 		return Command.SINGLE_SUCCESS;
 	}
 	
@@ -173,9 +170,9 @@ public class PregenCommand {
 		
 		CommandSource source = context.getSource();
 		if( ServerConfig.isSendFeedbackEnabled() ) {
-			source.sendFeedback( new StringTextComponent( "Feedback is enabled." ), false );
+			source.sendSuccess( new StringTextComponent( "Feedback is enabled." ), false );
 		} else {
-			source.sendFeedback( new StringTextComponent( "Feedback is disabled." ), false );
+			source.sendSuccess( new StringTextComponent( "Feedback is disabled." ), false );
 		}
 		return Command.SINGLE_SUCCESS;
 	}
@@ -185,9 +182,9 @@ public class PregenCommand {
 		CommandSource source = context.getSource();
 		ServerConfig.setSendFeedback( BoolArgumentType.getBool( context, "isFeedbackEnabled" ) );
 		if( ServerConfig.isSendFeedbackEnabled() ) {
-			source.sendFeedback( new StringTextComponent( "Feedback is now enabled." ), false );
+			source.sendSuccess( new StringTextComponent( "Feedback is now enabled." ), false );
 		} else {
-			source.sendFeedback( new StringTextComponent( "Feedback is now disabled." ), false );
+			source.sendSuccess( new StringTextComponent( "Feedback is now disabled." ), false );
 		}
 		return Command.SINGLE_SUCCESS;
 	}
