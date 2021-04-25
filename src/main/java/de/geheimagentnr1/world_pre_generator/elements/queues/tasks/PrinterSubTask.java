@@ -63,7 +63,7 @@ public class PrinterSubTask extends TimedSubTask {
 				task.getChunkCount(),
 				task.getProgress(),
 				Math.max( 0, task.getChunkIndex() - old_chunks ) / ( duration == 0 ? 1 : duration )
-			) ).func_230530_a_( Style.field_240709_b_.func_240712_a_( TextFormatting.GRAY ) );
+			) ).setStyle( Style.EMPTY.setFormatting( TextFormatting.GRAY ) );
 			if( ServerConfig.isSendFeedbackEnabled() ) {
 				server.getPlayerList().func_232641_a_( message, ChatType.SYSTEM, Util.DUMMY_UUID );
 			} else {

@@ -64,7 +64,7 @@ public class PregenWorker implements WorldWorkerManager.IWorker {
 					new StringTextComponent( String.format(
 						"Generation of %s started.",
 						DimensionHelper.getNameOfDim( task.getDimension() )
-					) ).func_230530_a_( Style.field_240709_b_.func_240712_a_( TextFormatting.GRAY ) ),
+					) ).setStyle( Style.EMPTY.setFormatting( TextFormatting.GRAY ) ),
 					ChatType.SYSTEM,
 					Util.DUMMY_UUID
 				);
@@ -82,7 +82,7 @@ public class PregenWorker implements WorldWorkerManager.IWorker {
 					new StringTextComponent( String.format(
 						"Generation of %s finished.",
 						DimensionHelper.getNameOfDim( task.getDimension() )
-					) ).func_230530_a_( Style.field_240709_b_.func_240712_a_( TextFormatting.GRAY ) ),
+					) ).setStyle( Style.EMPTY.setFormatting( TextFormatting.GRAY ) ),
 					ChatType.SYSTEM,
 					Util.DUMMY_UUID
 				);
