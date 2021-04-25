@@ -1,5 +1,6 @@
 package de.geheimagentnr1.world_pre_generator.handlers;
 
+import de.geheimagentnr1.world_pre_generator.WorldPreGenerator;
 import de.geheimagentnr1.world_pre_generator.elements.commands.PregenCommand;
 import de.geheimagentnr1.world_pre_generator.elements.commands.arguments.ModArgumentTypes;
 import de.geheimagentnr1.world_pre_generator.elements.workers.PregenWorker;
@@ -8,11 +9,10 @@ import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
-import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.event.server.FMLServerStoppedEvent;
 
 
-@Mod.EventBusSubscriber( bus = Mod.EventBusSubscriber.Bus.FORGE )
+@Mod.EventBusSubscriber( modid = WorldPreGenerator.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE )
 public class ForgeEventHandler {
 	
 	

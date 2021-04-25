@@ -9,7 +9,7 @@ import org.apache.logging.log4j.Logger;
 public class ServerConfig {
 	
 	
-	private static final Logger LOGGER = LogManager.getLogger();
+	private static final Logger LOGGER = LogManager.getLogger( ServerConfig.class );
 	
 	private static final String MOD_NAME = ModLoadingContext.get().getActiveContainer().getModInfo().getDisplayName();
 	
@@ -43,8 +43,8 @@ public class ServerConfig {
 		PARALLEL_ENABLED = BUILDER.comment( "Should the chunks be generated in parallel?" )
 			.define( "enabled", false );
 		PARALLEL_COUNT = BUILDER.comment( "How many chunk generation shall run in parallel? " +
-			"If the value is \"0\", the number of processor cores is used." )
-			.defineInRange( "count", 0, 0, Integer.MAX_VALUE );
+			"If the value is \"0\", the number of processor cores is used."
+		).defineInRange( "count", 0, 0, Integer.MAX_VALUE );
 		BUILDER.pop();
 		
 		CONFIG = BUILDER.build();

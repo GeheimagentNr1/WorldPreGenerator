@@ -32,7 +32,7 @@ credits="Thanks for the logo goes to Muse31" #optional
 authors="GeheimagentNr1" #optional
 # The description text for the mod (multi line!) (#mandatory)
 description='''
-Mod to pregenerate MC World
+Provides a pre-generator for Minecraft worlds.
 '''
 # A dependency - use the . to indicate dependency for a specific modid. Dependencies are optional.
 [[dependencies.world_pre_generator]] #optional
