@@ -2,7 +2,6 @@ package de.geheimagentnr1.world_pre_generator.handlers;
 
 import de.geheimagentnr1.world_pre_generator.WorldPreGenerator;
 import de.geheimagentnr1.world_pre_generator.elements.commands.PregenCommand;
-import de.geheimagentnr1.world_pre_generator.elements.commands.arguments.ModArgumentTypes;
 import de.geheimagentnr1.world_pre_generator.elements.workers.PregenWorker;
 import net.minecraftforge.common.WorldWorkerManager;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -27,7 +26,6 @@ public class ForgeEventHandler {
 	@SubscribeEvent
 	public static void handlerServerStartingEvent( FMLServerStartingEvent event ) {
 		
-		ModArgumentTypes.registerArgumentTypes();
 		PregenCommand.register( event.getCommandDispatcher(), PregenWorker.getInstance() );
 	}
 	
