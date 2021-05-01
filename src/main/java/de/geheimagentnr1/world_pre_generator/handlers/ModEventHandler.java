@@ -2,6 +2,7 @@ package de.geheimagentnr1.world_pre_generator.handlers;
 
 import de.geheimagentnr1.world_pre_generator.WorldPreGenerator;
 import de.geheimagentnr1.world_pre_generator.config.ServerConfig;
+import de.geheimagentnr1.world_pre_generator.elements.commands.arguments.ModArgumentTypes;
 import de.geheimagentnr1.world_pre_generator.elements.workers.PregenWorker;
 import de.geheimagentnr1.world_pre_generator.save.PregenerationWorldPersistenceHook;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -18,6 +19,7 @@ public class ModEventHandler {
 	@SubscribeEvent
 	public static void handleCommonSetupEvent( FMLCommonSetupEvent event ) {
 		
+		ModArgumentTypes.registerArgumentTypes();
 		WorldPersistenceHooks.addHook( new PregenerationWorldPersistenceHook( PregenWorker.getInstance() ) );
 	}
 	
