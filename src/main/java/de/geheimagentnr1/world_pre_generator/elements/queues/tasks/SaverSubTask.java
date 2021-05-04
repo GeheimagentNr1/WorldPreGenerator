@@ -8,13 +8,12 @@ import net.minecraft.server.MinecraftServer;
 public class SaverSubTask extends TimedSubTask {
 	
 	
-	private final MinecraftServer server;
+	private MinecraftServer server;
 	
 	private final PrinterSubTask printer;
 	
-	public SaverSubTask( MinecraftServer _server, PrinterSubTask _printer ) {
+	public SaverSubTask( PrinterSubTask _printer ) {
 		
-		server = _server;
 		printer = _printer;
 	}
 	
@@ -32,5 +31,10 @@ public class SaverSubTask extends TimedSubTask {
 		SaveHelper.saveWorld( server );
 		System.gc();
 		printer.resume();
+	}
+	
+	public void setServer( MinecraftServer _server ) {
+		
+		server = _server;
 	}
 }

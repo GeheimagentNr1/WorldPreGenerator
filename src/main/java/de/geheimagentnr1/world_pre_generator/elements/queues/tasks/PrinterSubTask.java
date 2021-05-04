@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 public class PrinterSubTask extends TimedSubTask {
 	
 	
-	private final MinecraftServer server;
+	private MinecraftServer server;
 	
 	private final PregenTaskQueue queue;
 	
@@ -22,9 +22,8 @@ public class PrinterSubTask extends TimedSubTask {
 	
 	private int old_chunks;
 	
-	public PrinterSubTask( MinecraftServer _server, PregenTaskQueue _queue ) {
+	public PrinterSubTask( PregenTaskQueue _queue ) {
 		
-		server = _server;
 		queue = _queue;
 	}
 	
@@ -72,5 +71,10 @@ public class PrinterSubTask extends TimedSubTask {
 			old_time = new_time;
 			old_chunks = task.getChunkIndex();
 		} );
+	}
+	
+	public void setServer( MinecraftServer _server ) {
+		
+		server = _server;
 	}
 }

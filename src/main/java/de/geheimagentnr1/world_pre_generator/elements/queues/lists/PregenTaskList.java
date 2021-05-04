@@ -6,6 +6,7 @@ import de.geheimagentnr1.world_pre_generator.save.Savable;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.RegistryKey;
 import net.minecraft.world.World;
 import org.apache.logging.log4j.LogManager;
@@ -107,6 +108,18 @@ public class PregenTaskList implements Savable<ListNBT> {
 				} catch( IllegalArgumentException exception ) {
 					LOGGER.error( "Invalid task: Task is not added to queue.", exception );
 				}
+			}
+		}
+	}
+	
+	public void checkTasks( MinecraftServer server ) {
+		
+		for( int i = 0; i < task_list.size(); i++ ) {
+			PregenTask task = task_list.get( i );
+			if( task.isDimensionInvalid( server ) ) {
+				task_list.remove( i );
+				i--;
+				LOGGER.error( "Invalid task: Task is removed from queue." );
 			}
 		}
 	}
