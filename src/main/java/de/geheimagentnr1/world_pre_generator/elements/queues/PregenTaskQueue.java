@@ -22,16 +22,11 @@ public class PregenTaskQueue implements Savable<CompoundNBT> {
 	
 	private static final String pausedTasksName = "paused_tasks";
 	
-	private final MinecraftServer server;
+	private MinecraftServer server;
 	
 	private final PregenTaskList active_tasks = new PregenTaskList();
 	
 	private final PregenTaskList paused_tasks = new PregenTaskList();
-	
-	public PregenTaskQueue( MinecraftServer _server ) {
-		
-		server = _server;
-	}
 	
 	public synchronized Optional<PregenTask> getCurrentTask() {
 		
@@ -97,7 +92,7 @@ public class PregenTaskQueue implements Savable<CompoundNBT> {
 		paused_tasks.clear();
 	}
 	
-	public void clear() {
+	public synchronized void clear() {
 		
 		clearUp();
 		SaveHelper.saveWorld( server );
@@ -119,5 +114,12 @@ public class PregenTaskQueue implements Savable<CompoundNBT> {
 			active_tasks.readNBT( nbt.getList( activeTasksName, NBTType.COMPOUND.getId() ) );
 		}
 		paused_tasks.readNBT( nbt.getList( pausedTasksName, NBTType.COMPOUND.getId() ) );
+	}
+	
+	public synchronized void setServer( MinecraftServer _server ) {
+		
+		server = _server;
+		active_tasks.checkTasks( server );
+		paused_tasks.checkTasks( server );
 	}
 }
