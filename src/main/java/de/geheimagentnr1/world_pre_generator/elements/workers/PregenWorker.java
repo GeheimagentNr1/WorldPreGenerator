@@ -23,13 +23,20 @@ public class PregenWorker implements WorldWorkerManager.IWorker {
 	
 	private MinecraftServer server;
 	
-	private PregenTaskQueue queue;
+	private final PregenTaskQueue queue;
 	
-	private PrinterSubTask printer;
+	private final PrinterSubTask printer;
 	
-	private SaverSubTask saver;
+	private final SaverSubTask saver;
 	
 	private boolean startingNewTask = true;
+	
+	private PregenWorker() {
+		
+		queue = new PregenTaskQueue();
+		printer = new PrinterSubTask( queue );
+		saver = new SaverSubTask( printer );
+	}
 	
 	public static PregenWorker getInstance() {
 		
@@ -39,9 +46,9 @@ public class PregenWorker implements WorldWorkerManager.IWorker {
 	public void setServer( MinecraftServer _server ) {
 		
 		server = _server;
-		queue = new PregenTaskQueue( server );
-		printer = new PrinterSubTask( server, queue );
-		saver = new SaverSubTask( server, printer );
+		queue.setServer( server );
+		printer.setServer( server );
+		saver.setServer( server );
 	}
 	
 	
