@@ -8,6 +8,7 @@ import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
+import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.event.server.FMLServerStoppedEvent;
 
 
@@ -16,10 +17,9 @@ public class ForgeEventHandler {
 	
 	
 	@SubscribeEvent
-	public static void handleServerAboutToStartEvent( FMLServerAboutToStartEvent event ) {
+	public static void handleServerAboutToStartEvent( FMLServerStartingEvent event ) {
 		
 		PregenWorker.getInstance().setServer( event.getServer() );
-		PregenWorker.getInstance().clearUp();
 		WorldWorkerManager.addWorker( PregenWorker.getInstance() );
 	}
 	

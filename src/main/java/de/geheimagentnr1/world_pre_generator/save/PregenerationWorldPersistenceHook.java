@@ -38,6 +38,7 @@ public class PregenerationWorldPersistenceHook implements WorldPersistenceHooks.
 	public void readData( SaveFormat.LevelSave levelSave, IServerConfiguration serverInfo, CompoundNBT tag ) {
 		
 		if( tag.contains( queueName, NBTType.COMPOUND.getId() ) ) {
+			pregenWorker.clearUp();
 			pregenWorker.getQueue().readNBT( tag.getCompound( queueName ) );
 		}
 	}

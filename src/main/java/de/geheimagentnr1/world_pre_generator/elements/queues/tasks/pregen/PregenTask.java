@@ -13,7 +13,6 @@ import net.minecraft.util.RegistryKey;
 import net.minecraft.util.ResourceLocationException;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.ChunkStatus;
-import net.minecraftforge.fml.server.ServerLifecycleHooks;
 
 import javax.annotation.Nonnull;
 import java.util.Objects;
@@ -138,9 +137,6 @@ public class PregenTask implements Savable<CompoundNBT> {
 		if( nbt.contains( dimensionName, NBTType.STRING.getId() ) ) {
 			try {
 				dimension = DimensionHelper.getDimFromName( nbt.getString( dimensionName ) );
-				if( ServerLifecycleHooks.getCurrentServer().getWorld( dimension ) != null ) {
-					throw new IllegalArgumentException( "Dimension not found." );
-				}
 			} catch( ResourceLocationException exception ) {
 				throw new IllegalArgumentException( "Invalid dimension resource location.", exception );
 			}
@@ -153,6 +149,11 @@ public class PregenTask implements Savable<CompoundNBT> {
 		} else {
 			throw new IllegalArgumentException( "Invalid chunk index value." );
 		}
+	}
+	
+	public boolean isDimensionInvalid( MinecraftServer server ) {
+		
+		return server.getWorld( dimension ) == null;
 	}
 	
 	public int getCenterX() {
