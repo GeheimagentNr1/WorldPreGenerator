@@ -35,8 +35,7 @@ public class PregenerationWorldPersistenceHook implements WorldPersistenceHooks.
 	}
 	
 	@Override
-	public void readData(
-		LevelStorageSource.LevelStorageAccess levelSave, WorldData serverInfo, CompoundTag tag ) {
+	public void readData( LevelStorageSource.LevelStorageAccess levelSave, WorldData serverInfo, CompoundTag tag ) {
 		
 		if( tag.contains( queueName, NBTType.COMPOUND.getId() ) ) {
 			pregenWorker.clearUp();
