@@ -1,9 +1,10 @@
 package de.geheimagentnr1.world_pre_generator.helpers;
 
-import net.minecraft.util.RegistryKey;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.world.World;
+
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.Level;
 
 import java.util.Objects;
 
@@ -11,13 +12,13 @@ import java.util.Objects;
 public class DimensionHelper {
 	
 	
-	public static String getNameOfDim( RegistryKey<World> dimension ) {
+	public static String getNameOfDim( ResourceKey<Level> dimension ) {
 		
 		return Objects.requireNonNull( dimension.location() ).toString();
 	}
 	
-	public static RegistryKey<World> getDimFromName( String registry_name ) {
+	public static ResourceKey<Level> getDimFromName( String registry_name ) {
 		
-		return RegistryKey.create( Registry.DIMENSION_REGISTRY, new ResourceLocation( registry_name ) );
+		return ResourceKey.create( Registry.DIMENSION_REGISTRY, new ResourceLocation( registry_name ) );
 	}
 }

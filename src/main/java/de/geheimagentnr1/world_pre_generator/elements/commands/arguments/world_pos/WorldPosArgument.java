@@ -8,14 +8,14 @@ import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import de.geheimagentnr1.world_pre_generator.elements.queues.tasks.pregen.data.WorldPos;
-import net.minecraft.command.CommandSource;
-import net.minecraft.command.Commands;
-import net.minecraft.command.ISuggestionProvider;
-import net.minecraft.command.arguments.ILocationArgument;
-import net.minecraft.command.arguments.LocationInput;
-import net.minecraft.command.arguments.LocationPart;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.Commands;
+import net.minecraft.commands.SharedSuggestionProvider;
+import net.minecraft.commands.arguments.coordinates.Coordinates;
+import net.minecraft.commands.arguments.coordinates.WorldCoordinate;
+import net.minecraft.commands.arguments.coordinates.WorldCoordinates;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.world.phys.Vec3;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -23,7 +23,7 @@ import java.util.Collections;
 import java.util.concurrent.CompletableFuture;
 
 
-public class WorldPosArgument implements ArgumentType<ILocationArgument> {
+public class WorldPosArgument implements ArgumentType<Coordinates> {
 	
 	
 	public static final String registry_name = "world_pos";
@@ -31,28 +31,28 @@ public class WorldPosArgument implements ArgumentType<ILocationArgument> {
 	private static final Collection<String> EXAMPLES = Arrays.asList( "0 0", "~ ~", "1 -5", "~1 ~-2" );
 	
 	private static final SimpleCommandExceptionType WORLD_POS_INCOMPLETE =
-		new SimpleCommandExceptionType( new StringTextComponent( "Incomplete (expected 2 coordinates)" ) );
+		new SimpleCommandExceptionType( new TextComponent( "Incomplete (expected 2 coordinates)" ) );
 	
 	public static WorldPosArgument worldPos() {
 		
 		return new WorldPosArgument();
 	}
 	
-	public static WorldPos getWorldPos( CommandContext<CommandSource> context, String name ) {
+	public static WorldPos getWorldPos( CommandContext<CommandSourceStack> context, String name ) {
 		
-		Vector3d vector3d = context.getArgument( name, ILocationArgument.class ).getPosition( context.getSource() );
-		return new WorldPos( (int)vector3d.x, (int)vector3d.z );
+		Vec3 vec3 = context.getArgument( name, Coordinates.class ).getPosition( context.getSource() );
+		return new WorldPos( (int)vec3.x, (int)vec3.z );
 	}
 	
-	public ILocationArgument parse( StringReader reader ) throws CommandSyntaxException {
+	public Coordinates parse( StringReader reader ) throws CommandSyntaxException {
 		
 		int cursor = reader.getCursor();
 		if( reader.canRead() ) {
-			LocationPart x = LocationPart.parseInt( reader );
+			WorldCoordinate x = WorldCoordinate.parseInt( reader );
 			if( reader.canRead() && reader.peek() == ' ' ) {
 				reader.skip();
-				LocationPart z = LocationPart.parseInt( reader );
-				return new LocationInput( x, new LocationPart( true, 0.0D ), z );
+				WorldCoordinate z = WorldCoordinate.parseInt( reader );
+				return new WorldCoordinates( x, new WorldCoordinate( true, 0.0D ), z );
 			} else {
 				reader.setCursor( cursor );
 				throw WORLD_POS_INCOMPLETE.createWithContext( reader );
@@ -66,15 +66,15 @@ public class WorldPosArgument implements ArgumentType<ILocationArgument> {
 		CommandContext<S> context,
 		SuggestionsBuilder builder ) {
 		
-		if( context.getSource() instanceof ISuggestionProvider ) {
+		if( context.getSource() instanceof SharedSuggestionProvider ) {
 			String remaining = builder.getRemaining();
-			Collection<ISuggestionProvider.Coordinates> suggestions;
+			Collection<SharedSuggestionProvider.TextCoordinates> suggestions;
 			if( !remaining.isEmpty() && remaining.charAt( 0 ) == '^' ) {
-				suggestions = Collections.singleton( ISuggestionProvider.Coordinates.DEFAULT_LOCAL );
+				suggestions = Collections.singleton( SharedSuggestionProvider.TextCoordinates.DEFAULT_LOCAL );
 			} else {
-				suggestions = ( (ISuggestionProvider)context.getSource() ).getAbsoluteCoordinates();
+				suggestions = ( (SharedSuggestionProvider)context.getSource() ).getAbsoluteCoordinates();
 			}
-			return ISuggestionProvider.suggest2DCoordinates(
+			return SharedSuggestionProvider.suggest2DCoordinates(
 				remaining,
 				suggestions,
 				builder,

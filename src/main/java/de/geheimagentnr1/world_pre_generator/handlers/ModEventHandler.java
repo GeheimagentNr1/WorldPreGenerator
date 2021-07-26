@@ -6,10 +6,10 @@ import de.geheimagentnr1.world_pre_generator.elements.commands.arguments.ModArgu
 import de.geheimagentnr1.world_pre_generator.elements.workers.PregenWorker;
 import de.geheimagentnr1.world_pre_generator.save.PregenerationWorldPersistenceHook;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.WorldPersistenceHooks;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.event.config.ModConfigEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fmllegacy.WorldPersistenceHooks;
 
 
 @Mod.EventBusSubscriber( modid = WorldPreGenerator.MODID, bus = Mod.EventBusSubscriber.Bus.MOD )
@@ -24,13 +24,13 @@ public class ModEventHandler {
 	}
 	
 	@SubscribeEvent
-	public static void handleModConfigLoadingEvent( ModConfig.Loading event ) {
+	public static void handleModConfigLoadingEvent( ModConfigEvent.Loading event ) {
 		
 		ServerConfig.printConfig();
 	}
 	
 	@SubscribeEvent
-	public static void handleModConfigReloadingEvent( ModConfig.Reloading event ) {
+	public static void handleModConfigReloadingEvent( ModConfigEvent.Reloading event ) {
 		
 		ServerConfig.printConfig();
 	}

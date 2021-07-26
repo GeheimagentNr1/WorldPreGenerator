@@ -5,17 +5,17 @@ import de.geheimagentnr1.world_pre_generator.elements.queues.tasks.pregen.Pregen
 import de.geheimagentnr1.world_pre_generator.helpers.SaveHelper;
 import de.geheimagentnr1.world_pre_generator.save.NBTType;
 import de.geheimagentnr1.world_pre_generator.save.Savable;
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.RegistryKey;
-import net.minecraft.world.World;
+import net.minecraft.world.level.Level;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.Optional;
 
 
-public class PregenTaskQueue implements Savable<CompoundNBT> {
+public class PregenTaskQueue implements Savable<CompoundTag> {
 	
 	
 	private static final String activeTasksName = "active_tasks";
@@ -60,20 +60,20 @@ public class PregenTaskQueue implements Savable<CompoundNBT> {
 		SaveHelper.saveWorld( server );
 	}
 	
-	public synchronized void resumeTask( RegistryKey<World> dimension ) {
+	public synchronized void resumeTask( ResourceKey<Level> dimension ) {
 		
 		paused_tasks.getAndRemoveBy( dimension ).ifPresent( active_tasks::addOrReplace );
 		SaveHelper.saveWorld( server );
 		
 	}
 	
-	public synchronized void pauseTask( RegistryKey<World> dimension ) {
+	public synchronized void pauseTask( ResourceKey<Level> dimension ) {
 		
 		active_tasks.getAndRemoveBy( dimension ).ifPresent( paused_tasks::addOrReplace );
 		SaveHelper.saveWorld( server );
 	}
 	
-	public synchronized void cancelTask( RegistryKey<World> dimension ) {
+	public synchronized void cancelTask( ResourceKey<Level> dimension ) {
 		
 		active_tasks.runFor( dimension, ( list, index ) -> list.get( index ).cancel() );
 		paused_tasks.removeBy( dimension );
@@ -100,15 +100,15 @@ public class PregenTaskQueue implements Savable<CompoundNBT> {
 	
 	@Nonnull
 	@Override
-	public synchronized CompoundNBT writeNBT() {
+	public synchronized CompoundTag writeNBT() {
 		
-		CompoundNBT compound = new CompoundNBT();
+		CompoundTag compound = new CompoundTag();
 		compound.put( activeTasksName, active_tasks.writeNBT() );
 		compound.put( pausedTasksName, paused_tasks.writeNBT() );
 		return compound;
 	}
 	
-	public synchronized void readNBT( @Nonnull CompoundNBT nbt ) {
+	public synchronized void readNBT( @Nonnull CompoundTag nbt ) {
 		
 		if( nbt.contains( activeTasksName, NBTType.LIST.getId() ) ) {
 			active_tasks.readNBT( nbt.getList( activeTasksName, NBTType.COMPOUND.getId() ) );

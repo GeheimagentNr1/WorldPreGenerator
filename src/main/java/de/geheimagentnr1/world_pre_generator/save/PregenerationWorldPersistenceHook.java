@@ -2,10 +2,10 @@ package de.geheimagentnr1.world_pre_generator.save;
 
 import de.geheimagentnr1.world_pre_generator.WorldPreGenerator;
 import de.geheimagentnr1.world_pre_generator.elements.workers.PregenWorker;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.world.storage.IServerConfiguration;
-import net.minecraft.world.storage.SaveFormat;
-import net.minecraftforge.fml.WorldPersistenceHooks;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.storage.LevelStorageSource;
+import net.minecraft.world.level.storage.WorldData;
+import net.minecraftforge.fmllegacy.WorldPersistenceHooks;
 
 
 public class PregenerationWorldPersistenceHook implements WorldPersistenceHooks.WorldPersistenceHook {
@@ -27,15 +27,16 @@ public class PregenerationWorldPersistenceHook implements WorldPersistenceHooks.
 	}
 	
 	@Override
-	public CompoundNBT getDataForWriting( SaveFormat.LevelSave levelSave, IServerConfiguration serverInfo ) {
+	public CompoundTag getDataForWriting( LevelStorageSource.LevelStorageAccess levelSave, WorldData serverInfo ) {
 		
-		CompoundNBT compound = new CompoundNBT();
+		CompoundTag compound = new CompoundTag();
 		compound.put( queueName, pregenWorker.getQueue().writeNBT() );
 		return compound;
 	}
 	
 	@Override
-	public void readData( SaveFormat.LevelSave levelSave, IServerConfiguration serverInfo, CompoundNBT tag ) {
+	public void readData(
+		LevelStorageSource.LevelStorageAccess levelSave, WorldData serverInfo, CompoundTag tag ) {
 		
 		if( tag.contains( queueName, NBTType.COMPOUND.getId() ) ) {
 			pregenWorker.clearUp();

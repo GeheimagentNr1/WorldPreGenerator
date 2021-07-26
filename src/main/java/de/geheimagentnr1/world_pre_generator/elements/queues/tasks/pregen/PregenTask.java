@@ -7,18 +7,18 @@ import de.geheimagentnr1.world_pre_generator.elements.queues.tasks.pregen.data.W
 import de.geheimagentnr1.world_pre_generator.helpers.DimensionHelper;
 import de.geheimagentnr1.world_pre_generator.save.NBTType;
 import de.geheimagentnr1.world_pre_generator.save.Savable;
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.ResourceLocationException;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.RegistryKey;
-import net.minecraft.util.ResourceLocationException;
-import net.minecraft.world.World;
-import net.minecraft.world.chunk.ChunkStatus;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.chunk.ChunkStatus;
 
 import javax.annotation.Nonnull;
 import java.util.Objects;
 
 
-public class PregenTask implements Savable<CompoundNBT> {
+public class PregenTask implements Savable<CompoundTag> {
 	
 	
 	private static final String centerXName = "center_x";
@@ -37,7 +37,7 @@ public class PregenTask implements Savable<CompoundNBT> {
 	
 	private int radius;
 	
-	private RegistryKey<World> dimension;
+	private ResourceKey<Level> dimension;
 	
 	private boolean canceled = false;
 	
@@ -45,7 +45,7 @@ public class PregenTask implements Savable<CompoundNBT> {
 	
 	private final ThreadData threadData = new ThreadData();
 	
-	public PregenTask( WorldPos center, int _radius, RegistryKey<World> _dimension ) {
+	public PregenTask( WorldPos center, int _radius, ResourceKey<Level> _dimension ) {
 		
 		center_x = center.getX();
 		center_z = center.getZ();
@@ -105,9 +105,9 @@ public class PregenTask implements Savable<CompoundNBT> {
 	
 	@Nonnull
 	@Override
-	public CompoundNBT writeNBT() {
+	public CompoundTag writeNBT() {
 		
-		CompoundNBT compound = new CompoundNBT();
+		CompoundTag compound = new CompoundTag();
 		compound.putInt( centerXName, center_x );
 		compound.putInt( centerZName, center_z );
 		compound.putInt( radiusName, radius );
@@ -117,7 +117,7 @@ public class PregenTask implements Savable<CompoundNBT> {
 	}
 	
 	@Override
-	public void readNBT( @Nonnull CompoundNBT nbt ) {
+	public void readNBT( @Nonnull CompoundTag nbt ) {
 		
 		if( nbt.contains( centerXName, NBTType.INT.getId() ) ) {
 			center_x = nbt.getInt( centerXName );
@@ -171,7 +171,7 @@ public class PregenTask implements Savable<CompoundNBT> {
 		return radius;
 	}
 	
-	public RegistryKey<World> getDimension() {
+	public ResourceKey<Level> getDimension() {
 		
 		return dimension;
 	}

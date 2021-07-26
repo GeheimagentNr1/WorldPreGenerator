@@ -13,12 +13,12 @@ import de.geheimagentnr1.world_pre_generator.elements.queues.tasks.pregen.Pregen
 import de.geheimagentnr1.world_pre_generator.elements.queues.tasks.pregen.data.WorldPos;
 import de.geheimagentnr1.world_pre_generator.elements.workers.PregenWorker;
 import de.geheimagentnr1.world_pre_generator.helpers.DimensionHelper;
-import net.minecraft.command.CommandSource;
-import net.minecraft.command.Commands;
-import net.minecraft.command.arguments.DimensionArgument;
-import net.minecraft.util.RegistryKey;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.world.World;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.Commands;
+import net.minecraft.commands.arguments.DimensionArgument;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.level.Level;
 
 import java.util.ArrayList;
 
@@ -29,9 +29,9 @@ public class PregenCommand {
 	
 	private static PregenWorker pregenWorker;
 	
-	public static void register( CommandDispatcher<CommandSource> dispatcher, PregenWorker _pregenWorker ) {
+	public static void register( CommandDispatcher<CommandSourceStack> dispatcher, PregenWorker _pregenWorker ) {
 		
-		LiteralArgumentBuilder<CommandSource> pregenCommand = Commands.literal( "pregen" )
+		LiteralArgumentBuilder<CommandSourceStack> pregenCommand = Commands.literal( "pregen" )
 			.requires( source -> source.hasPermission( 2 ) );
 		pregenCommand.then( Commands.literal( "list" )
 			.executes( PregenCommand::printList ) );
@@ -59,11 +59,11 @@ public class PregenCommand {
 		pregenWorker = _pregenWorker;
 	}
 	
-	private static void printTasks( CommandSource source, ArrayList<PregenTask> tasks ) {
+	private static void printTasks( CommandSourceStack source, ArrayList<PregenTask> tasks ) {
 		
 		for( PregenTask task : tasks ) {
 			source.sendSuccess(
-				new StringTextComponent( String.format(
+				new TextComponent( String.format(
 					"%s %d %d %d",
 					DimensionHelper.getNameOfDim( task.getDimension() ),
 					task.getCenterX(),
@@ -75,37 +75,37 @@ public class PregenCommand {
 		}
 	}
 	
-	private static int printList( CommandContext<CommandSource> context ) {
+	private static int printList( CommandContext<CommandSourceStack> context ) {
 		
-		CommandSource source = context.getSource();
+		CommandSourceStack source = context.getSource();
 		if( pregenWorker.getQueue().noTasks() ) {
-			source.sendSuccess( new StringTextComponent( "Pregeneration Tasklist is empty." ), false );
+			source.sendSuccess( new TextComponent( "Pregeneration Tasklist is empty." ), false );
 		} else {
-			source.sendSuccess( new StringTextComponent( "Pregeneration Tasklist:" ), false );
+			source.sendSuccess( new TextComponent( "Pregeneration Tasklist:" ), false );
 			ArrayList<PregenTask> activeTasks = pregenWorker.getQueue().getActiveTasks();
 			ArrayList<PregenTask> pausedTasks = pregenWorker.getQueue().getPausedTasks();
 			if( !activeTasks.isEmpty() ) {
-				source.sendSuccess( new StringTextComponent( "Queued Tasks:" ), false );
+				source.sendSuccess( new TextComponent( "Queued Tasks:" ), false );
 				printTasks( source, activeTasks );
 			}
 			if( !pausedTasks.isEmpty() ) {
-				source.sendSuccess( new StringTextComponent( "Paused Tasks:" ), false );
+				source.sendSuccess( new TextComponent( "Paused Tasks:" ), false );
 				printTasks( source, pausedTasks );
 			}
 		}
 		return Command.SINGLE_SUCCESS;
 	}
 	
-	private static int start( CommandContext<CommandSource> context ) throws CommandSyntaxException {
+	private static int start( CommandContext<CommandSourceStack> context ) throws CommandSyntaxException {
 		
-		CommandSource source = context.getSource();
+		CommandSourceStack source = context.getSource();
 		WorldPos center = WorldPosArgument.getWorldPos( context, "center" );
 		int radius = IntegerArgumentType.getInteger( context, "radius" );
-		RegistryKey<World> dimension = DimensionArgument.getDimension( context, "dimension" ).dimension();
+		ResourceKey<Level> dimension = DimensionArgument.getDimension( context, "dimension" ).dimension();
 		
 		pregenWorker.getQueue().startTask( new PregenTask( center, radius, dimension ) );
 		source.sendSuccess(
-			new StringTextComponent( String.format(
+			new TextComponent( String.format(
 				"Task for %s got queued.",
 				DimensionHelper.getNameOfDim( dimension )
 			) ),
@@ -114,13 +114,13 @@ public class PregenCommand {
 		return Command.SINGLE_SUCCESS;
 	}
 	
-	private static int resume( CommandContext<CommandSource> context ) throws CommandSyntaxException {
+	private static int resume( CommandContext<CommandSourceStack> context ) throws CommandSyntaxException {
 		
-		CommandSource source = context.getSource();
-		RegistryKey<World> dimension = DimensionArgument.getDimension( context, "dimension" ).dimension();
+		CommandSourceStack source = context.getSource();
+		ResourceKey<Level> dimension = DimensionArgument.getDimension( context, "dimension" ).dimension();
 		pregenWorker.getQueue().resumeTask( dimension );
 		source.sendSuccess(
-			new StringTextComponent( String.format(
+			new TextComponent( String.format(
 				"Task for %s was resumed.",
 				DimensionHelper.getNameOfDim( dimension )
 			) ),
@@ -129,13 +129,13 @@ public class PregenCommand {
 		return Command.SINGLE_SUCCESS;
 	}
 	
-	private static int pause( CommandContext<CommandSource> context ) throws CommandSyntaxException {
+	private static int pause( CommandContext<CommandSourceStack> context ) throws CommandSyntaxException {
 		
-		CommandSource source = context.getSource();
-		RegistryKey<World> dimension = DimensionArgument.getDimension( context, "dimension" ).dimension();
+		CommandSourceStack source = context.getSource();
+		ResourceKey<Level> dimension = DimensionArgument.getDimension( context, "dimension" ).dimension();
 		pregenWorker.getQueue().pauseTask( dimension );
 		source.sendSuccess(
-			new StringTextComponent( String.format(
+			new TextComponent( String.format(
 				"Task for %s was paused.",
 				DimensionHelper.getNameOfDim( dimension )
 			) ),
@@ -144,13 +144,13 @@ public class PregenCommand {
 		return Command.SINGLE_SUCCESS;
 	}
 	
-	private static int cancel( CommandContext<CommandSource> context ) throws CommandSyntaxException {
+	private static int cancel( CommandContext<CommandSourceStack> context ) throws CommandSyntaxException {
 		
-		CommandSource source = context.getSource();
-		RegistryKey<World> dimension = DimensionArgument.getDimension( context, "dimension" ).dimension();
+		CommandSourceStack source = context.getSource();
+		ResourceKey<Level> dimension = DimensionArgument.getDimension( context, "dimension" ).dimension();
 		pregenWorker.getQueue().cancelTask( dimension );
 		source.sendSuccess(
-			new StringTextComponent( String.format(
+			new TextComponent( String.format(
 				"Task for %s was canceled.",
 				DimensionHelper.getNameOfDim( dimension )
 			) ),
@@ -159,33 +159,33 @@ public class PregenCommand {
 		return Command.SINGLE_SUCCESS;
 	}
 	
-	private static int clear( CommandContext<CommandSource> context ) {
+	private static int clear( CommandContext<CommandSourceStack> context ) {
 		
-		CommandSource source = context.getSource();
+		CommandSourceStack source = context.getSource();
 		pregenWorker.getQueue().clear();
-		source.sendSuccess( new StringTextComponent( "All Task were canceled." ), true );
+		source.sendSuccess( new TextComponent( "All Task were canceled." ), true );
 		return Command.SINGLE_SUCCESS;
 	}
 	
-	private static int showSendFeedback( CommandContext<CommandSource> context ) {
+	private static int showSendFeedback( CommandContext<CommandSourceStack> context ) {
 		
-		CommandSource source = context.getSource();
+		CommandSourceStack source = context.getSource();
 		if( ServerConfig.isSendFeedbackEnabled() ) {
-			source.sendSuccess( new StringTextComponent( "Feedback is enabled." ), false );
+			source.sendSuccess( new TextComponent( "Feedback is enabled." ), false );
 		} else {
-			source.sendSuccess( new StringTextComponent( "Feedback is disabled." ), false );
+			source.sendSuccess( new TextComponent( "Feedback is disabled." ), false );
 		}
 		return Command.SINGLE_SUCCESS;
 	}
 	
-	private static int setSendFeedback( CommandContext<CommandSource> context ) {
+	private static int setSendFeedback( CommandContext<CommandSourceStack> context ) {
 		
-		CommandSource source = context.getSource();
+		CommandSourceStack source = context.getSource();
 		ServerConfig.setSendFeedback( BoolArgumentType.getBool( context, "isFeedbackEnabled" ) );
 		if( ServerConfig.isSendFeedbackEnabled() ) {
-			source.sendSuccess( new StringTextComponent( "Feedback is now enabled." ), false );
+			source.sendSuccess( new TextComponent( "Feedback is now enabled." ), false );
 		} else {
-			source.sendSuccess( new StringTextComponent( "Feedback is now disabled." ), false );
+			source.sendSuccess( new TextComponent( "Feedback is now disabled." ), false );
 		}
 		return Command.SINGLE_SUCCESS;
 	}

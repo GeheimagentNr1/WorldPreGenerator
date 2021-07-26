@@ -5,12 +5,13 @@ import de.geheimagentnr1.world_pre_generator.elements.queues.tasks.PrinterSubTas
 import de.geheimagentnr1.world_pre_generator.elements.queues.tasks.SaverSubTask;
 import de.geheimagentnr1.world_pre_generator.elements.queues.tasks.pregen.PregenTask;
 import de.geheimagentnr1.world_pre_generator.helpers.DimensionHelper;
+import net.minecraft.ChatFormatting;
+import net.minecraft.Util;
+import net.minecraft.network.chat.ChatType;
+import net.minecraft.network.chat.Style;
+import net.minecraft.network.chat.TextColor;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.Util;
-import net.minecraft.util.text.ChatType;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.Style;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.WorldWorkerManager;
 
 import java.util.Optional;
@@ -68,10 +69,10 @@ public class PregenWorker implements WorldWorkerManager.IWorker {
 			if( startingNewTask ) {
 				startingNewTask = false;
 				server.getPlayerList().broadcastMessage(
-					new StringTextComponent( String.format(
+					new TextComponent( String.format(
 						"Generation of %s started.",
 						DimensionHelper.getNameOfDim( task.getDimension() )
-					) ).setStyle( Style.EMPTY.withColor( TextFormatting.GRAY ) ),
+					) ).setStyle( Style.EMPTY.withColor( TextColor.fromLegacyFormat( ChatFormatting.GRAY ) ) ),
 					ChatType.SYSTEM,
 					Util.NIL_UUID
 				);
@@ -86,10 +87,10 @@ public class PregenWorker implements WorldWorkerManager.IWorker {
 				saver.stop();
 				printer.execute();
 				server.getPlayerList().broadcastMessage(
-					new StringTextComponent( String.format(
+					new TextComponent( String.format(
 						"Generation of %s finished.",
 						DimensionHelper.getNameOfDim( task.getDimension() )
-					) ).setStyle( Style.EMPTY.withColor( TextFormatting.GRAY ) ),
+					) ).setStyle( Style.EMPTY.withColor( TextColor.fromLegacyFormat( ChatFormatting.GRAY ) ) ),
 					ChatType.SYSTEM,
 					Util.NIL_UUID
 				);

@@ -3,9 +3,10 @@ package de.geheimagentnr1.world_pre_generator.elements.queues.tasks;
 import de.geheimagentnr1.world_pre_generator.config.ServerConfig;
 import de.geheimagentnr1.world_pre_generator.elements.queues.PregenTaskQueue;
 import de.geheimagentnr1.world_pre_generator.helpers.DimensionHelper;
+import net.minecraft.ChatFormatting;
+import net.minecraft.Util;
+import net.minecraft.network.chat.*;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.Util;
-import net.minecraft.util.text.*;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -55,14 +56,14 @@ public class PrinterSubTask extends TimedSubTask {
 			LocalDateTime new_time = LocalDateTime.now();
 			long duration = Duration.between( old_time, new_time ).getSeconds();
 			
-			ITextComponent message = new StringTextComponent( String.format(
+			Component message = new TextComponent( String.format(
 				"pregen %s %d/%d(%d%%) %d chunks/s",
 				DimensionHelper.getNameOfDim( task.getDimension() ),
 				task.getChunkIndex(),
 				task.getChunkCount(),
 				task.getProgress(),
 				Math.max( 0, task.getChunkIndex() - old_chunks ) / ( duration == 0 ? 1 : duration )
-			) ).setStyle( Style.EMPTY.withColor( TextFormatting.GRAY ) );
+			) ).setStyle( Style.EMPTY.withColor( TextColor.fromLegacyFormat( ChatFormatting.GRAY ) ) );
 			if( ServerConfig.isSendFeedbackEnabled() ) {
 				server.getPlayerList().broadcastMessage( message, ChatType.SYSTEM, Util.NIL_UUID );
 			} else {
