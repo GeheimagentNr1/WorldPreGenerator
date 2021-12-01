@@ -5,7 +5,7 @@ import de.geheimagentnr1.world_pre_generator.elements.workers.PregenWorker;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.storage.LevelStorageSource;
 import net.minecraft.world.level.storage.WorldData;
-import net.minecraftforge.fmllegacy.WorldPersistenceHooks;
+import net.minecraftforge.internal.WorldPersistenceHooks;
 
 
 public class PregenerationWorldPersistenceHook implements WorldPersistenceHooks.WorldPersistenceHook {

@@ -5,10 +5,10 @@ import de.geheimagentnr1.world_pre_generator.elements.commands.PregenCommand;
 import de.geheimagentnr1.world_pre_generator.elements.workers.PregenWorker;
 import net.minecraftforge.common.WorldWorkerManager;
 import net.minecraftforge.event.RegisterCommandsEvent;
+import net.minecraftforge.event.server.ServerStartingEvent;
+import net.minecraftforge.event.server.ServerStoppedEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fmlserverevents.FMLServerStartingEvent;
-import net.minecraftforge.fmlserverevents.FMLServerStoppedEvent;
 
 
 @Mod.EventBusSubscriber( modid = WorldPreGenerator.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE )
@@ -16,7 +16,7 @@ public class ForgeEventHandler {
 	
 	
 	@SubscribeEvent
-	public static void handleServerAboutToStartEvent( FMLServerStartingEvent event ) {
+	public static void handleServerStartingEvent( ServerStartingEvent event ) {
 		
 		PregenWorker.getInstance().setServer( event.getServer() );
 		WorldWorkerManager.addWorker( PregenWorker.getInstance() );
@@ -29,7 +29,7 @@ public class ForgeEventHandler {
 	}
 	
 	@SubscribeEvent
-	public static void handleServerStoppedEvent( FMLServerStoppedEvent event ) {
+	public static void handleServerStoppedEvent( ServerStoppedEvent event ) {
 		
 		PregenWorker.getInstance().clearUp();
 	}
