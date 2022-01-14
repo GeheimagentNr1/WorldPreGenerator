@@ -45,7 +45,7 @@ public class PregenerationWorldPersistencer {
 	
 	public void load() {
 		
-		try(FileReader reader = new FileReader( getFilePath() )) {
+		try( FileReader reader = new FileReader( getFilePath() ) ) {
 			JsonObject json = GSON.fromJson( reader, JsonObject.class );
 			
 			if( JsonHelper.isJsonObject( json, queueName ) ) {

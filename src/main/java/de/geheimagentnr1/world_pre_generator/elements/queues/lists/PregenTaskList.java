@@ -5,7 +5,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import de.geheimagentnr1.world_pre_generator.elements.queues.tasks.pregen.PregenTask;
 import de.geheimagentnr1.world_pre_generator.save.Savable;
-import net.minecraft.nbt.ListTag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.level.Level;
