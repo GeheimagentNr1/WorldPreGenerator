@@ -1,19 +1,19 @@
 package de.geheimagentnr1.world_pre_generator.save;
 
-import net.minecraft.nbt.Tag;
+import com.google.gson.JsonElement;
 
 import javax.annotation.Nonnull;
 
 
 //Methods are only used in there subclasses, but not in this interface.
 @SuppressWarnings( "unused" )
-public interface Savable<T extends Tag> {
+public interface Savable<T extends JsonElement> {
 	
 	
 	//public
 	@Nonnull
-	T writeNBT();
+	T write();
 	
 	//public
-	void readNBT( @Nonnull T nbt );
+	void read( @Nonnull T nbt );
 }

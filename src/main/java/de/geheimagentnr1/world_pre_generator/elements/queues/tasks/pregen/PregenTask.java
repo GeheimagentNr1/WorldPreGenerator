@@ -1,14 +1,14 @@
 package de.geheimagentnr1.world_pre_generator.elements.queues.tasks.pregen;
 
+import com.google.gson.JsonObject;
 import de.geheimagentnr1.world_pre_generator.config.ServerConfig;
 import de.geheimagentnr1.world_pre_generator.elements.queues.tasks.pregen.data.ThreadData;
 import de.geheimagentnr1.world_pre_generator.elements.queues.tasks.pregen.data.WorldPos;
 import de.geheimagentnr1.world_pre_generator.elements.queues.tasks.pregen.data.WorldPregenData;
 import de.geheimagentnr1.world_pre_generator.helpers.DimensionHelper;
-import de.geheimagentnr1.world_pre_generator.save.NBTType;
+import de.geheimagentnr1.world_pre_generator.helpers.JsonHelper;
 import de.geheimagentnr1.world_pre_generator.save.Savable;
 import net.minecraft.ResourceLocationException;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.level.Level;
@@ -18,7 +18,7 @@ import javax.annotation.Nonnull;
 import java.util.Objects;
 
 
-public class PregenTask implements Savable<CompoundTag> {
+public class PregenTask implements Savable<JsonObject> {
 	
 	
 	private static final String centerXName = "center_x";
@@ -105,38 +105,38 @@ public class PregenTask implements Savable<CompoundTag> {
 	
 	@Nonnull
 	@Override
-	public CompoundTag writeNBT() {
+	public JsonObject write() {
 		
-		CompoundTag compound = new CompoundTag();
-		compound.putInt( centerXName, center_x );
-		compound.putInt( centerZName, center_z );
-		compound.putInt( radiusName, radius );
-		compound.putString( dimensionName, DimensionHelper.getNameOfDim( dimension ) );
-		compound.putInt( chunkIndexName, getChunkIndex() );
+		JsonObject compound = new JsonObject();
+		compound.addProperty( centerXName, center_x );
+		compound.addProperty( centerZName, center_z );
+		compound.addProperty( radiusName, radius );
+		compound.addProperty( dimensionName, DimensionHelper.getNameOfDim( dimension ) );
+		compound.addProperty( chunkIndexName, getChunkIndex() );
 		return compound;
 	}
 	
 	@Override
-	public void readNBT( @Nonnull CompoundTag nbt ) {
+	public void read( @Nonnull JsonObject json ) {
 		
-		if( nbt.contains( centerXName, NBTType.INT.getId() ) ) {
-			center_x = nbt.getInt( centerXName );
+		if( JsonHelper.isInt( json, centerXName ) ) {
+			center_x = JsonHelper.getInt( json, centerXName );
 		} else {
 			throw new IllegalArgumentException( "Invalid center x value." );
 		}
-		if( nbt.contains( centerZName, NBTType.INT.getId() ) ) {
-			center_z = nbt.getInt( centerZName );
+		if( JsonHelper.isInt( json, centerZName ) ) {
+			center_z = JsonHelper.getInt( json, centerZName );
 		} else {
 			throw new IllegalArgumentException( "Invalid center z value." );
 		}
-		if( nbt.contains( radiusName, NBTType.INT.getId() ) ) {
-			radius = nbt.getInt( radiusName );
+		if( JsonHelper.isInt( json, radiusName ) ) {
+			radius = JsonHelper.getInt( json, radiusName );
 		} else {
 			throw new IllegalArgumentException( "Invalid radius value." );
 		}
-		if( nbt.contains( dimensionName, NBTType.STRING.getId() ) ) {
+		if( JsonHelper.isString( json, dimensionName ) ) {
 			try {
-				dimension = DimensionHelper.getDimFromName( nbt.getString( dimensionName ) );
+				dimension = DimensionHelper.getDimFromName( JsonHelper.getString( json, dimensionName ) );
 			} catch( ResourceLocationException exception ) {
 				throw new IllegalArgumentException( "Invalid dimension resource location.", exception );
 			}
@@ -144,8 +144,8 @@ public class PregenTask implements Savable<CompoundTag> {
 			throw new IllegalArgumentException( "Invalid dimension value." );
 		}
 		worldPregenData = new WorldPregenData( center_x, center_z, radius );
-		if( nbt.contains( chunkIndexName, NBTType.INT.getId() ) ) {
-			worldPregenData.setChunkIndex( nbt.getInt( chunkIndexName ) );
+		if( JsonHelper.isInt( json, chunkIndexName ) ) {
+			worldPregenData.setChunkIndex( JsonHelper.getInt( json, chunkIndexName ) );
 		} else {
 			throw new IllegalArgumentException( "Invalid chunk index value." );
 		}

@@ -1,11 +1,11 @@
 package de.geheimagentnr1.world_pre_generator.elements.queues;
 
+import com.google.gson.JsonObject;
 import de.geheimagentnr1.world_pre_generator.elements.queues.lists.PregenTaskList;
 import de.geheimagentnr1.world_pre_generator.elements.queues.tasks.pregen.PregenTask;
+import de.geheimagentnr1.world_pre_generator.helpers.JsonHelper;
 import de.geheimagentnr1.world_pre_generator.helpers.SaveHelper;
-import de.geheimagentnr1.world_pre_generator.save.NBTType;
 import de.geheimagentnr1.world_pre_generator.save.Savable;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.level.Level;
@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 
-public class PregenTaskQueue implements Savable<CompoundTag> {
+public class PregenTaskQueue implements Savable<JsonObject> {
 	
 	
 	private static final String activeTasksName = "active_tasks";
@@ -100,20 +100,22 @@ public class PregenTaskQueue implements Savable<CompoundTag> {
 	
 	@Nonnull
 	@Override
-	public synchronized CompoundTag writeNBT() {
+	public synchronized JsonObject write() {
 		
-		CompoundTag compound = new CompoundTag();
-		compound.put( activeTasksName, active_tasks.writeNBT() );
-		compound.put( pausedTasksName, paused_tasks.writeNBT() );
-		return compound;
+		JsonObject json = new JsonObject();
+		json.add( activeTasksName, active_tasks.write() );
+		json.add( pausedTasksName, paused_tasks.write() );
+		return json;
 	}
 	
-	public synchronized void readNBT( @Nonnull CompoundTag nbt ) {
+	public synchronized void read( @Nonnull JsonObject json ) {
 		
-		if( nbt.contains( activeTasksName, NBTType.LIST.getId() ) ) {
-			active_tasks.readNBT( nbt.getList( activeTasksName, NBTType.COMPOUND.getId() ) );
+		if( JsonHelper.isJsonArray( json, activeTasksName ) ) {
+			active_tasks.read( json.getAsJsonArray( activeTasksName ) );
 		}
-		paused_tasks.readNBT( nbt.getList( pausedTasksName, NBTType.COMPOUND.getId() ) );
+		if( JsonHelper.isJsonArray( json, pausedTasksName ) ) {
+			paused_tasks.read( json.getAsJsonArray( pausedTasksName ) );
+		}
 	}
 	
 	public synchronized void setServer( MinecraftServer _server ) {

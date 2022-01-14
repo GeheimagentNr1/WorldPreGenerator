@@ -1,11 +1,11 @@
 package de.geheimagentnr1.world_pre_generator.elements.queues.lists;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import de.geheimagentnr1.world_pre_generator.elements.queues.tasks.pregen.PregenTask;
-import de.geheimagentnr1.world_pre_generator.save.NBTType;
 import de.geheimagentnr1.world_pre_generator.save.Savable;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.level.Level;
@@ -18,7 +18,7 @@ import java.util.Optional;
 import java.util.function.BiConsumer;
 
 
-public class PregenTaskList implements Savable<ListTag> {
+public class PregenTaskList implements Savable<JsonArray> {
 	
 	
 	private static final Logger LOGGER = LogManager.getLogger( PregenTaskList.class );
@@ -86,24 +86,25 @@ public class PregenTaskList implements Savable<ListTag> {
 	
 	@Nonnull
 	@Override
-	public ListTag writeNBT() {
+	public JsonArray write() {
 		
-		ListTag nbt = new ListTag();
+		JsonArray json = new JsonArray();
 		for( PregenTask task : task_list ) {
-			nbt.add( task.writeNBT() );
+			json.add( task.write() );
 		}
-		return nbt;
+		return json;
 	}
 	
 	@Override
-	public void readNBT( @Nonnull ListTag nbt ) {
+	public void read( @Nonnull JsonArray jsonArray ) {
 		
 		clear();
-		for( Tag inbt : nbt ) {
-			if( inbt.getId() == NBTType.COMPOUND.getId() ) {
+		for( JsonElement element : jsonArray ) {
+			if( element.isJsonObject() ) {
+				JsonObject json = element.getAsJsonObject();
 				PregenTask task = new PregenTask();
 				try {
-					task.readNBT( (CompoundTag)inbt );
+					task.read( json );
 					addOrReplace( task );
 				} catch( IllegalArgumentException exception ) {
 					LOGGER.error( "Invalid task: Task is not added to queue.", exception );
