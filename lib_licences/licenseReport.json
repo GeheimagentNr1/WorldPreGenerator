@@ -1074,14 +1074,14 @@
   {
     "project": "Mod Launcher",
     "description": "Common ModLauncher framework",
-    "version": "9.0.21",
+    "version": "9.0.24",
     "developers": [
       "cpw"
     ],
     "url": "https://github.com/McModLauncher/modlauncher",
     "year": null,
     "licenses": [],
-    "dependency": "cpw.mods:modlauncher:9.0.21"
+    "dependency": "cpw.mods:modlauncher:9.0.24"
   },
   {
     "project": "Netty/All-in-One",

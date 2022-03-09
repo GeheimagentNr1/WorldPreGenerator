@@ -103,7 +103,7 @@ public class PregenCommand {
 		int radius = IntegerArgumentType.getInteger( context, "radius" );
 		ResourceKey<Level> dimension = DimensionArgument.getDimension( context, "dimension" ).dimension();
 		
-		pregenWorker.getQueue().startTask( new PregenTask( center, radius, dimension ) );
+		pregenWorker.getQueue().startTask( new PregenTask( center, radius, dimension, false ) );//TODO: Force
 		source.sendSuccess(
 			new TextComponent( String.format(
 				"Task for %s got queued.",

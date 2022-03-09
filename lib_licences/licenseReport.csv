@@ -100,7 +100,7 @@ Maven Artifact,null,3.8.1,null,null,null,Apache License, Version 2.0,https://www
 mclanguage,Modifactions to Minecraft to enable mod developers.,1.18.1-39.0.20,null,https://github.com/MinecraftForge/MinecraftForge,null,LGPL 2.1,https://github.com/MinecraftForge/MinecraftForge/blob/1.13-pre/LICENSE.txt,net.minecraftforge:mclanguage:1.18.1-39.0.20
 MergeTool,Merges two jar files together, useful for rebuilding Retroguard stripped jars.,1.1.3,Lex Manos,https://github.com/MinecraftForge/MergeTool,null,LGPLv2.1,https://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt,net.minecraftforge:mergetool:1.1.3
 mixin,Mixin,0.8.5,null,http://www.spongepowered.org/,null,MIT license,http://opensource.org/licenses/MIT,org.spongepowered:mixin:0.8.5
-Mod Launcher,Common ModLauncher framework,9.0.21,cpw,https://github.com/McModLauncher/modlauncher,null,null,null,cpw.mods:modlauncher:9.0.21
+Mod Launcher,Common ModLauncher framework,9.0.24,cpw,https://github.com/McModLauncher/modlauncher,null,null,null,cpw.mods:modlauncher:9.0.24
 Netty/All-in-One,null,4.1.68.Final,null,null,null,Apache License, Version 2.0,https://www.apache.org/licenses/LICENSE-2.0,io.netty:netty-all:4.1.68.Final
 NightConfig core,Powerful, easy-to-use and multi-language configuration library for the JVM - core module,3.6.4,,https://github.com/TheElectronWill/Night-Config,null,GNU Lesser General Public License v3.0,https://www.gnu.org/licenses/lgpl-3.0.txt,com.electronwill.night-config:core:3.6.4
 NightConfig toml,Powerful, easy-to-use and multi-language configuration library for the JVM - toml module,3.6.4,,https://github.com/TheElectronWill/Night-Config,null,GNU Lesser General Public License v3.0,https://www.gnu.org/licenses/lgpl-3.0.txt,com.electronwill.night-config:toml:3.6.4

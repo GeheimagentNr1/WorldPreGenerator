@@ -2,7 +2,6 @@ package de.geheimagentnr1.world_pre_generator.elements.queues.tasks.pregen;
 
 import com.google.gson.JsonObject;
 import de.geheimagentnr1.world_pre_generator.config.ServerConfig;
-import de.geheimagentnr1.world_pre_generator.elements.queues.tasks.pregen.data.ThreadData;
 import de.geheimagentnr1.world_pre_generator.elements.queues.tasks.pregen.data.WorldPos;
 import de.geheimagentnr1.world_pre_generator.elements.queues.tasks.pregen.data.WorldPregenData;
 import de.geheimagentnr1.world_pre_generator.helpers.DimensionHelper;
@@ -16,6 +15,8 @@ import net.minecraft.world.level.chunk.ChunkStatus;
 
 import javax.annotation.Nonnull;
 import java.util.Objects;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
 
 
 public class PregenTask implements Savable<JsonObject> {
@@ -37,20 +38,27 @@ public class PregenTask implements Savable<JsonObject> {
 	
 	private int radius;
 	
+	private boolean forceGeneration;
+	
 	private ResourceKey<Level> dimension;
 	
 	private boolean canceled = false;
 	
 	private WorldPregenData worldPregenData;
 	
-	private final ThreadData threadData = new ThreadData();
+	private long generated_chunks_count;
 	
-	public PregenTask( WorldPos center, int _radius, ResourceKey<Level> _dimension ) {
+	private final ThreadPoolExecutor executor =
+		(ThreadPoolExecutor)Executors.newFixedThreadPool( ServerConfig.getThreadCount() );
+	
+	
+	public PregenTask( WorldPos center, int _radius, ResourceKey<Level> _dimension, boolean _forceGeneration ) {
 		
 		center_x = center.getX();
 		center_z = center.getZ();
 		radius = _radius;
 		dimension = _dimension;
+		forceGeneration = _forceGeneration;
 		worldPregenData = new WorldPregenData( center_x, center_z, radius );
 	}
 	
@@ -65,30 +73,28 @@ public class PregenTask implements Savable<JsonObject> {
 			return true;
 		}
 		if( ServerConfig.isRunParallel() ) {
-			if( threadData.getCount() < ServerConfig.getThreadCount() ) {
-				worldPregenData.nextChunk().ifPresent( currentPos -> {
-					if( isNotGenerated( server, currentPos ) ) {
-						threadData.incCount();
-						new Thread( () -> {
-							generate( server, currentPos );
-							threadData.decCount();
-						} ).start();
-					}
-				} );
-			}
+			worldPregenData.nextChunk().ifPresent( currentPos -> {
+				if( shouldBeGenerated( server, currentPos ) ) {
+					executor.submit( () -> generate( server, currentPos ) );
+				} else {
+					incGeneratedChunksCount();
+				}
+			} );
 		} else {
 			worldPregenData.nextChunk().ifPresent( currentPos -> {
-				if( isNotGenerated( server, currentPos ) ) {
+				if( shouldBeGenerated( server, currentPos ) ) {
 					generate( server, currentPos );
+				} else {
+					incGeneratedChunksCount();
 				}
 			} );
 		}
-		return worldPregenData.fullyGenerated();
+		return getGeneratedChunksCount() >= getChunkCount();
 	}
 	
-	private boolean isNotGenerated( MinecraftServer server, WorldPos pos ) {
+	private boolean shouldBeGenerated( MinecraftServer server, WorldPos pos ) {
 		
-		return Objects.requireNonNull( server.getLevel( dimension ) ).getChunkSource()
+		return forceGeneration || Objects.requireNonNull( server.getLevel( dimension ) ).getChunkSource()
 			.getChunk( pos.getX(), pos.getZ(), ChunkStatus.FULL, false ) == null;
 	}
 	
@@ -96,6 +102,7 @@ public class PregenTask implements Savable<JsonObject> {
 		
 		Objects.requireNonNull( server.getLevel( dimension ) ).getChunkSource()
 			.getChunk( pos.getX(), pos.getZ(), ChunkStatus.FULL, true );
+		incGeneratedChunksCount();
 	}
 	
 	public void cancel() {
@@ -112,7 +119,7 @@ public class PregenTask implements Savable<JsonObject> {
 		compound.addProperty( centerZName, center_z );
 		compound.addProperty( radiusName, radius );
 		compound.addProperty( dimensionName, DimensionHelper.getNameOfDim( dimension ) );
-		compound.addProperty( chunkIndexName, getChunkIndex() );
+		compound.addProperty( chunkIndexName, getGeneratedChunksCount() );
 		return compound;
 	}
 	
@@ -145,7 +152,8 @@ public class PregenTask implements Savable<JsonObject> {
 		}
 		worldPregenData = new WorldPregenData( center_x, center_z, radius );
 		if( JsonHelper.isInt( json, chunkIndexName ) ) {
-			worldPregenData.setChunkIndex( JsonHelper.getInt( json, chunkIndexName ) );
+			worldPregenData.setChunkIndex( JsonHelper.getInt( json, chunkIndexName ) );//TODO: Set generated chunks
+			generated_chunks_count = worldPregenData.getChunkCount();
 		} else {
 			throw new IllegalArgumentException( "Invalid chunk index value." );
 		}
@@ -154,6 +162,16 @@ public class PregenTask implements Savable<JsonObject> {
 	public boolean isDimensionInvalid( MinecraftServer server ) {
 		
 		return server.getLevel( dimension ) == null;
+	}
+	
+	private synchronized void incGeneratedChunksCount() {
+		
+		generated_chunks_count++;
+	}
+	
+	private synchronized long getGeneratedChunksCount() {
+		
+		return generated_chunks_count;
 	}
 	
 	public int getCenterX() {
@@ -176,18 +194,28 @@ public class PregenTask implements Savable<JsonObject> {
 		return dimension;
 	}
 	
-	public int getChunkIndex() {
+	public long getChunkIndex() {
 		
-		return worldPregenData.getChunkIndex();
+		return getGeneratedChunksCount();
 	}
 	
-	public int getChunkCount() {
+	public long getChunkCount() {
 		
 		return worldPregenData.getChunkCount();
 	}
 	
-	public int getProgress() {
+	public long getProgress() {
 		
-		return worldPregenData.getProgess();
+		return getGeneratedChunksCount() * 100 / getChunkCount();
+	}
+	
+	public ThreadPoolExecutor getExecutor() {
+		
+		return executor;
+	}
+	
+	public void shutdown() {
+		
+		executor.shutdownNow();
 	}
 }

@@ -88,6 +88,11 @@ public class ServerConfig {
 	
 	public static int getThreadCount() {
 		
-		return PARALLEL_COUNT.get() == 0 ? Runtime.getRuntime().availableProcessors() : PARALLEL_COUNT.get();
+		return PARALLEL_COUNT.get() == 0 ? getProcessorCount() : PARALLEL_COUNT.get();
+	}
+	
+	private static int getProcessorCount() {
+		
+		return Runtime.getRuntime().availableProcessors();
 	}
 }
