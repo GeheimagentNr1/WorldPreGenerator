@@ -44,7 +44,7 @@ public class ServerConfig {
 			.define( "enabled", false );
 		PARALLEL_COUNT = BUILDER.comment( "How many chunk generation shall run in parallel? " +
 				"If the value is \"0\", the number of processor cores is used." )
-			.defineInRange( "count", 0, 0, Integer.MAX_VALUE );
+			.defineInRange( "count", 0, 0, getProcessorCount() << 1 );
 		BUILDER.pop();
 		
 		CONFIG = BUILDER.build();

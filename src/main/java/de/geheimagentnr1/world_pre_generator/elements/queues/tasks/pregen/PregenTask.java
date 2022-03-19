@@ -48,6 +48,8 @@ public class PregenTask implements Savable<JsonObject> {
 	
 	private long generated_chunks_count;
 	
+	private static int tryToPregenCount = 0;
+	
 	private final ThreadPoolExecutor executor =
 		(ThreadPoolExecutor)Executors.newFixedThreadPool( ServerConfig.getThreadCount() );
 	
@@ -73,13 +75,23 @@ public class PregenTask implements Savable<JsonObject> {
 			return true;
 		}
 		if( ServerConfig.isRunParallel() ) {
-			worldPregenData.nextChunk().ifPresent( currentPos -> {
-				if( shouldBeGenerated( server, currentPos ) ) {
-					executor.submit( () -> generate( server, currentPos ) );
-				} else {
-					incGeneratedChunksCount();
-				}
-			} );
+			if( ServerConfig.getThreadCount() << 1 > tryToPregenCount ) {
+				worldPregenData.nextChunk().ifPresent( currentPos -> {
+					if( shouldBeGenerated( server, currentPos ) ) {
+						tryToPregenCount++;//executor.getTaskCount()
+						executor.submit( () -> {
+							try {
+								generate( server, currentPos );
+							} catch( Exception ignored ) {
+							
+							}
+							tryToPregenCount--;
+						});
+					} else {
+						incGeneratedChunksCount();
+					}
+				} );
+			}
 		} else {
 			worldPregenData.nextChunk().ifPresent( currentPos -> {
 				if( shouldBeGenerated( server, currentPos ) ) {
