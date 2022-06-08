@@ -1,25 +1,16 @@
-buildscript {
-    repositories {
-        // These repositories are only for Gradle plugins, put any other repositories in the repository block further below
-        maven { url = 'https://maven.minecraftforge.net' }
-        mavenCentral()
-        google()
-        maven { url = "https://plugins.gradle.org/m2/" }
-    }
-    dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
-        classpath 'com.jaredsburrows:gradle-license-plugin:0.8.90'
-    }
-}
-// Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 plugins {
     id 'eclipse'
     id 'maven-publish'
+    id 'net.minecraftforge.gradle' version '5.+'
+    id("com.jaredsburrows.license") version "0.9.0"
+    id "net.linguica.maven-settings" version "0.5"
 }
-apply plugin: 'net.minecraftforge.gradle'
-apply plugin: 'com.jaredsburrows.license'
 
 delete "src/main/java/com"
+delete "changelog.txt"
+delete "CREDITS.txt"
+delete "LICENSE.txt"
+delete "README.txt"
 publish.dependsOn(clean)
 
 task copyLicenses(type: Copy) {
@@ -209,6 +200,10 @@ publishing {
     repositories {
         maven {
             url "file:../ModdingMavenRepositories"
+        }
+        maven {
+            name "minecraft-mods-repo"
+            url "https://secretsoft.jfrog.io/artifactory/minecraft-mods/"
         }
     }
 }

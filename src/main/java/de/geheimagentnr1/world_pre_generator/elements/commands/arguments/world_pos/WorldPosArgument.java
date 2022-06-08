@@ -14,7 +14,7 @@ import net.minecraft.commands.SharedSuggestionProvider;
 import net.minecraft.commands.arguments.coordinates.Coordinates;
 import net.minecraft.commands.arguments.coordinates.WorldCoordinate;
 import net.minecraft.commands.arguments.coordinates.WorldCoordinates;
-import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.Arrays;
@@ -31,7 +31,7 @@ public class WorldPosArgument implements ArgumentType<Coordinates> {
 	private static final Collection<String> EXAMPLES = Arrays.asList( "0 0", "~ ~", "1 -5", "~1 ~-2" );
 	
 	private static final SimpleCommandExceptionType WORLD_POS_INCOMPLETE =
-		new SimpleCommandExceptionType( new TextComponent( "Incomplete (expected 2 coordinates)" ) );
+		new SimpleCommandExceptionType( Component.literal( "Incomplete (expected 2 coordinates)" ) );
 	
 	public static WorldPosArgument worldPos() {
 		

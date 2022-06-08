@@ -4,8 +4,10 @@ import de.geheimagentnr1.world_pre_generator.config.ServerConfig;
 import de.geheimagentnr1.world_pre_generator.elements.queues.PregenTaskQueue;
 import de.geheimagentnr1.world_pre_generator.helpers.DimensionHelper;
 import net.minecraft.ChatFormatting;
-import net.minecraft.Util;
-import net.minecraft.network.chat.*;
+import net.minecraft.network.chat.ChatType;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
+import net.minecraft.network.chat.TextColor;
 import net.minecraft.server.MinecraftServer;
 
 import java.time.Duration;
@@ -56,7 +58,7 @@ public class PrinterSubTask extends TimedSubTask {
 			LocalDateTime new_time = LocalDateTime.now();
 			long duration = Duration.between( old_time, new_time ).getSeconds();
 			
-			Component message = new TextComponent( String.format(
+			Component message = Component.literal( String.format(
 				"pregen %s %d/%d(%d%%) %d chunks/s",
 				DimensionHelper.getNameOfDim( task.getDimension() ),
 				task.getChunkIndex(),
@@ -65,9 +67,9 @@ public class PrinterSubTask extends TimedSubTask {
 				Math.max( 0, task.getChunkIndex() - old_chunks ) / ( duration == 0 ? 1 : duration )
 			) ).setStyle( Style.EMPTY.withColor( TextColor.fromLegacyFormat( ChatFormatting.GRAY ) ) );
 			if( ServerConfig.isSendFeedbackEnabled() ) {
-				server.getPlayerList().broadcastMessage( message, ChatType.SYSTEM, Util.NIL_UUID );
+				server.getPlayerList().broadcastSystemMessage( message, ChatType.SYSTEM );
 			} else {
-				server.sendMessage( message, Util.NIL_UUID );
+				server.sendSystemMessage( message );
 			}
 			old_time = new_time;
 			old_chunks = task.getChunkIndex();
