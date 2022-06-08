@@ -10,13 +10,17 @@ import de.geheimagentnr1.world_pre_generator.save.Savable;
 import net.minecraft.ResourceLocationException;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.ChunkStatus;
 
 import javax.annotation.Nonnull;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
+import java.util.function.Predicate;
 
 
 public class PregenTask implements Savable<JsonObject> {
@@ -48,8 +52,6 @@ public class PregenTask implements Savable<JsonObject> {
 	
 	private long generated_chunks_count;
 	
-	private static int tryToPregenCount = 0;
-	
 	private final ThreadPoolExecutor executor =
 		(ThreadPoolExecutor)Executors.newFixedThreadPool( ServerConfig.getThreadCount() );
 	
@@ -75,17 +77,15 @@ public class PregenTask implements Savable<JsonObject> {
 			return true;
 		}
 		if( ServerConfig.isRunParallel() ) {
-			if( ServerConfig.getThreadCount() << 1 > tryToPregenCount ) {
+			if( (long)ServerConfig.getThreadCount() << 1 > executor.getTaskCount() - executor.getCompletedTaskCount() ) {
 				worldPregenData.nextChunk().ifPresent( currentPos -> {
 					if( shouldBeGenerated( server, currentPos ) ) {
-						tryToPregenCount++;//executor.getTaskCount()
 						executor.submit( () -> {
 							try {
 								generate( server, currentPos );
 							} catch( Exception ignored ) {
 							
 							}
-							tryToPregenCount--;
 						});
 					} else {
 						incGeneratedChunksCount();
@@ -106,8 +106,10 @@ public class PregenTask implements Savable<JsonObject> {
 	
 	private boolean shouldBeGenerated( MinecraftServer server, WorldPos pos ) {
 		
-		return forceGeneration || Objects.requireNonNull( server.getLevel( dimension ) ).getChunkSource()
-			.getChunk( pos.getX(), pos.getZ(), ChunkStatus.FULL, false ) == null;
+		ServerLevel serverLevel = Objects.requireNonNull( server.getLevel( dimension ) );
+		return forceGeneration || !serverLevel.hasChunk( pos.getX(), pos.getZ() )
+			&& Optional.ofNullable( serverLevel.getChunk( pos.getX(), pos.getZ(), ChunkStatus.EMPTY, true )).stream()
+			.noneMatch( chunk -> chunk.getStatus().isOrAfter( ChunkStatus.FULL ) );
 	}
 	
 	private void generate( MinecraftServer server, WorldPos pos ) {

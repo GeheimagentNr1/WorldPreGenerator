@@ -15,7 +15,6 @@ import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 
 
 public class PregenTaskList implements Savable<JsonArray> {
