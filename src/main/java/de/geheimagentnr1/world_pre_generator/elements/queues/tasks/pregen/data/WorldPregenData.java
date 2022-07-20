@@ -58,11 +58,6 @@ public class WorldPregenData {
 		return pos;
 	}
 	
-	public synchronized boolean fullyGenerated() {
-		
-		return chunk_index >= chunk_count;
-	}
-	
 	public synchronized long getChunkIndex() {
 		
 		return chunk_index;
@@ -76,10 +71,5 @@ public class WorldPregenData {
 	public long getChunkCount() {
 		
 		return chunk_count;
-	}
-	
-	public synchronized long getProgess() {
-		
-		return chunk_index * 100 / chunk_count;
 	}
 }

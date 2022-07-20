@@ -56,7 +56,6 @@ public class PrinterSubTask extends TimedSubTask {
 			LocalDateTime new_time = LocalDateTime.now();
 			long duration = Duration.between( old_time, new_time ).getSeconds();
 			
-			System.out.println(task.getExecutor().getActiveCount());
 			Component message = new TextComponent( String.format(
 				"pregen %s %d/%d(%d%%) %d chunks/s",
 				DimensionHelper.getNameOfDim( task.getDimension() ),

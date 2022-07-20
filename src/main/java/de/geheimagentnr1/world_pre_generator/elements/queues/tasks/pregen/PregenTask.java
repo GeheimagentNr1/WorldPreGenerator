@@ -12,7 +12,6 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.ChunkStatus;
 
 import javax.annotation.Nonnull;
@@ -20,7 +19,6 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
-import java.util.function.Predicate;
 
 
 public class PregenTask implements Savable<JsonObject> {
@@ -52,8 +50,7 @@ public class PregenTask implements Savable<JsonObject> {
 	
 	private long generated_chunks_count;
 	
-	private final ThreadPoolExecutor executor =
-		(ThreadPoolExecutor)Executors.newFixedThreadPool( ServerConfig.getThreadCount() );
+	private ThreadPoolExecutor executor;
 	
 	
 	public PregenTask( WorldPos center, int _radius, ResourceKey<Level> _dimension, boolean _forceGeneration ) {
@@ -77,7 +74,11 @@ public class PregenTask implements Savable<JsonObject> {
 			return true;
 		}
 		if( ServerConfig.isRunParallel() ) {
-			if( (long)ServerConfig.getThreadCount() << 1 > executor.getTaskCount() - executor.getCompletedTaskCount() ) {
+			if( executor == null || executor.isShutdown() ) {
+				executor = (ThreadPoolExecutor)Executors.newFixedThreadPool( ServerConfig.getThreadCount() );
+			}
+			if( (long)ServerConfig.getThreadCount() << 1 >
+				executor.getTaskCount() - executor.getCompletedTaskCount() ) {
 				worldPregenData.nextChunk().ifPresent( currentPos -> {
 					if( shouldBeGenerated( server, currentPos ) ) {
 						executor.submit( () -> {
@@ -86,7 +87,7 @@ public class PregenTask implements Savable<JsonObject> {
 							} catch( Exception ignored ) {
 							
 							}
-						});
+						} );
 					} else {
 						incGeneratedChunksCount();
 					}
@@ -108,7 +109,7 @@ public class PregenTask implements Savable<JsonObject> {
 		
 		ServerLevel serverLevel = Objects.requireNonNull( server.getLevel( dimension ) );
 		return forceGeneration || !serverLevel.hasChunk( pos.getX(), pos.getZ() )
-			&& Optional.ofNullable( serverLevel.getChunk( pos.getX(), pos.getZ(), ChunkStatus.EMPTY, true )).stream()
+			&& Optional.ofNullable( serverLevel.getChunk( pos.getX(), pos.getZ(), ChunkStatus.EMPTY, true ) ).stream()
 			.noneMatch( chunk -> chunk.getStatus().isOrAfter( ChunkStatus.FULL ) );
 	}
 	
@@ -166,8 +167,10 @@ public class PregenTask implements Savable<JsonObject> {
 		}
 		worldPregenData = new WorldPregenData( center_x, center_z, radius );
 		if( JsonHelper.isInt( json, chunkIndexName ) ) {
-			worldPregenData.setChunkIndex( JsonHelper.getInt( json, chunkIndexName ) );//TODO: Set generated chunks
-			generated_chunks_count = worldPregenData.getChunkCount();
+			worldPregenData.setChunkIndex( JsonHelper.getInt( json, chunkIndexName ) );
+			// Needed because of Synchronization
+			// noinspection CallToSimpleSetterFromWithinClass
+			setGeneratedChunksCount( worldPregenData.getChunkIndex() );
 		} else {
 			throw new IllegalArgumentException( "Invalid chunk index value." );
 		}
@@ -181,6 +184,11 @@ public class PregenTask implements Savable<JsonObject> {
 	private synchronized void incGeneratedChunksCount() {
 		
 		generated_chunks_count++;
+	}
+	
+	private synchronized void setGeneratedChunksCount( long _generated_chunks_count ) {
+		
+		generated_chunks_count = _generated_chunks_count;
 	}
 	
 	private synchronized long getGeneratedChunksCount() {
@@ -221,11 +229,6 @@ public class PregenTask implements Savable<JsonObject> {
 	public long getProgress() {
 		
 		return getGeneratedChunksCount() * 100 / getChunkCount();
-	}
-	
-	public ThreadPoolExecutor getExecutor() {
-		
-		return executor;
 	}
 	
 	public void shutdown() {
