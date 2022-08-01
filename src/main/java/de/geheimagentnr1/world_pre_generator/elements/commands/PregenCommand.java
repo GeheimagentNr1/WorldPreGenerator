@@ -116,7 +116,7 @@ public class PregenCommand {
 		ResourceKey<Level> dimension = DimensionArgument.getDimension( context, "dimension" ).dimension();
 		
 		pregenWorker.getQueue().startTask( new PregenTask(
-			new WorldPos( center.x, center.z ),
+			new WorldPos( center.toChunkPos().x, center.toChunkPos().z ),
 			radius,
 			dimension,
 			force
