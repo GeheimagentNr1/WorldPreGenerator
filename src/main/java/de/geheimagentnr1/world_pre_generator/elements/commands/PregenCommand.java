@@ -8,7 +8,6 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import de.geheimagentnr1.world_pre_generator.config.ServerConfig;
-import de.geheimagentnr1.world_pre_generator.elements.commands.arguments.world_pos.WorldPosArgument;
 import de.geheimagentnr1.world_pre_generator.elements.queues.tasks.pregen.PregenTask;
 import de.geheimagentnr1.world_pre_generator.elements.queues.tasks.pregen.data.WorldPos;
 import de.geheimagentnr1.world_pre_generator.elements.workers.PregenWorker;
@@ -16,8 +15,10 @@ import de.geheimagentnr1.world_pre_generator.helpers.DimensionHelper;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.DimensionArgument;
+import net.minecraft.commands.arguments.coordinates.ColumnPosArgument;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.level.ColumnPos;
 import net.minecraft.world.level.Level;
 
 import java.util.ArrayList;
@@ -33,24 +34,24 @@ public class PregenCommand {
 		
 		LiteralArgumentBuilder<CommandSourceStack> pregenCommand = Commands.literal( "pregen" )
 			.requires( source -> source.hasPermission( 2 ) );
-		pregenCommand.then( Commands.literal( "list" )
-			.executes( PregenCommand::printList ) );
-		pregenCommand.then( Commands.literal( "start" )
-			.then( Commands.argument( "center", WorldPosArgument.worldPos() )
-				.then( Commands.argument( "radius", IntegerArgumentType.integer( 1 ) )
-					.then( Commands.argument( "dimension", DimensionArgument.dimension() )
-						.executes( PregenCommand::start ) ) ) ) );
-		pregenCommand.then( Commands.literal( "resume" )
-			.then( Commands.argument( "dimension", DimensionArgument.dimension() )
-				.executes( PregenCommand::resume ) ) );
-		pregenCommand.then( Commands.literal( "pause" )
-			.then( Commands.argument( "dimension", DimensionArgument.dimension() )
-				.executes( PregenCommand::pause ) ) );
-		pregenCommand.then( Commands.literal( "cancel" )
-			.then( Commands.argument( "dimension", DimensionArgument.dimension() )
-				.executes( PregenCommand::cancel ) ) );
 		pregenCommand.then( Commands.literal( "clear" )
 			.executes( PregenCommand::clear ) );
+		pregenCommand.then( Commands.literal( "gen" )
+			.then( Commands.argument( "dimension", DimensionArgument.dimension() )
+				.then( Commands.literal( "cancel" )
+					.executes( PregenCommand::cancel ) )
+				.then( Commands.literal( "pause" )
+					.executes( PregenCommand::pause ) )
+				.then( Commands.literal( "resume" )
+					.executes( PregenCommand::resume ) )
+				.then( Commands.literal( "start" )
+					.then( Commands.argument( "center", ColumnPosArgument.columnPos() )
+						.then( Commands.argument( "radius", IntegerArgumentType.integer( 1 ) )
+							.executes( PregenCommand::startUnforced )
+							.then( Commands.argument( "force", BoolArgumentType.bool() )
+								.executes( PregenCommand::start ) ) ) ) ) ) );
+		pregenCommand.then( Commands.literal( "list" )
+			.executes( PregenCommand::printList ) );
 		pregenCommand.then( Commands.literal( "sendFeedback" )
 			.executes( PregenCommand::showSendFeedback )
 			.then( Commands.argument( "isFeedbackEnabled", BoolArgumentType.bool() )
@@ -96,14 +97,30 @@ public class PregenCommand {
 		return Command.SINGLE_SUCCESS;
 	}
 	
+	private static int startUnforced( CommandContext<CommandSourceStack> context ) throws CommandSyntaxException {
+		
+		return start( context, false );
+	}
+	
 	private static int start( CommandContext<CommandSourceStack> context ) throws CommandSyntaxException {
 		
+		return start( context, BoolArgumentType.getBool( context, "force" ) );
+	}
+	
+	private static int start( CommandContext<CommandSourceStack> context, boolean force )
+		throws CommandSyntaxException {
+		
 		CommandSourceStack source = context.getSource();
-		WorldPos center = WorldPosArgument.getWorldPos( context, "center" );
+		ColumnPos center = ColumnPosArgument.getColumnPos( context, "center" );
 		int radius = IntegerArgumentType.getInteger( context, "radius" );
 		ResourceKey<Level> dimension = DimensionArgument.getDimension( context, "dimension" ).dimension();
 		
-		pregenWorker.getQueue().startTask( new PregenTask( center, radius, dimension ) );
+		pregenWorker.getQueue().startTask( new PregenTask(
+			new WorldPos( center.x, center.z ),
+			radius,
+			dimension,
+			force
+		) );
 		source.sendSuccess(
 			new TextComponent( String.format(
 				"Task for %s got queued.",

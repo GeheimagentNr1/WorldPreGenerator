@@ -21,7 +21,7 @@ public class PrinterSubTask extends TimedSubTask {
 	
 	private LocalDateTime old_time;
 	
-	private int old_chunks;
+	private long old_chunks;
 	
 	public PrinterSubTask( PregenTaskQueue _queue ) {
 		
