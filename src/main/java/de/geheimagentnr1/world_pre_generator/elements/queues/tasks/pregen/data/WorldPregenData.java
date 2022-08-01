@@ -16,9 +16,9 @@ public class WorldPregenData {
 	
 	private int region_index = 0;
 	
-	private int chunk_index = 0;
+	private long chunk_index = 0;
 	
-	private final int chunk_count;
+	private final long chunk_count;
 	
 	private RegionPregenData current_region;
 	
@@ -26,7 +26,7 @@ public class WorldPregenData {
 		
 		start_chunk_pos = new WorldPos( center_x - radius, center_z - radius );
 		end_chunk_pos = new WorldPos( center_x + radius - 1, center_z + radius - 1 );
-		int diameter = radius << 1;//* 2
+		long diameter = (long)radius << 1;//* 2
 		start_region_pos = new WorldPos(
 			(int)Math.floor( ( start_chunk_pos.getX() + ( start_chunk_pos.getX() < 0 ? 0 : 1 ) ) / 32.0 ),
 			(int)Math.floor( ( start_chunk_pos.getZ() + ( start_chunk_pos.getZ() < 0 ? 0 : 1 ) ) / 32.0 )
@@ -58,12 +58,7 @@ public class WorldPregenData {
 		return pos;
 	}
 	
-	public synchronized boolean fullyGenerated() {
-		
-		return chunk_index >= chunk_count;
-	}
-	
-	public synchronized int getChunkIndex() {
+	public synchronized long getChunkIndex() {
 		
 		return chunk_index;
 	}
@@ -73,13 +68,8 @@ public class WorldPregenData {
 		chunk_index = _chunk_index;
 	}
 	
-	public int getChunkCount() {
+	public long getChunkCount() {
 		
 		return chunk_count;
-	}
-	
-	public synchronized int getProgess() {
-		
-		return chunk_index * 100 / chunk_count;
 	}
 }

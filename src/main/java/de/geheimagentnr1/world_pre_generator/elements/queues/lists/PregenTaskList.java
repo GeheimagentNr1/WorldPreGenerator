@@ -65,21 +65,22 @@ public class PregenTaskList implements Savable<JsonArray> {
 	
 	public Optional<PregenTask> getAndRemoveBy( ResourceKey<Level> dimension ) {
 		
-		return runFor( dimension, ( list, index ) -> task_list.remove( index.intValue() ) );
+		return runFor( dimension, ( list, index ) -> task_list.remove( index.intValue() ).shutdown() );
 	}
 	
 	public void removeFirst() {
 		
-		task_list.remove( 0 );
+		task_list.remove( 0 ).shutdown();
 	}
 	
 	public void removeBy( ResourceKey<Level> dimension ) {
 		
-		runFor( dimension, ( list, index ) -> task_list.remove( index.intValue() ) );
+		runFor( dimension, ( list, index ) -> task_list.remove( index.intValue() ).shutdown() );
 	}
 	
 	public void clear() {
 		
+		task_list.forEach( PregenTask::shutdown );
 		task_list.clear();
 	}
 	
@@ -88,9 +89,10 @@ public class PregenTaskList implements Savable<JsonArray> {
 	public JsonArray write() {
 		
 		JsonArray json = new JsonArray();
-		for( PregenTask task : task_list ) {
+		task_list.forEach( task -> {
+			task.shutdown();
 			json.add( task.write() );
-		}
+		} );
 		return json;
 	}
 	

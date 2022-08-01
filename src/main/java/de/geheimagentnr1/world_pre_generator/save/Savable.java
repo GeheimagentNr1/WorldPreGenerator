@@ -5,7 +5,7 @@ import com.google.gson.JsonElement;
 import javax.annotation.Nonnull;
 
 
-//Methods are only used in there subclasses, but not in this interface.
+//Methods are only used in their subclasses, but not in this interface.
 @SuppressWarnings( "unused" )
 public interface Savable<T extends JsonElement> {
 	
