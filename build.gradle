@@ -186,8 +186,7 @@ publishing {
     }
     repositories {
         maven {
-            url "https://secretsoft.jfrog.io/artifactory/minecraft-mods/"
-            credentials(PasswordCredentials)
+            url "file:../ModdingMavenRepositories"
         }
     }
 }
