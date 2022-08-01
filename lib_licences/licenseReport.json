@@ -602,7 +602,7 @@
   {
     "project": "Forge Service Provider Interface",
     "description": "API for services which can plug into forge, or which are used by forge in other places",
-    "version": "4.0.11",
+    "version": "4.0.15-4.x",
     "developers": [
       "cpw"
     ],
@@ -614,7 +614,7 @@
         "license_url": "https://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt"
       }
     ],
-    "dependency": "net.minecraftforge:forgespi:4.0.11"
+    "dependency": "net.minecraftforge:forgespi:4.0.15-4.x"
   },
   {
     "project": "Gson",
@@ -1202,14 +1202,14 @@
   {
     "project": "Secure Modular Jar handler",
     "description": "Making the Java modular system provide security information",
-    "version": "1.0.3",
+    "version": "1.0.5",
     "developers": [
       "cpw"
     ],
     "url": "https://github.com/McModLauncher/securejarhandler",
     "year": null,
     "licenses": [],
-    "dependency": "cpw.mods:securejarhandler:1.0.3"
+    "dependency": "cpw.mods:securejarhandler:1.0.5"
   },
   {
     "project": "SLF4J API Module",

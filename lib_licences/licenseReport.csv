@@ -45,7 +45,7 @@ FindBugs-jsr305,JSR305 Annotations for Findbugs,3.0.2,null,http://findbugs.sourc
 fmlcore,Modifactions to Minecraft to enable mod developers.,1.18.2-40.0.12,null,https://github.com/MinecraftForge/MinecraftForge,null,LGPL 2.1,https://github.com/MinecraftForge/MinecraftForge/blob/1.13-pre/LICENSE.txt,net.minecraftforge:fmlcore:1.18.2-40.0.12
 fmlloader,Modifactions to Minecraft to enable mod developers.,1.18.2-40.0.12,null,https://github.com/MinecraftForge/MinecraftForge,null,LGPL 2.1,https://github.com/MinecraftForge/MinecraftForge/blob/1.13-pre/LICENSE.txt,net.minecraftforge:fmlloader:1.18.2-40.0.12
 forge,null,1.18.2-40.0.12_mapped_official_1.18.2,null,null,null,null,null,net.minecraftforge:forge:1.18.2-40.0.12_mapped_official_1.18.2
-Forge Service Provider Interface,API for services which can plug into forge, or which are used by forge in other places,4.0.11,cpw,https://github.com/MinecraftForge/ForgeSPI,null,LGPLv2.1,https://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt,net.minecraftforge:forgespi:4.0.11
+Forge Service Provider Interface,API for services which can plug into forge, or which are used by forge in other places,4.0.15-4.x,cpw,https://github.com/MinecraftForge/ForgeSPI,null,LGPLv2.1,https://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt,net.minecraftforge:forgespi:4.0.15-4.x
 Gson,null,2.8.9,null,null,null,Apache-2.0,https://www.apache.org/licenses/LICENSE-2.0.txt,com.google.code.gson:gson:2.8.9
 Guava InternalFutureFailureAccess and InternalFutures,Contains
     com.google.common.util.concurrent.internal.InternalFutureFailureAccess and
@@ -110,7 +110,7 @@ oshi-core,null,5.8.5,null,null,null,MIT License,https://opensource.org/licenses/
 patchy,null,2.2.10,null,null,null,null,null,com.mojang:patchy:2.2.10
 Plexus Common Utilities,A collection of various utility classes to ease working with strings, files, command lines, XML and
     more.,3.2.1,null,null,null,Apache License, Version 2.0,http://www.apache.org/licenses/LICENSE-2.0.txt,org.codehaus.plexus:plexus-utils:3.2.1
-Secure Modular Jar handler,Making the Java modular system provide security information,1.0.3,cpw,https://github.com/McModLauncher/securejarhandler,null,null,null,cpw.mods:securejarhandler:1.0.3
+Secure Modular Jar handler,Making the Java modular system provide security information,1.0.5,cpw,https://github.com/McModLauncher/securejarhandler,null,null,null,cpw.mods:securejarhandler:1.0.5
 SLF4J API Module,The slf4j API,1.8.0-beta4,null,http://www.slf4j.org,null,MIT License,http://www.opensource.org/licenses/mit-license.php,org.slf4j:slf4j-api:1.8.0-beta4
 SRG Utils,Library for managing java obfusication mappings in various formats.,0.4.3,LexManos,https://github.com/MinecraftForge/SrgUtils,null,LGPLv2.1,https://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt,net.minecraftforge:srgutils:0.4.3
 StringTemplate 4,StringTemplate is a java template engine for generating source code,
