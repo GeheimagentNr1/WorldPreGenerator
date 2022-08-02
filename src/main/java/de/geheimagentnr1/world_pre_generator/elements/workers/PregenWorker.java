@@ -6,7 +6,6 @@ import de.geheimagentnr1.world_pre_generator.elements.queues.tasks.SaverSubTask;
 import de.geheimagentnr1.world_pre_generator.elements.queues.tasks.pregen.PregenTask;
 import de.geheimagentnr1.world_pre_generator.helpers.DimensionHelper;
 import net.minecraft.ChatFormatting;
-import net.minecraft.network.chat.ChatType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
@@ -72,7 +71,7 @@ public class PregenWorker implements WorldWorkerManager.IWorker {
 						"Generation of %s started.",
 						DimensionHelper.getNameOfDim( task.getDimension() )
 					) ).setStyle( Style.EMPTY.withColor( TextColor.fromLegacyFormat( ChatFormatting.GRAY ) ) ),
-					ChatType.SYSTEM
+					false
 				);
 				printer.start();
 				saver.start();
@@ -89,7 +88,7 @@ public class PregenWorker implements WorldWorkerManager.IWorker {
 						"Generation of %s finished.",
 						DimensionHelper.getNameOfDim( task.getDimension() )
 					) ).setStyle( Style.EMPTY.withColor( TextColor.fromLegacyFormat( ChatFormatting.GRAY ) ) ),
-					ChatType.SYSTEM
+					false
 				);
 				saver.execute();
 				queue.removeCurrentTask();

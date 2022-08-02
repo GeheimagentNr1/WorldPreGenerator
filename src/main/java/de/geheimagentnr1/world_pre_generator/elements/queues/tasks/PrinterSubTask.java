@@ -4,7 +4,6 @@ import de.geheimagentnr1.world_pre_generator.config.ServerConfig;
 import de.geheimagentnr1.world_pre_generator.elements.queues.PregenTaskQueue;
 import de.geheimagentnr1.world_pre_generator.helpers.DimensionHelper;
 import net.minecraft.ChatFormatting;
-import net.minecraft.network.chat.ChatType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
@@ -67,7 +66,7 @@ public class PrinterSubTask extends TimedSubTask {
 				Math.max( 0, task.getChunkIndex() - old_chunks ) / ( duration == 0 ? 1 : duration )
 			) ).setStyle( Style.EMPTY.withColor( TextColor.fromLegacyFormat( ChatFormatting.GRAY ) ) );
 			if( ServerConfig.isSendFeedbackEnabled() ) {
-				server.getPlayerList().broadcastSystemMessage( message, ChatType.SYSTEM );
+				server.getPlayerList().broadcastSystemMessage( message, false );
 			} else {
 				server.sendSystemMessage( message );
 			}
