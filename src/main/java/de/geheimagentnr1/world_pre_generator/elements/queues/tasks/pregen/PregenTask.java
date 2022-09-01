@@ -233,6 +233,8 @@ public class PregenTask implements Savable<JsonObject> {
 	
 	public void shutdown() {
 		
-		executor.shutdownNow();
+		if( executor != null && !executor.isShutdown() ) {
+			executor.shutdownNow();
+		}
 	}
 }
