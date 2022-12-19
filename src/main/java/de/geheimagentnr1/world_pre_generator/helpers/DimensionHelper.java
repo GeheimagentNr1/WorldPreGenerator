@@ -1,7 +1,7 @@
 package de.geheimagentnr1.world_pre_generator.helpers;
 
 
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
@@ -19,6 +19,6 @@ public class DimensionHelper {
 	
 	public static ResourceKey<Level> getDimFromName( String registry_name ) {
 		
-		return ResourceKey.create( Registry.DIMENSION_REGISTRY, new ResourceLocation( registry_name ) );
+		return ResourceKey.create( Registries.DIMENSION, new ResourceLocation( registry_name ) );
 	}
 }
