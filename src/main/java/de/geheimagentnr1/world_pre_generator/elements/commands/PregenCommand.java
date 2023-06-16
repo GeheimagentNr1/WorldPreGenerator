@@ -64,7 +64,7 @@ public class PregenCommand {
 		
 		for( PregenTask task : tasks ) {
 			source.sendSuccess(
-				Component.literal( String.format(
+				() -> Component.literal( String.format(
 					"%s %d %d %d",
 					DimensionHelper.getNameOfDim( task.getDimension() ),
 					task.getCenterX(),
@@ -80,17 +80,17 @@ public class PregenCommand {
 		
 		CommandSourceStack source = context.getSource();
 		if( pregenWorker.getQueue().noTasks() ) {
-			source.sendSuccess( Component.literal( "Pregeneration Tasklist is empty." ), false );
+			source.sendSuccess( () -> Component.literal( "Pregeneration Tasklist is empty." ), false );
 		} else {
-			source.sendSuccess( Component.literal( "Pregeneration Tasklist:" ), false );
+			source.sendSuccess( () -> Component.literal( "Pregeneration Tasklist:" ), false );
 			ArrayList<PregenTask> activeTasks = pregenWorker.getQueue().getActiveTasks();
 			ArrayList<PregenTask> pausedTasks = pregenWorker.getQueue().getPausedTasks();
 			if( !activeTasks.isEmpty() ) {
-				source.sendSuccess( Component.literal( "Queued Tasks:" ), false );
+				source.sendSuccess( () -> Component.literal( "Queued Tasks:" ), false );
 				printTasks( source, activeTasks );
 			}
 			if( !pausedTasks.isEmpty() ) {
-				source.sendSuccess( Component.literal( "Paused Tasks:" ), false );
+				source.sendSuccess( () -> Component.literal( "Paused Tasks:" ), false );
 				printTasks( source, pausedTasks );
 			}
 		}
@@ -122,7 +122,7 @@ public class PregenCommand {
 			force
 		) );
 		source.sendSuccess(
-			Component.literal( String.format(
+			() -> Component.literal( String.format(
 				"Task for %s got queued.",
 				DimensionHelper.getNameOfDim( dimension )
 			) ),
@@ -137,7 +137,7 @@ public class PregenCommand {
 		ResourceKey<Level> dimension = DimensionArgument.getDimension( context, "dimension" ).dimension();
 		pregenWorker.getQueue().resumeTask( dimension );
 		source.sendSuccess(
-			Component.literal( String.format(
+			() -> Component.literal( String.format(
 				"Task for %s was resumed.",
 				DimensionHelper.getNameOfDim( dimension )
 			) ),
@@ -152,7 +152,7 @@ public class PregenCommand {
 		ResourceKey<Level> dimension = DimensionArgument.getDimension( context, "dimension" ).dimension();
 		pregenWorker.getQueue().pauseTask( dimension );
 		source.sendSuccess(
-			Component.literal( String.format(
+			() -> Component.literal( String.format(
 				"Task for %s was paused.",
 				DimensionHelper.getNameOfDim( dimension )
 			) ),
@@ -167,7 +167,7 @@ public class PregenCommand {
 		ResourceKey<Level> dimension = DimensionArgument.getDimension( context, "dimension" ).dimension();
 		pregenWorker.getQueue().cancelTask( dimension );
 		source.sendSuccess(
-			Component.literal( String.format(
+			() -> Component.literal( String.format(
 				"Task for %s was canceled.",
 				DimensionHelper.getNameOfDim( dimension )
 			) ),
@@ -180,7 +180,7 @@ public class PregenCommand {
 		
 		CommandSourceStack source = context.getSource();
 		pregenWorker.getQueue().clear();
-		source.sendSuccess( Component.literal( "All Task were canceled." ), true );
+		source.sendSuccess( () -> Component.literal( "All Task were canceled." ), true );
 		return Command.SINGLE_SUCCESS;
 	}
 	
@@ -188,9 +188,9 @@ public class PregenCommand {
 		
 		CommandSourceStack source = context.getSource();
 		if( ServerConfig.isSendFeedbackEnabled() ) {
-			source.sendSuccess( Component.literal( "Feedback is enabled." ), false );
+			source.sendSuccess( () -> Component.literal( "Feedback is enabled." ), false );
 		} else {
-			source.sendSuccess( Component.literal( "Feedback is disabled." ), false );
+			source.sendSuccess( () -> Component.literal( "Feedback is disabled." ), false );
 		}
 		return Command.SINGLE_SUCCESS;
 	}
@@ -200,9 +200,9 @@ public class PregenCommand {
 		CommandSourceStack source = context.getSource();
 		ServerConfig.setSendFeedback( BoolArgumentType.getBool( context, "isFeedbackEnabled" ) );
 		if( ServerConfig.isSendFeedbackEnabled() ) {
-			source.sendSuccess( Component.literal( "Feedback is now enabled." ), false );
+			source.sendSuccess( () -> Component.literal( "Feedback is now enabled." ), false );
 		} else {
-			source.sendSuccess( Component.literal( "Feedback is now disabled." ), false );
+			source.sendSuccess( () -> Component.literal( "Feedback is now disabled." ), false );
 		}
 		return Command.SINGLE_SUCCESS;
 	}
