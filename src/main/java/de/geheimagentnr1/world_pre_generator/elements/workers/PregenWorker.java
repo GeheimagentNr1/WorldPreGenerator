@@ -1,5 +1,6 @@
 package de.geheimagentnr1.world_pre_generator.elements.workers;
 
+import de.geheimagentnr1.world_pre_generator.config.ServerConfig;
 import de.geheimagentnr1.world_pre_generator.elements.queues.PregenTaskQueue;
 import de.geheimagentnr1.world_pre_generator.elements.queues.tasks.PrinterSubTask;
 import de.geheimagentnr1.world_pre_generator.elements.queues.tasks.SaverSubTask;
@@ -11,6 +12,7 @@ import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.common.WorldWorkerManager;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
@@ -18,31 +20,31 @@ import java.util.Optional;
 public class PregenWorker implements WorldWorkerManager.IWorker {
 	
 	
-	private static final PregenWorker INSTANCE = new PregenWorker();
+	@NotNull
+	private final ServerConfig serverConfig;
+	
+	@NotNull
+	private final PregenTaskQueue queue;
+	
+	@NotNull
+	private final PrinterSubTask printer;
+	
+	@NotNull
+	private final SaverSubTask saver;
 	
 	private MinecraftServer server;
 	
-	private final PregenTaskQueue queue;
-	
-	private final PrinterSubTask printer;
-	
-	private final SaverSubTask saver;
-	
 	private boolean startingNewTask = true;
 	
-	private PregenWorker() {
+	public PregenWorker( @NotNull ServerConfig _serverConfig ) {
 		
+		serverConfig = _serverConfig;
 		queue = new PregenTaskQueue();
-		printer = new PrinterSubTask( queue );
-		saver = new SaverSubTask( printer );
+		printer = new PrinterSubTask( serverConfig, queue );
+		saver = new SaverSubTask( serverConfig, printer );
 	}
 	
-	public static PregenWorker getInstance() {
-		
-		return INSTANCE;
-	}
-	
-	public void setServer( MinecraftServer _server ) {
+	public void setServer( @NotNull MinecraftServer _server ) {
 		
 		server = _server;
 		queue.setServer( server );
@@ -76,7 +78,7 @@ public class PregenWorker implements WorldWorkerManager.IWorker {
 				printer.start();
 				saver.start();
 			}
-			boolean finished = task.generate( server );
+			boolean finished = task.generate( server, serverConfig );
 			printer.run();
 			saver.run();
 			if( finished ) {
@@ -100,6 +102,7 @@ public class PregenWorker implements WorldWorkerManager.IWorker {
 		return false;
 	}
 	
+	@NotNull
 	public PregenTaskQueue getQueue() {
 		
 		return queue;

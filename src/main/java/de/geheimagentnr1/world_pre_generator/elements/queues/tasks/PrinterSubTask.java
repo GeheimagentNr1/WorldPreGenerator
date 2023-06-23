@@ -3,31 +3,33 @@ package de.geheimagentnr1.world_pre_generator.elements.queues.tasks;
 import de.geheimagentnr1.world_pre_generator.config.ServerConfig;
 import de.geheimagentnr1.world_pre_generator.elements.queues.PregenTaskQueue;
 import de.geheimagentnr1.world_pre_generator.helpers.DimensionHelper;
+import lombok.RequiredArgsConstructor;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.server.MinecraftServer;
+import org.jetbrains.annotations.NotNull;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
 
 
+@RequiredArgsConstructor
 public class PrinterSubTask extends TimedSubTask {
 	
 	
-	private MinecraftServer server;
+	@NotNull
+	private final ServerConfig serverConfig;
 	
+	@NotNull
 	private final PregenTaskQueue queue;
+	
+	private MinecraftServer server;
 	
 	private LocalDateTime old_time;
 	
 	private long old_chunks;
-	
-	public PrinterSubTask( PregenTaskQueue _queue ) {
-		
-		queue = _queue;
-	}
 	
 	@Override
 	public void start() {
@@ -47,7 +49,7 @@ public class PrinterSubTask extends TimedSubTask {
 	//package-private
 	int getDelay() {
 		
-		return ServerConfig.getPrintDelay();
+		return serverConfig.getPrintDelay();
 	}
 	
 	@Override
@@ -65,7 +67,7 @@ public class PrinterSubTask extends TimedSubTask {
 				task.getProgress(),
 				Math.max( 0, task.getChunkIndex() - old_chunks ) / ( duration == 0 ? 1 : duration )
 			) ).setStyle( Style.EMPTY.withColor( TextColor.fromLegacyFormat( ChatFormatting.GRAY ) ) );
-			if( ServerConfig.isSendFeedbackEnabled() ) {
+			if( serverConfig.isSendFeedbackEnabled() ) {
 				server.getPlayerList().broadcastSystemMessage( message, false );
 			} else {
 				server.sendSystemMessage( message );
@@ -75,7 +77,7 @@ public class PrinterSubTask extends TimedSubTask {
 		} );
 	}
 	
-	public void setServer( MinecraftServer _server ) {
+	public void setServer( @NotNull MinecraftServer _server ) {
 		
 		server = _server;
 	}

@@ -2,25 +2,27 @@ package de.geheimagentnr1.world_pre_generator.elements.queues.tasks;
 
 import de.geheimagentnr1.world_pre_generator.config.ServerConfig;
 import de.geheimagentnr1.world_pre_generator.helpers.SaveHelper;
+import lombok.RequiredArgsConstructor;
 import net.minecraft.server.MinecraftServer;
+import org.jetbrains.annotations.NotNull;
 
 
+@RequiredArgsConstructor
 public class SaverSubTask extends TimedSubTask {
 	
 	
-	private MinecraftServer server;
+	@NotNull
+	private final ServerConfig serverConfig;
 	
+	@NotNull
 	private final PrinterSubTask printer;
 	
-	public SaverSubTask( PrinterSubTask _printer ) {
-		
-		printer = _printer;
-	}
+	private MinecraftServer server;
 	
 	//package-private
 	int getDelay() {
 		
-		return ServerConfig.getSaveDelay();
+		return serverConfig.getSaveDelay();
 	}
 	
 	@SuppressWarnings( "CallToSystemGC" )
@@ -33,7 +35,7 @@ public class SaverSubTask extends TimedSubTask {
 		printer.resume();
 	}
 	
-	public void setServer( MinecraftServer _server ) {
+	public void setServer( @NotNull MinecraftServer _server ) {
 		
 		server = _server;
 	}

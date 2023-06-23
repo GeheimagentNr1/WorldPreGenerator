@@ -1,6 +1,7 @@
 package de.geheimagentnr1.world_pre_generator.elements.queues.tasks;
 
 import com.google.common.base.Stopwatch;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.TimeUnit;
 
@@ -8,6 +9,7 @@ import java.util.concurrent.TimeUnit;
 public abstract class TimedSubTask {
 	
 	
+	@NotNull
 	private final Stopwatch timer = Stopwatch.createStarted();
 	
 	public void start() {

@@ -1,17 +1,18 @@
 package de.geheimagentnr1.world_pre_generator.elements.commands;
 
 import com.mojang.brigadier.Command;
-import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.BoolArgumentType;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import de.geheimagentnr1.minecraft_forge_api.elements.commands.CommandInterface;
 import de.geheimagentnr1.world_pre_generator.config.ServerConfig;
 import de.geheimagentnr1.world_pre_generator.elements.queues.tasks.pregen.PregenTask;
 import de.geheimagentnr1.world_pre_generator.elements.queues.tasks.pregen.data.WorldPos;
 import de.geheimagentnr1.world_pre_generator.elements.workers.PregenWorker;
 import de.geheimagentnr1.world_pre_generator.helpers.DimensionHelper;
+import lombok.RequiredArgsConstructor;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.DimensionArgument;
@@ -20,47 +21,54 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ColumnPos;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
 
 @SuppressWarnings( "SameReturnValue" )
-public class PregenCommand {
+@RequiredArgsConstructor
+public class PregenCommand implements CommandInterface {
 	
 	
-	private static PregenWorker pregenWorker;
+	@NotNull
+	private final ServerConfig serverConfig;
 	
-	public static void register( CommandDispatcher<CommandSourceStack> dispatcher, PregenWorker _pregenWorker ) {
+	@NotNull
+	private final PregenWorker pregenWorker;
+	
+	@NotNull
+	@Override
+	public LiteralArgumentBuilder<CommandSourceStack> build() {
 		
 		LiteralArgumentBuilder<CommandSourceStack> pregenCommand = Commands.literal( "pregen" )
 			.requires( source -> source.hasPermission( 2 ) );
 		pregenCommand.then( Commands.literal( "clear" )
-			.executes( PregenCommand::clear ) );
+			.executes( this::clear ) );
 		pregenCommand.then( Commands.literal( "gen" )
 			.then( Commands.argument( "dimension", DimensionArgument.dimension() )
 				.then( Commands.literal( "cancel" )
-					.executes( PregenCommand::cancel ) )
+					.executes( this::cancel ) )
 				.then( Commands.literal( "pause" )
-					.executes( PregenCommand::pause ) )
+					.executes( this::pause ) )
 				.then( Commands.literal( "resume" )
-					.executes( PregenCommand::resume ) )
+					.executes( this::resume ) )
 				.then( Commands.literal( "start" )
 					.then( Commands.argument( "center", ColumnPosArgument.columnPos() )
 						.then( Commands.argument( "radius", IntegerArgumentType.integer( 1 ) )
-							.executes( PregenCommand::startUnforced )
+							.executes( this::startUnforced )
 							.then( Commands.argument( "force", BoolArgumentType.bool() )
-								.executes( PregenCommand::start ) ) ) ) ) ) );
+								.executes( this::start ) ) ) ) ) ) );
 		pregenCommand.then( Commands.literal( "list" )
-			.executes( PregenCommand::printList ) );
+			.executes( this::printList ) );
 		pregenCommand.then( Commands.literal( "sendFeedback" )
-			.executes( PregenCommand::showSendFeedback )
+			.executes( this::showSendFeedback )
 			.then( Commands.argument( "isFeedbackEnabled", BoolArgumentType.bool() )
-				.executes( PregenCommand::setSendFeedback ) ) );
-		dispatcher.register( pregenCommand );
-		pregenWorker = _pregenWorker;
+				.executes( this::setSendFeedback ) ) );
+		return pregenCommand;
 	}
 	
-	private static void printTasks( CommandSourceStack source, ArrayList<PregenTask> tasks ) {
+	private void printTasks( @NotNull CommandSourceStack source, @NotNull ArrayList<PregenTask> tasks ) {
 		
 		for( PregenTask task : tasks ) {
 			source.sendSuccess(
@@ -76,7 +84,7 @@ public class PregenCommand {
 		}
 	}
 	
-	private static int printList( CommandContext<CommandSourceStack> context ) {
+	private int printList( @NotNull CommandContext<CommandSourceStack> context ) {
 		
 		CommandSourceStack source = context.getSource();
 		if( pregenWorker.getQueue().noTasks() ) {
@@ -97,17 +105,17 @@ public class PregenCommand {
 		return Command.SINGLE_SUCCESS;
 	}
 	
-	private static int startUnforced( CommandContext<CommandSourceStack> context ) throws CommandSyntaxException {
+	private int startUnforced( @NotNull CommandContext<CommandSourceStack> context ) throws CommandSyntaxException {
 		
 		return start( context, false );
 	}
 	
-	private static int start( CommandContext<CommandSourceStack> context ) throws CommandSyntaxException {
+	private int start( @NotNull CommandContext<CommandSourceStack> context ) throws CommandSyntaxException {
 		
 		return start( context, BoolArgumentType.getBool( context, "force" ) );
 	}
 	
-	private static int start( CommandContext<CommandSourceStack> context, boolean force )
+	private int start( @NotNull CommandContext<CommandSourceStack> context, boolean force )
 		throws CommandSyntaxException {
 		
 		CommandSourceStack source = context.getSource();
@@ -131,7 +139,7 @@ public class PregenCommand {
 		return Command.SINGLE_SUCCESS;
 	}
 	
-	private static int resume( CommandContext<CommandSourceStack> context ) throws CommandSyntaxException {
+	private int resume( @NotNull CommandContext<CommandSourceStack> context ) throws CommandSyntaxException {
 		
 		CommandSourceStack source = context.getSource();
 		ResourceKey<Level> dimension = DimensionArgument.getDimension( context, "dimension" ).dimension();
@@ -146,7 +154,7 @@ public class PregenCommand {
 		return Command.SINGLE_SUCCESS;
 	}
 	
-	private static int pause( CommandContext<CommandSourceStack> context ) throws CommandSyntaxException {
+	private int pause( @NotNull CommandContext<CommandSourceStack> context ) throws CommandSyntaxException {
 		
 		CommandSourceStack source = context.getSource();
 		ResourceKey<Level> dimension = DimensionArgument.getDimension( context, "dimension" ).dimension();
@@ -161,7 +169,7 @@ public class PregenCommand {
 		return Command.SINGLE_SUCCESS;
 	}
 	
-	private static int cancel( CommandContext<CommandSourceStack> context ) throws CommandSyntaxException {
+	private int cancel( @NotNull CommandContext<CommandSourceStack> context ) throws CommandSyntaxException {
 		
 		CommandSourceStack source = context.getSource();
 		ResourceKey<Level> dimension = DimensionArgument.getDimension( context, "dimension" ).dimension();
@@ -176,7 +184,7 @@ public class PregenCommand {
 		return Command.SINGLE_SUCCESS;
 	}
 	
-	private static int clear( CommandContext<CommandSourceStack> context ) {
+	private int clear( @NotNull CommandContext<CommandSourceStack> context ) {
 		
 		CommandSourceStack source = context.getSource();
 		pregenWorker.getQueue().clear();
@@ -184,10 +192,10 @@ public class PregenCommand {
 		return Command.SINGLE_SUCCESS;
 	}
 	
-	private static int showSendFeedback( CommandContext<CommandSourceStack> context ) {
+	private int showSendFeedback( @NotNull CommandContext<CommandSourceStack> context ) {
 		
 		CommandSourceStack source = context.getSource();
-		if( ServerConfig.isSendFeedbackEnabled() ) {
+		if( serverConfig.isSendFeedbackEnabled() ) {
 			source.sendSuccess( () -> Component.literal( "Feedback is enabled." ), false );
 		} else {
 			source.sendSuccess( () -> Component.literal( "Feedback is disabled." ), false );
@@ -195,11 +203,11 @@ public class PregenCommand {
 		return Command.SINGLE_SUCCESS;
 	}
 	
-	private static int setSendFeedback( CommandContext<CommandSourceStack> context ) {
+	private int setSendFeedback( @NotNull CommandContext<CommandSourceStack> context ) {
 		
 		CommandSourceStack source = context.getSource();
-		ServerConfig.setSendFeedback( BoolArgumentType.getBool( context, "isFeedbackEnabled" ) );
-		if( ServerConfig.isSendFeedbackEnabled() ) {
+		serverConfig.setSendFeedback( BoolArgumentType.getBool( context, "isFeedbackEnabled" ) );
+		if( serverConfig.isSendFeedbackEnabled() ) {
 			source.sendSuccess( () -> Component.literal( "Feedback is now enabled." ), false );
 		} else {
 			source.sendSuccess( () -> Component.literal( "Feedback is now disabled." ), false );

@@ -1,5 +1,7 @@
 package de.geheimagentnr1.world_pre_generator.elements.queues.tasks.pregen.data;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Optional;
 
 
@@ -7,6 +9,7 @@ import java.util.Optional;
 class RegionPregenData {
 	
 	
+	@NotNull
 	private final WorldPos start_gen_chunk_pos;
 	
 	private final int x_chunk_count;
@@ -16,7 +19,10 @@ class RegionPregenData {
 	private final int chunk_count;
 	
 	//package-private
-	RegionPregenData( WorldPos region_pos, WorldPos start_chunk_pos, WorldPos end_chunk_pos ) {
+	RegionPregenData(
+		@NotNull WorldPos region_pos,
+		@NotNull WorldPos start_chunk_pos,
+		@NotNull WorldPos end_chunk_pos ) {
 		
 		WorldPos start_region_chunk_pos = new WorldPos(
 			region_pos.getX() << 5,//* 32
@@ -40,6 +46,7 @@ class RegionPregenData {
 	}
 	
 	//package-private
+	@NotNull
 	Optional<WorldPos> nextChunk() {
 		
 		if( isFullyGenerated() ) {

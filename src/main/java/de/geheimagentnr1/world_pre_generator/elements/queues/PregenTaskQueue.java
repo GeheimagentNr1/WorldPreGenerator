@@ -9,8 +9,8 @@ import de.geheimagentnr1.world_pre_generator.save.Savable;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -18,26 +18,33 @@ import java.util.Optional;
 public class PregenTaskQueue implements Savable<JsonObject> {
 	
 	
+	@NotNull
 	private static final String activeTasksName = "active_tasks";
 	
+	@NotNull
 	private static final String pausedTasksName = "paused_tasks";
+	
+	@NotNull
+	private final PregenTaskList active_tasks = new PregenTaskList();
+	
+	@NotNull
+	private final PregenTaskList paused_tasks = new PregenTaskList();
 	
 	private MinecraftServer server;
 	
-	private final PregenTaskList active_tasks = new PregenTaskList();
-	
-	private final PregenTaskList paused_tasks = new PregenTaskList();
-	
+	@NotNull
 	public synchronized Optional<PregenTask> getCurrentTask() {
 		
 		return active_tasks.getFirst();
 	}
 	
+	@NotNull
 	public ArrayList<PregenTask> getActiveTasks() {
 		
 		return active_tasks.getTaskList();
 	}
 	
+	@NotNull
 	public ArrayList<PregenTask> getPausedTasks() {
 		
 		return paused_tasks.getTaskList();
@@ -53,27 +60,27 @@ public class PregenTaskQueue implements Savable<JsonObject> {
 		return active_tasks.isEmpty() && paused_tasks.isEmpty();
 	}
 	
-	public synchronized void startTask( PregenTask new_task ) {
+	public synchronized void startTask( @NotNull PregenTask new_task ) {
 		
 		active_tasks.addOrReplace( new_task );
 		paused_tasks.removeBy( new_task.getDimension() );
 		SaveHelper.saveWorld( server );
 	}
 	
-	public synchronized void resumeTask( ResourceKey<Level> dimension ) {
+	public synchronized void resumeTask( @NotNull ResourceKey<Level> dimension ) {
 		
 		paused_tasks.getAndRemoveBy( dimension ).ifPresent( active_tasks::addOrReplace );
 		SaveHelper.saveWorld( server );
 		
 	}
 	
-	public synchronized void pauseTask( ResourceKey<Level> dimension ) {
+	public synchronized void pauseTask( @NotNull ResourceKey<Level> dimension ) {
 		
 		active_tasks.getAndRemoveBy( dimension ).ifPresent( paused_tasks::addOrReplace );
 		SaveHelper.saveWorld( server );
 	}
 	
-	public synchronized void cancelTask( ResourceKey<Level> dimension ) {
+	public synchronized void cancelTask( @NotNull ResourceKey<Level> dimension ) {
 		
 		active_tasks.runFor( dimension, ( list, index ) -> list.get( index ).cancel() );
 		paused_tasks.removeBy( dimension );
@@ -98,7 +105,7 @@ public class PregenTaskQueue implements Savable<JsonObject> {
 		SaveHelper.saveWorld( server );
 	}
 	
-	@Nonnull
+	@NotNull
 	@Override
 	public synchronized JsonObject write() {
 		
@@ -108,7 +115,7 @@ public class PregenTaskQueue implements Savable<JsonObject> {
 		return json;
 	}
 	
-	public synchronized void read( @Nonnull JsonObject json ) {
+	public synchronized void read( @NotNull JsonObject json ) {
 		
 		if( JsonHelper.isJsonArray( json, activeTasksName ) ) {
 			active_tasks.read( json.getAsJsonArray( activeTasksName ) );
@@ -118,7 +125,7 @@ public class PregenTaskQueue implements Savable<JsonObject> {
 		}
 	}
 	
-	public synchronized void setServer( MinecraftServer _server ) {
+	public synchronized void setServer( @NotNull MinecraftServer _server ) {
 		
 		server = _server;
 		active_tasks.checkTasks( server );

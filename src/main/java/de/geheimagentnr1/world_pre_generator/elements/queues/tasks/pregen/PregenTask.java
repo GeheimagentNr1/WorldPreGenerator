@@ -13,8 +13,8 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.chunk.ChunkStatus;
+import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.Executors;
@@ -24,14 +24,19 @@ import java.util.concurrent.ThreadPoolExecutor;
 public class PregenTask implements Savable<JsonObject> {
 	
 	
+	@NotNull
 	private static final String centerXName = "center_x";
 	
+	@NotNull
 	private static final String centerZName = "center_z";
 	
+	@NotNull
 	private static final String radiusName = "radius";
 	
+	@NotNull
 	private static final String chunkIndexName = "chunk_index";
 	
+	@NotNull
 	private static final String dimensionName = "dimension";
 	
 	private int center_x;
@@ -53,7 +58,11 @@ public class PregenTask implements Savable<JsonObject> {
 	private ThreadPoolExecutor executor;
 	
 	
-	public PregenTask( WorldPos center, int _radius, ResourceKey<Level> _dimension, boolean _forceGeneration ) {
+	public PregenTask(
+		@NotNull WorldPos center,
+		int _radius,
+		@NotNull ResourceKey<Level> _dimension,
+		boolean _forceGeneration ) {
 		
 		center_x = center.getX();
 		center_z = center.getZ();
@@ -68,16 +77,16 @@ public class PregenTask implements Savable<JsonObject> {
 		//No Op
 	}
 	
-	public boolean generate( MinecraftServer server ) {
+	public boolean generate( @NotNull MinecraftServer server, @NotNull ServerConfig serverConfig ) {
 		
 		if( canceled ) {
 			return true;
 		}
-		if( ServerConfig.isRunParallel() ) {
+		if( serverConfig.isRunParallel() ) {
 			if( executor == null || executor.isShutdown() ) {
-				executor = (ThreadPoolExecutor)Executors.newFixedThreadPool( ServerConfig.getThreadCount() );
+				executor = (ThreadPoolExecutor)Executors.newFixedThreadPool( serverConfig.getThreadCount() );
 			}
-			if( (long)ServerConfig.getThreadCount() << 1 >
+			if( (long)serverConfig.getThreadCount() << 1 >
 				executor.getTaskCount() - executor.getCompletedTaskCount() ) {
 				worldPregenData.nextChunk().ifPresent( currentPos -> {
 					if( shouldBeGenerated( server, currentPos ) ) {
@@ -105,7 +114,7 @@ public class PregenTask implements Savable<JsonObject> {
 		return getGeneratedChunksCount() >= getChunkCount();
 	}
 	
-	private boolean shouldBeGenerated( MinecraftServer server, WorldPos pos ) {
+	private boolean shouldBeGenerated( @NotNull MinecraftServer server, @NotNull WorldPos pos ) {
 		
 		ServerLevel serverLevel = Objects.requireNonNull( server.getLevel( dimension ) );
 		return forceGeneration || !serverLevel.hasChunk( pos.getX(), pos.getZ() )
@@ -113,7 +122,7 @@ public class PregenTask implements Savable<JsonObject> {
 			.noneMatch( chunk -> chunk.getStatus().isOrAfter( ChunkStatus.FULL ) );
 	}
 	
-	private void generate( MinecraftServer server, WorldPos pos ) {
+	private void generate( @NotNull MinecraftServer server, @NotNull WorldPos pos ) {
 		
 		Objects.requireNonNull( server.getLevel( dimension ) ).getChunkSource()
 			.getChunk( pos.getX(), pos.getZ(), ChunkStatus.FULL, true );
@@ -125,7 +134,7 @@ public class PregenTask implements Savable<JsonObject> {
 		canceled = true;
 	}
 	
-	@Nonnull
+	@NotNull
 	@Override
 	public JsonObject write() {
 		
@@ -139,7 +148,7 @@ public class PregenTask implements Savable<JsonObject> {
 	}
 	
 	@Override
-	public void read( @Nonnull JsonObject json ) {
+	public void read( @NotNull JsonObject json ) {
 		
 		if( JsonHelper.isInt( json, centerXName ) ) {
 			center_x = JsonHelper.getInt( json, centerXName );
@@ -176,7 +185,7 @@ public class PregenTask implements Savable<JsonObject> {
 		}
 	}
 	
-	public boolean isDimensionInvalid( MinecraftServer server ) {
+	public boolean isDimensionInvalid( @NotNull MinecraftServer server ) {
 		
 		return server.getLevel( dimension ) == null;
 	}
@@ -211,6 +220,7 @@ public class PregenTask implements Savable<JsonObject> {
 		return radius;
 	}
 	
+	@NotNull
 	public ResourceKey<Level> getDimension() {
 		
 		return dimension;

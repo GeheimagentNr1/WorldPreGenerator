@@ -1,12 +1,17 @@
 package de.geheimagentnr1.world_pre_generator.save;
 
 import com.google.gson.*;
+import de.geheimagentnr1.minecraft_forge_api.events.ForgeEventHandlerInterface;
 import de.geheimagentnr1.world_pre_generator.elements.workers.PregenWorker;
 import de.geheimagentnr1.world_pre_generator.helpers.JsonHelper;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import net.minecraft.world.level.storage.LevelResource;
+import net.minecraftforge.event.server.ServerStartingEvent;
+import net.minecraftforge.event.server.ServerStoppedEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.server.ServerLifecycleHooks;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -14,61 +19,71 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 
-public class PregenerationWorldPersistencer {
+@Log4j2
+@RequiredArgsConstructor
+public class PregenerationWorldPersistencer implements ForgeEventHandlerInterface {
 	
 	
-	private static final Logger LOGGER = LogManager.getLogger( PregenerationWorldPersistencer.class );
-	
-	private static final PregenerationWorldPersistencer INSTANCE = new PregenerationWorldPersistencer();
-	
+	@NotNull
 	private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 	
+	@NotNull
 	private static final LevelResource WORLD_PRE_GENERATOR_RESOURCE = new LevelResource( "world_pre_generator.dat" );
 	
+	@NotNull
 	private static final String queueName = "queue";
 	
-	private static final PregenWorker PREGEN_WORKER = PregenWorker.getInstance();
+	@NotNull
+	private final PregenWorker pregenWorker;
 	
-	private PregenerationWorldPersistencer() {
-	
-	}
-	
-	public static PregenerationWorldPersistencer getInstance() {
-		
-		return INSTANCE;
-	}
-	
+	@NotNull
 	private String getFilePath() {
 		
 		return ServerLifecycleHooks.getCurrentServer().getWorldPath( WORLD_PRE_GENERATOR_RESOURCE ).toString();
 	}
 	
-	public void load() {
+	private void load() {
 		
 		try( FileReader reader = new FileReader( getFilePath() ) ) {
 			JsonObject json = GSON.fromJson( reader, JsonObject.class );
 			
 			if( JsonHelper.isJsonObject( json, queueName ) ) {
-				PREGEN_WORKER.clearUp();
-				PREGEN_WORKER.getQueue().read( json.getAsJsonObject( queueName ) );
+				pregenWorker.clearUp();
+				pregenWorker.getQueue().read( json.getAsJsonObject( queueName ) );
 			}
 		} catch( FileNotFoundException ignored ) {
-			LOGGER.debug( "File {} not found", getFilePath() );
+			log.debug( "File {} not found", getFilePath() );
 		} catch( JsonParseException | IOException exception ) {
-			LOGGER.error( "{} could not be readed", getFilePath(), exception );
+			log.error( "{} could not be readed", getFilePath(), exception );
 		}
 	}
 	
-	public void save() {
+	private void save() {
 		
 		JsonObject json = new JsonObject();
-		json.add( queueName, PREGEN_WORKER.getQueue().write() );
+		json.add( queueName, pregenWorker.getQueue().write() );
 		
 		try( FileWriter writer = new FileWriter( getFilePath() ) ) {
 			
 			GSON.toJson( json, writer );
 		} catch( IOException | JsonIOException exception ) {
-			LOGGER.error( "{} could not be written", getFilePath(), exception );
+			log.error( "{} could not be written", getFilePath(), exception );
 		}
+	}
+	
+	@SubscribeEvent
+	@Override
+	public void handleServerStartingEvent( @NotNull ServerStartingEvent event ) {
+		
+		pregenWorker.setServer( event.getServer() );
+		load();
+	}
+	
+	@SubscribeEvent
+	@Override
+	public void handleServerStoppedEvent( @NotNull ServerStoppedEvent event ) {
+		
+		save();
+		pregenWorker.clearUp();
 	}
 }
