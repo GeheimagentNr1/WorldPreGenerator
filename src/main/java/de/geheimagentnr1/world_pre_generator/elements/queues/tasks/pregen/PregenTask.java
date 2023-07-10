@@ -7,6 +7,7 @@ import de.geheimagentnr1.world_pre_generator.elements.queues.tasks.pregen.data.W
 import de.geheimagentnr1.world_pre_generator.helpers.DimensionHelper;
 import de.geheimagentnr1.world_pre_generator.helpers.JsonHelper;
 import de.geheimagentnr1.world_pre_generator.save.Savable;
+import lombok.Getter;
 import net.minecraft.ResourceLocationException;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
@@ -25,6 +26,9 @@ public class PregenTask implements Savable<JsonObject> {
 	
 	
 	@NotNull
+	private static final String taskTypeName = "type";
+	
+	@NotNull
 	private static final String centerXName = "center_x";
 	
 	@NotNull
@@ -39,14 +43,22 @@ public class PregenTask implements Savable<JsonObject> {
 	@NotNull
 	private static final String dimensionName = "dimension";
 	
-	private int center_x;
+	@Getter
+	private TaskType taskType;
 	
-	private int center_z;
+	@Getter
+	private int centerX;
 	
+	@Getter
+	private int centerZ;
+	
+	@Getter
 	private int radius;
 	
+	@Getter
 	private boolean forceGeneration;
 	
+	@Getter
 	private ResourceKey<Level> dimension;
 	
 	private boolean canceled = false;
@@ -59,17 +71,19 @@ public class PregenTask implements Savable<JsonObject> {
 	
 	
 	public PregenTask(
+		@NotNull TaskType _taskType,
 		@NotNull WorldPos center,
 		int _radius,
 		@NotNull ResourceKey<Level> _dimension,
 		boolean _forceGeneration ) {
 		
-		center_x = center.getX();
-		center_z = center.getZ();
+		taskType = _taskType;
+		centerX = center.getX();
+		centerZ = center.getZ();
 		radius = _radius;
 		dimension = _dimension;
 		forceGeneration = _forceGeneration;
-		worldPregenData = new WorldPregenData( center_x, center_z, radius );
+		worldPregenData = new WorldPregenData( centerX, centerZ, radius );
 	}
 	
 	public PregenTask() {
@@ -82,34 +96,36 @@ public class PregenTask implements Savable<JsonObject> {
 		if( canceled ) {
 			return true;
 		}
-		if( serverConfig.isRunParallel() ) {
-			if( executor == null || executor.isShutdown() ) {
-				executor = (ThreadPoolExecutor)Executors.newFixedThreadPool( serverConfig.getThreadCount() );
-			}
-			if( (long)serverConfig.getThreadCount() << 1 >
-				executor.getTaskCount() - executor.getCompletedTaskCount() ) {
-				worldPregenData.nextChunk().ifPresent( currentPos -> {
-					if( shouldBeGenerated( server, currentPos ) ) {
-						executor.submit( () -> {
-							try {
-								generate( server, currentPos );
-							} catch( Exception ignored ) {
-							
-							}
-						} );
-					} else {
-						incGeneratedChunksCount();
-					}
-				} );
-			}
-		} else {
-			worldPregenData.nextChunk().ifPresent( currentPos -> {
+		switch( serverConfig.getGenerationType() ) {
+			case SERIAL -> worldPregenData.nextChunk().ifPresent( currentPos -> {
 				if( shouldBeGenerated( server, currentPos ) ) {
 					generate( server, currentPos );
 				} else {
 					incGeneratedChunksCount();
 				}
 			} );
+			case SEMI_PARALLEL -> {
+				if( executor == null || executor.isShutdown() ) {
+					executor =
+						(ThreadPoolExecutor)Executors.newFixedThreadPool( serverConfig.getGenerationSemiParallelTaskCount() );
+				}
+				if( (long)serverConfig.getGenerationSemiParallelTaskCount() << 1 >
+					executor.getTaskCount() - executor.getCompletedTaskCount() ) {
+					worldPregenData.nextChunk().ifPresent( currentPos -> {
+						if( shouldBeGenerated( server, currentPos ) ) {
+							executor.submit( () -> {
+								try {
+									generate( server, currentPos );
+								} catch( Exception ignored ) {
+								
+								}
+							} );
+						} else {
+							incGeneratedChunksCount();
+						}
+					} );
+				}
+			}
 		}
 		return getGeneratedChunksCount() >= getChunkCount();
 	}
@@ -139,8 +155,9 @@ public class PregenTask implements Savable<JsonObject> {
 	public JsonObject write() {
 		
 		JsonObject compound = new JsonObject();
-		compound.addProperty( centerXName, center_x );
-		compound.addProperty( centerZName, center_z );
+		compound.addProperty( taskTypeName, taskType.name() );
+		compound.addProperty( centerXName, centerX );
+		compound.addProperty( centerZName, centerZ );
 		compound.addProperty( radiusName, radius );
 		compound.addProperty( dimensionName, DimensionHelper.getNameOfDim( dimension ) );
 		compound.addProperty( chunkIndexName, getGeneratedChunksCount() );
@@ -150,13 +167,22 @@ public class PregenTask implements Savable<JsonObject> {
 	@Override
 	public void read( @NotNull JsonObject json ) {
 		
+		if( json.has( taskTypeName ) ) {
+			if( JsonHelper.isString( json, taskTypeName ) ) {
+				taskType = TaskType.valueOf( JsonHelper.getString( json, taskTypeName ) );
+			} else {
+				throw new IllegalArgumentException( "Invalid type value." );
+			}
+		} else {
+			taskType = TaskType.CHUNK;
+		}
 		if( JsonHelper.isInt( json, centerXName ) ) {
-			center_x = JsonHelper.getInt( json, centerXName );
+			centerX = JsonHelper.getInt( json, centerXName );
 		} else {
 			throw new IllegalArgumentException( "Invalid center x value." );
 		}
 		if( JsonHelper.isInt( json, centerZName ) ) {
-			center_z = JsonHelper.getInt( json, centerZName );
+			centerZ = JsonHelper.getInt( json, centerZName );
 		} else {
 			throw new IllegalArgumentException( "Invalid center z value." );
 		}
@@ -174,7 +200,7 @@ public class PregenTask implements Savable<JsonObject> {
 		} else {
 			throw new IllegalArgumentException( "Invalid dimension value." );
 		}
-		worldPregenData = new WorldPregenData( center_x, center_z, radius );
+		worldPregenData = new WorldPregenData( centerX, centerZ, radius );
 		if( JsonHelper.isInt( json, chunkIndexName ) ) {
 			worldPregenData.setChunkIndex( JsonHelper.getInt( json, chunkIndexName ) );
 			// Needed because of Synchronization
@@ -203,27 +229,6 @@ public class PregenTask implements Savable<JsonObject> {
 	private synchronized long getGeneratedChunksCount() {
 		
 		return generated_chunks_count;
-	}
-	
-	public int getCenterX() {
-		
-		return center_x;
-	}
-	
-	public int getCenterZ() {
-		
-		return center_z;
-	}
-	
-	public int getRadius() {
-		
-		return radius;
-	}
-	
-	@NotNull
-	public ResourceKey<Level> getDimension() {
-		
-		return dimension;
 	}
 	
 	public long getChunkIndex() {
