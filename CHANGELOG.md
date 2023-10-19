@@ -1,2 +1,1 @@
-- The start pre-generation command now allows using centre and radius in blocks and chunks.
-- Update the configuration to clarify, that only a SERIAL and a SEMI_PARALLEL pre-generation mode are available.
+Ported to 1.20.2 
