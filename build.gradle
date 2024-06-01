@@ -4,7 +4,7 @@ plugins {
     id 'eclipse'
     id 'idea'
     id 'maven-publish'
-    id 'net.minecraftforge.gradle' version '[6.0.16,6.2)'
+    id 'net.minecraftforge.gradle' version '[6.0.24,6.2)'
     id 'org.parchmentmc.librarian.forgegradle' version '1.+'
     id("com.jaredsburrows.license") version "0.9.3"
     id "net.linguica.maven-settings" version "0.5"
@@ -35,8 +35,8 @@ copyLicenses.dependsOn("licenseReport")
 
 apply from: "custom.gradle"
 
-// Mojang ships Java 17 to end users in 1.18+, so your mod should target Java 17.
-java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+// Mojang ships Java 21 to end users in 1.20.5+, so your mod should target Java 21.
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 
 println "Java: ${System.getProperty 'java.version'}, JVM: ${System.getProperty 'java.vm.version'} (${System.getProperty 'java.vendor'}), Arch: ${System.getProperty 'os.arch'}"
 minecraft {
@@ -54,6 +54,9 @@ minecraft {
     // Use non-default mappings at your own risk. They may not always work.
     // Simply re-run your setup task after changing the mappings to update your workspace.
     mappings channel: mapping_channel, version: mapping_version
+    
+    // Tell FG to not automtically create the reobf tasks, as we now use Official mappings at runtime, If you don't use them at dev time then you'll have to fix your reobf yourself.
+    reobf = false
 
     // When true, this property will have all Eclipse/IntelliJ IDEA run configurations run the "prepareX" task for the given run configuration before launching the game.
     // In most cases, it is not necessary to enable.
@@ -96,12 +99,6 @@ minecraft {
             // You can set various levels here.
             // Please read: https://stackoverflow.com/questions/2031163/when-to-use-the-different-log-levels
             property 'forge.logging.console.level', 'debug'
-
-            mods {
-                "${mod_id}" {
-                    source sourceSets.main
-                }
-            }
         }
 
         client {
@@ -163,11 +160,11 @@ dependencies {
     // then special handling is done to allow a setup of a vanilla dependency without the use of an external repository.
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
 
-    // Example mod dependency with JEI - using fg.deobf() ensures the dependency is remapped to your development mappings
+    // Example mod dependency with JEI
     // The JEI API is declared for compile time use, while the full JEI artifact is used at runtime
-    // compileOnly fg.deobf("mezz.jei:jei-${mc_version}-common-api:${jei_version}")
-    // compileOnly fg.deobf("mezz.jei:jei-${mc_version}-forge-api:${jei_version}")
-    // runtimeOnly fg.deobf("mezz.jei:jei-${mc_version}-forge:${jei_version}")
+    // compileOnly "mezz.jei:jei-${mc_version}-common-api:${jei_version}"
+    // compileOnly "mezz.jei:jei-${mc_version}-forge-api:${jei_version}"
+    // runtimeOnly "mezz.jei:jei-${mc_version}-forge:${jei_version}"
 
     // Example mod dependency using a mod jar from ./libs with a flat dir repository
     // This maps to ./libs/coolmod-${mc_version}-${coolmod_version}.jar
@@ -177,6 +174,9 @@ dependencies {
     // For more info:
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
+    
+    // Hack fix for now, force jopt-simple to be exactly 5.0.4 because Mojang ships that version, but some transtive dependencies request 6.0+ 
+    implementation('net.sf.jopt-simple:jopt-simple:5.0.4') { version { strictly '5.0.4' } }
 
     //Lombok
     compileOnly "org.projectlombok:lombok:${lombok_version}"
@@ -185,10 +185,9 @@ dependencies {
     testCompileOnly "org.projectlombok:lombok:${lombok_version}"
     testAnnotationProcessor "org.projectlombok:lombok:${lombok_version}"
     // Minecraft Forge API
-    compileOnly fg.deobf("de.geheimagentnr1.minecraft_forge_api:MinecraftForgeAPI-${minecraft_version}:${mfapi_version}")
-    runtimeOnly fg.deobf("de.geheimagentnr1.minecraft_forge_api:MinecraftForgeAPI-${minecraft_version}:${mfapi_version}:dev")
+    compileOnly "de.geheimagentnr1.minecraft_forge_api:MinecraftForgeAPI-${minecraft_version}:${mfapi_version}"
+    runtimeOnly "de.geheimagentnr1.minecraft_forge_api:MinecraftForgeAPI-${minecraft_version}:${mfapi_version}:dev"
     jarJar("de.geheimagentnr1.minecraft_forge_api:MinecraftForgeAPI-${minecraft_version}:[${mfapi_version},${next_unuable_mfapi_version})") {
-        jarJar.pin(it, "${mfapi_version}")
         transitive = false
     }
 }
@@ -221,12 +220,6 @@ tasks.named('processResources', ProcessResources).configure {
 jarJar.enable()
 tasks.named('jarJar').configure {
     archiveClassifier = ''
-
-    finalizedBy('reobfJarJar')
-}
-
-reobf {
-    jarJar {}
 }
 
 // Example for how to get properties into the manifest for reading at runtime.
@@ -242,15 +235,7 @@ tasks.named('jar', Jar).configure {
             'Implementation-Vendor'   : mod_authors
         ])
     }
-
-    // This is the preferred method to reobfuscate your jar file
-    finalizedBy 'reobfJar'
 }
-
-// However if you are in a multi-project build, dev time needs unobfed jar files, so you can delay the obfuscation until publishing by doing:
-// tasks.named('publish').configure {
-//     dependsOn 'reobfJar'
-// }
 
 // Example configuration to allow publishing using the maven-publish plugin
 publishing {
@@ -279,7 +264,7 @@ eclipse {
     synchronizationTasks 'genEclipseRuns'
 }
 
-// Merge the resources and classes into the same directory.
+// Merge the resources and classes into the same directory. 
 // This is done because java expects modules to be in a single directory.
 // And if we have it in multiple we have to do performance intensive hacks like having the UnionFileSystem
 // This will eventually be migrated to ForgeGradle so modders don't need to manually do it. But that is later.
@@ -356,3 +341,4 @@ modrinth {
     }
     debugMode = Boolean.parseBoolean("${uploadDebug}")
 }
+tasks.modrinth.dependsOn("jarJar")
