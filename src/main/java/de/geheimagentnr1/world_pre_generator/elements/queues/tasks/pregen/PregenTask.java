@@ -135,7 +135,7 @@ public class PregenTask implements Savable<JsonObject> {
 		ServerLevel serverLevel = Objects.requireNonNull( server.getLevel( dimension ) );
 		return forceGeneration || !serverLevel.hasChunk( pos.getX(), pos.getZ() )
 			&& Optional.ofNullable( serverLevel.getChunk( pos.getX(), pos.getZ(), ChunkStatus.EMPTY, true ) ).stream()
-			.noneMatch( chunk -> chunk.getStatus().isOrAfter( ChunkStatus.FULL ) );
+			.noneMatch( chunk -> chunk.getPersistedStatus().isOrAfter( ChunkStatus.FULL ) );
 	}
 	
 	private void generate( @NotNull MinecraftServer server, @NotNull WorldPos pos ) {

@@ -22,6 +22,6 @@ public class DimensionHelper {
 	@NotNull
 	public static ResourceKey<Level> getDimFromName( @NotNull String registry_name ) {
 		
-		return ResourceKey.create( Registries.DIMENSION, new ResourceLocation( registry_name ) );
+		return ResourceKey.create( Registries.DIMENSION, ResourceLocation.parse( registry_name ) );
 	}
 }
