@@ -1,16 +1,16 @@
 package de.geheimagentnr1.world_pre_generator.save;
 
 import com.google.gson.*;
-import de.geheimagentnr1.minecraft_forge_api.events.ForgeEventHandlerInterface;
+import de.geheimagentnr1.world_pre_generator.api.events.NeoForgeEventHandlerInterface;
 import de.geheimagentnr1.world_pre_generator.elements.workers.PregenWorker;
 import de.geheimagentnr1.world_pre_generator.helpers.JsonHelper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import net.minecraft.world.level.storage.LevelResource;
-import net.minecraftforge.event.server.ServerStartingEvent;
-import net.minecraftforge.event.server.ServerStoppedEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.server.ServerLifecycleHooks;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.event.server.ServerStartingEvent;
+import net.neoforged.neoforge.event.server.ServerStoppedEvent;
+import net.neoforged.neoforge.server.ServerLifecycleHooks;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.FileNotFoundException;
@@ -21,7 +21,7 @@ import java.io.IOException;
 
 @Log4j2
 @RequiredArgsConstructor
-public class PregenerationWorldPersistencer implements ForgeEventHandlerInterface {
+public class PregenerationWorldPersistencer implements NeoForgeEventHandlerInterface {
 	
 	
 	@NotNull

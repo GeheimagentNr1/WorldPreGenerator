@@ -1,8 +1,8 @@
 package de.geheimagentnr1.world_pre_generator.config;
 
-import de.geheimagentnr1.minecraft_forge_api.AbstractMod;
-import de.geheimagentnr1.minecraft_forge_api.config.AbstractConfig;
-import net.minecraftforge.fml.config.ModConfig;
+import de.geheimagentnr1.world_pre_generator.api.AbstractMod;
+import de.geheimagentnr1.world_pre_generator.api.config.AbstractConfig;
+import net.neoforged.fml.config.ModConfig;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;

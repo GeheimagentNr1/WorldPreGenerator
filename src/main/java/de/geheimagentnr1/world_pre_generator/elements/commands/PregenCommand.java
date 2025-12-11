@@ -6,7 +6,7 @@ import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import de.geheimagentnr1.minecraft_forge_api.elements.commands.CommandInterface;
+import de.geheimagentnr1.world_pre_generator.api.commands.CommandInterface;
 import de.geheimagentnr1.world_pre_generator.config.ServerConfig;
 import de.geheimagentnr1.world_pre_generator.elements.commands.models.TaskRow;
 import de.geheimagentnr1.world_pre_generator.elements.commands.models.TasksMessage;

@@ -11,7 +11,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.server.MinecraftServer;
-import net.minecraftforge.common.WorldWorkerManager;
+import net.neoforged.neoforge.common.WorldWorkerManager;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
