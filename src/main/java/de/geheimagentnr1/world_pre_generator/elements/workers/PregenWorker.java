@@ -11,13 +11,14 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.server.MinecraftServer;
-import net.neoforged.neoforge.common.WorldWorkerManager;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.event.tick.ServerTickEvent;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
 
-public class PregenWorker implements WorldWorkerManager.IWorker {
+public class PregenWorker {
 	
 	
 	@NotNull
@@ -53,13 +54,12 @@ public class PregenWorker implements WorldWorkerManager.IWorker {
 	}
 	
 	
-	@Override
-	public boolean hasWork() {
-		
-		return true;
+	@SubscribeEvent
+	public void handleServerTickEvent( @NotNull ServerTickEvent.Post event ) {
+
+		doWork();
 	}
-	
-	@Override
+
 	public boolean doWork() {
 		
 		Optional<PregenTask> next_task = queue.getCurrentTask();

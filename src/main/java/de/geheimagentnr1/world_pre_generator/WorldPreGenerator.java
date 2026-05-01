@@ -8,7 +8,7 @@ import de.geheimagentnr1.world_pre_generator.save.PregenerationWorldPersistencer
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
-import net.neoforged.neoforge.common.WorldWorkerManager;
+import net.neoforged.neoforge.common.NeoForge;
 import org.jetbrains.annotations.NotNull;
 
 
@@ -36,7 +36,7 @@ public class WorldPreGenerator extends AbstractMod {
 		
 		ServerConfig serverConfig = registerConfig( ServerConfig::new );
 		PregenWorker pregenWorker = new PregenWorker( serverConfig );
-		WorldWorkerManager.addWorker( pregenWorker );
+		NeoForge.EVENT_BUS.register( pregenWorker );
 		registerEventHandler( new ModCommandsRegisterFactory( serverConfig, pregenWorker ) );
 		registerEventHandler( new PregenerationWorldPersistencer( pregenWorker ) );
 	}
