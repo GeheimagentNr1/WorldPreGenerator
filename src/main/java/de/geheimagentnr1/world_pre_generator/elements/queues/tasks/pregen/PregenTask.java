@@ -109,21 +109,24 @@ public class PregenTask implements Savable<JsonObject> {
 					executor =
 						(ThreadPoolExecutor)Executors.newFixedThreadPool( serverConfig.getGenerationSemiParallelTaskCount() );
 				}
-				if( (long)serverConfig.getGenerationSemiParallelTaskCount() << 1 >
+				while( (long)serverConfig.getGenerationSemiParallelTaskCount() << 1 >
 					executor.getTaskCount() - executor.getCompletedTaskCount() ) {
-					worldPregenData.nextChunk().ifPresent( currentPos -> {
-						if( shouldBeGenerated( server, currentPos ) ) {
-							executor.submit( () -> {
-								try {
-									generate( server, currentPos );
-								} catch( Exception ignored ) {
-								
-								}
-							} );
-						} else {
-							incGeneratedChunksCount();
-						}
-					} );
+					Optional<WorldPos> nextChunkOpt = worldPregenData.nextChunk();
+					if( nextChunkOpt.isEmpty() ) {
+						break;
+					}
+					WorldPos currentPos = nextChunkOpt.get();
+					if( shouldBeGenerated( server, currentPos ) ) {
+						executor.submit( () -> {
+							try {
+								generate( server, currentPos );
+							} catch( Exception ignored ) {
+
+							}
+						} );
+					} else {
+						incGeneratedChunksCount();
+					}
 				}
 			}
 		}

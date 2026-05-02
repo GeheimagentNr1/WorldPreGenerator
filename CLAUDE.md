@@ -106,3 +106,7 @@ Der Workflow `.github/workflows/build-and-test.yml` führt automatisch aus:
 | Commands | ✅ | GameTest |
 | Block/Item-Verhalten | ✅ | GameTest |
 | Multi-MC-Version | ⚠️ Pro Branch | CI Matrix |
+
+## Referenzen
+
+- [NeoForge Migration Primer](https://docs.neoforged.net/primer/docs/) — Dokumentiert API-Aenderungen zwischen Minecraft/NeoForge-Versionen; nuetzlich fuer die Pruefung von Breaking Changes beim Upgrade auf neue Versionen
