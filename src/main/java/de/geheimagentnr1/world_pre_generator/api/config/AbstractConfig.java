@@ -111,6 +111,7 @@ public abstract class AbstractConfig {
 			throw new IllegalArgumentException( "Config value not found: " + key );
 		}
 		configValue.set( value );
+		configValue.save();
 	}
 	
 	@NotNull
