@@ -1,0 +1,399 @@
+Notice for packages
+
+
+Access Transformers (10.0.1) - MIT
+Transforms class member access based on specification files
+https://github.com/NeoForged/AccessTransformers
+
+Access Transformers project ':modlauncher' (10.0.1) - MIT
+Transforms class member access based on specification files
+https://github.com/NeoForged/AccessTransformers
+
+ANTLR 4 Runtime (4.13.1) - BSD-3-Clause
+The ANTLR 4 Runtime
+https://www.antlr.org/
+
+     Apache Commons Codec (1.16.0) - Apache-2.0
+     The Apache Commons Codec package contains simple encoder and decoders for
+various formats such as Base64 and Hexadecimal.  In addition to these
+widely used encoders and decoders, the codec package also maintains a
+collection of phonetic encoding utilities.
+     https://commons.apache.org/proper/commons-codec/
+
+          Apache Commons Compress (1.26.0) - Apache-2.0
+          Apache Commons Compress defines an API for working with
+compression and archive formats. These include bzip2, gzip, pack200,
+LZMA, XZ, Snappy, traditional Unix Compress, DEFLATE, DEFLATE64, LZ4,
+Brotli, Zstandard and ar, cpio, jar, tar, zip, dump, 7z, arj.
+          https://commons.apache.org/proper/commons-compress/
+
+          Apache Commons IO (2.15.1) - Apache-2.0
+          The Apache Commons IO library contains utility classes, stream implementations, file filters,
+file comparators, endian transformation classes, and much more.
+          https://commons.apache.org/proper/commons-io/
+
+        Apache Commons Lang (3.14.0) - Apache-2.0
+        Apache Commons Lang, a package of Java utility classes for the
+classes that are in java.lang's hierarchy, or are considered to be so
+standard as to justify existence in java.lang.
+        https://commons.apache.org/proper/commons-lang/
+
+      Apache Commons Logging (1.2) - The Apache Software License, Version 2.0
+      Apache Commons Logging is a thin adapter allowing configurable bridging to other,
+well known logging systems.
+      http://commons.apache.org/proper/commons-logging/
+
+Apache HttpClient (4.5.13) - Apache License, Version 2.0
+Apache HttpComponents Client
+http://hc.apache.org/httpcomponents-client
+
+Apache HttpCore (4.4.16) - Apache License, Version 2.0
+Apache HttpComponents Core (blocking I/O)
+http://hc.apache.org/httpcomponents-core-ga
+
+Apache Log4j API (2.22.1) - Apache-2.0
+The Apache Log4j API
+https://logging.apache.org/log4j/2.x/
+
+Apache Log4j Core (2.22.1) - Apache-2.0
+The Apache Log4j Implementation
+https://logging.apache.org/log4j/2.x/
+
+Apache Log4j SLF4J 2.0 Binding (2.22.1) - Apache-2.0
+The Apache Log4j SLF4J 2.0 API binding to Log4j 2 Core
+https://logging.apache.org/log4j/2.x/
+
+asm (9.8) - BSD-3-Clause
+ASM, a very small and fast Java bytecode manipulation framework
+http://asm.ow2.io/
+
+asm-analysis (9.8) - BSD-3-Clause
+Static code analysis API of ASM, a very small and fast Java bytecode manipulation framework
+http://asm.ow2.io/
+
+asm-commons (9.8) - BSD-3-Clause
+Usefull class adapters based on ASM, a very small and fast Java bytecode manipulation framework
+http://asm.ow2.io/
+
+asm-tree (9.8) - BSD-3-Clause
+Tree API of ASM, a very small and fast Java bytecode manipulation framework
+http://asm.ow2.io/
+
+asm-util (9.8) - BSD-3-Clause
+Utilities for ASM, a very small and fast Java bytecode manipulation framework
+http://asm.ow2.io/
+
+authlib (6.0.54)
+
+blocklist (1.0.10)
+
+Bootstrap launcher (2.0.2)
+Allows bootstrapping a modularized environment from a classpath one
+https://github.com/McModLauncher/bootstraplauncher
+
+brigadier (1.3.10)
+
+Bus (8.0.5) - LGPL-2.1-only
+High performance Event Bus library
+https://github.com/NeoForged/Bus
+
+          Checker Qual (3.33.0) - The MIT License
+          checker-qual contains annotations (type qualifiers) that a programmer
+writes to specify Java code for type-checking by the Checker Framework.
+          https://checkerframework.org/
+
+Core Mods (7.0.3) - LGPLv2.1
+Core modding framework for use with forge
+https://github.com/neoforged/coremods
+
+datafixerupper (8.0.16)
+
+DevLaunch (1.0.2)
+
+earlydisplay (4.0.42)
+
+error-prone annotations (2.18.0) - Apache 2.0
+Error Prone is a static analysis tool for Java that catches common programming mistakes at compile-time.
+https://errorprone.info
+
+Fabric Mixin (0.15.2+mixin.0.8.7) - The MIT License
+Fabric Mixin is a trait/mixin and bytecode weaving framework for Java using ASM.
+https://github.com/FabricMC/Mixin
+
+fastutil (8.5.12) - Apache License, Version 2.0
+fastutil extends the Java Collections Framework by providing type-specific maps, sets, lists, and queues with a small memory footprint and fast access and insertion; it provides also big (64-bit) arrays, sets and lists, sorting algorithms, fast, practical I/O classes for binary and text files, and facilities for memory mapping large files. Note that if you have both this jar and fastutil-core.jar in your dependencies, fastutil-core.jar should be excluded.
+http://fastutil.di.unimi.it/
+
+FindBugs-jsr305 (3.0.2) - The Apache Software License, Version 2.0
+JSR305 Annotations for Findbugs
+http://findbugs.sourceforge.net/
+
+Gson (2.10.1) - Apache-2.0
+Gson JSON library
+https://github.com/google/gson
+
+      Guava InternalFutureFailureAccess and InternalFutures (1.0.1) - The Apache Software License, Version 2.0
+      Contains
+com.google.common.util.concurrent.internal.InternalFutureFailureAccess and
+InternalFutures. Most users will never need to use this artifact. Its
+classes is conceptually a part of Guava, but they're in this separate
+artifact so that Android libraries can use them without pulling in all of
+Guava (just as they can use ListenableFuture by depending on the
+listenablefuture artifact).
+      https://github.com/google/guava
+
+      Guava ListenableFuture only (9999.0-empty-to-avoid-conflict-with-guava) - The Apache Software License, Version 2.0
+      An empty artifact that Guava depends on to signal that it is providing
+ListenableFuture -- but is also available in a second "version" that
+contains com.google.common.util.concurrent.ListenableFuture class, without
+any other Guava classes. The idea is:
+
+- If users want only ListenableFuture, they depend on listenablefuture-1.0.
+
+- If users want all of Guava, they depend on guava, which, as of Guava
+27.0, depends on
+listenablefuture-9999.0-empty-to-avoid-conflict-with-guava. The 9999.0-...
+version number is enough for some build systems (notably, Gradle) to select
+that empty artifact over the "real" listenablefuture-1.0 -- avoiding a
+conflict with the copy of ListenableFuture in guava itself. If users are
+using an older version of Guava or a build system other than Gradle, they
+may see class conflicts. If so, they can solve them by manually excluding
+the listenablefuture artifact or manually forcing their build systems to
+use 9999.0-....
+      https://github.com/google/guava
+
+      Guava: Google Core Libraries for Java (32.1.2-jre) - Apache License, Version 2.0
+      Guava is a suite of core and expanded libraries that include
+utility classes, Google's collections, I/O classes, and
+much more.
+      https://github.com/google/guava
+
+      ICU4J (73.2) - Unicode/ICU License
+      International Component for Unicode for Java (ICU4J) is a mature, widely used Java library
+providing Unicode and Globalization support
+      https://icu.unicode.org/
+
+      J2ObjC Annotations (2.8) - Apache License, Version 2.0
+      A set of annotations that provide additional information to the J2ObjC
+translator to modify the result of translation.
+      https://github.com/google/j2objc/
+
+JarJarFileSystems (0.4.1) - LGPL 2.1
+Jar in Jar Utilities including the required NIO FileSystems. SubSystem: JarJarFileSystems
+https://github.com/NeoForged/JarJar
+
+JarJarMetadata (0.4.1) - LGPL 2.1
+Jar in Jar Utilities including the required NIO FileSystems. SubSystem: JarJarMetadata
+https://github.com/NeoForged/JarJar
+
+JarJarSelector (0.4.1) - LGPL 2.1
+Jar in Jar Utilities including the required NIO FileSystems. SubSystem: JarJarSelector
+https://github.com/NeoForged/JarJar
+
+Java Native Access (5.14.0) - LGPL-2.1-or-later,Apache-2.0
+Java Native Access
+https://github.com/java-native-access/jna
+
+Java Native Access Platform (5.14.0) - LGPL-2.1-or-later,Apache-2.0
+Java Native Access Platform
+https://github.com/java-native-access/jna
+
+Java-Objective-C-Bridge (1.1) - Apache License, Version 2.0
+A thin bridge that allows for two-way communication from Java to Objective-C.
+https://github.com/shannah/Java-Objective-C-Bridge
+
+JetBrains Java Annotations (24.1.0) - The Apache Software License, Version 2.0
+A set of annotations used for code inspection support and code documentation.
+https://github.com/JetBrains/java-annotations
+
+JLine Reader (3.20.0) - The BSD License
+JLine
+http://nexus.sonatype.org/oss-repository-hosting.html
+
+JLine Terminal (3.20.0) - The BSD License
+JLine
+http://nexus.sonatype.org/oss-repository-hosting.html
+
+JOML (1.10.5) - MIT License
+Java OpenGL Math Library
+http://joml.org
+
+JOpt Simple (5.0.4) - The MIT License
+A Java library for parsing command line options
+http://jopt-simple.github.io/jopt-simple
+
+loader (4.0.42)
+
+logging (1.2.7)
+
+LWJGL (3.3.3) - BSD-3-Clause
+The LWJGL core library.
+https://www.lwjgl.org
+
+LWJGL - FreeType bindings (3.3.3) - BSD-3-Clause
+A freely available software library to render fonts.
+https://www.lwjgl.org
+
+LWJGL - GLFW bindings (3.3.3) - BSD-3-Clause
+A multi-platform library for OpenGL, OpenGL ES and Vulkan development on the desktop. It provides a simple API for creating windows, contexts and surfaces, receiving input and events.
+https://www.lwjgl.org
+
+LWJGL - jemalloc bindings (3.3.3) - BSD-3-Clause
+A general purpose malloc implementation that emphasizes fragmentation avoidance and scalable concurrency support.
+https://www.lwjgl.org
+
+LWJGL - OpenAL bindings (3.3.3) - BSD-3-Clause
+A cross-platform 3D audio API appropriate for use with gaming applications and many other types of audio applications.
+https://www.lwjgl.org
+
+LWJGL - OpenGL bindings (3.3.3) - BSD-3-Clause
+The most widely adopted 2D and 3D graphics API in the industry, bringing thousands of applications to a wide variety of computer platforms.
+https://www.lwjgl.org
+
+LWJGL - stb bindings (3.3.3) - BSD-3-Clause
+Single-file public domain libraries for fonts, images, ogg vorbis files and more.
+https://www.lwjgl.org
+
+LWJGL - Tiny File Dialogs bindings (3.3.3) - BSD-3-Clause
+Provides basic modal dialogs.
+https://www.lwjgl.org
+
+LZ4 and xxHash (1.8.0) - The Apache Software License, Version 2.0
+Java ports and bindings of the LZ4 compression algorithm and the xxHash hashing algorithm
+https://github.com/lz4/lz4-java
+
+      Maven Artifact (3.8.5) - Apache License, Version 2.0
+      Maven is a software build management and
+comprehension tool. Based on the concept of a project object model:
+builds, dependency management, documentation creation, site
+publication, and distribution publication are all controlled from
+the declarative file. Maven can be extended by plugins to utilise a
+number of other development tools for reporting or the build
+process.
+      https://maven.apache.org/ref/${project.version}/
+
+MergeTool (2.0.3) - LGPLv2.1
+Merges two jar files together, useful for rebuilding Retroguard stripped jars.
+https://github.com/neoforged/MergeTool
+
+minecraft-dependencies (1.21.1)
+
+MixinExtras (0.5.0) - MIT License
+Companion library to Mixin with lots of features to improve the compatibility and concision of your mixins!
+https://github.com/LlamaLad7/MixinExtras
+
+Mod Launcher (11.0.5)
+Java 21 mod launcher
+https://github.com/McModLauncher/modlauncher
+
+neoforge (21.1.216) - LGPL 2.1
+Modifactions to Minecraft to enable mod developers.
+https://github.com/NeoForged/NeoForge
+
+NeoForm (1.21.1-20240808.144430) - All Rights Reserved, No redistribution.
+Configuration files used for deobfuscating and modding Minecraft.
+https://github.com/NeoForged/NeoForm
+
+      Netty/Buffer (4.1.97.Final) - Apache License, Version 2.0
+      Netty is an asynchronous event-driven network application framework for
+rapid development of maintainable high performance protocol servers and
+clients.
+      https://netty.io/
+
+      Netty/Codec (4.1.97.Final) - Apache License, Version 2.0
+      Netty is an asynchronous event-driven network application framework for
+rapid development of maintainable high performance protocol servers and
+clients.
+      https://netty.io/
+
+      Netty/Common (4.1.97.Final) - Apache License, Version 2.0
+      Netty is an asynchronous event-driven network application framework for
+rapid development of maintainable high performance protocol servers and
+clients.
+      https://netty.io/
+
+      Netty/Handler (4.1.97.Final) - Apache License, Version 2.0
+      Netty is an asynchronous event-driven network application framework for
+rapid development of maintainable high performance protocol servers and
+clients.
+      https://netty.io/
+
+      Netty/Resolver (4.1.97.Final) - Apache License, Version 2.0
+      Netty is an asynchronous event-driven network application framework for
+rapid development of maintainable high performance protocol servers and
+clients.
+      https://netty.io/
+
+      Netty/Transport (4.1.97.Final) - Apache License, Version 2.0
+      Netty is an asynchronous event-driven network application framework for
+rapid development of maintainable high performance protocol servers and
+clients.
+      https://netty.io/
+
+      Netty/Transport/Classes/Epoll (4.1.97.Final) - Apache License, Version 2.0
+      Netty is an asynchronous event-driven network application framework for
+rapid development of maintainable high performance protocol servers and
+clients.
+      https://netty.io/
+
+Netty/Transport/Native/Unix/Common (4.1.97.Final) - Apache License, Version 2.0
+Static library which contains common unix utilities.
+https://netty.io/
+
+NightConfig core (3.8.3) - GNU Lesser General Public License v3.0
+A multi-format configuration library, core module.
+https://github.com/TheElectronWill/night-config
+
+NightConfig toml (3.8.3) - GNU Lesser General Public License v3.0
+A multi-format configuration library, toml module.
+https://github.com/TheElectronWill/night-config
+
+NoException (1.7.1) - Apache License 2.0
+Makes exception handling concise and beautiful, yet architecturally clean and flexible.
+https://noexception.machinezoo.com/
+
+OpenJDK Nashorn (15.4) - GPL v2 with the Classpath exception
+Nashorn is an Open Source JavaScript (ECMAScript 5.1 and some 6 features) engine for the JVM.
+https://github.com/openjdk/nashorn
+
+  oshi-core (6.4.10) - SPDX-License-Identifier: MIT
+  A JNA-based (native) operating system information library for Java that aims to provide a
+cross-platform implementation to retrieve system information, such as version, memory, CPU, disk, battery, etc.
+  https://github.com/oshi/oshi
+
+patchy (2.2.10)
+
+      Plexus Common Utilities (3.3.0) - Apache License, Version 2.0
+      A collection of various utility classes to ease working with strings, files, command lines, XML and
+more.
+      http://codehaus-plexus.github.io/
+
+Project Lombok (1.18.34) - The MIT License
+Spice up your java: Automatic Resource Management, automatic generation of getters, setters, equals, hashCode and toString, and more!
+https://projectlombok.org
+
+Pure Java Ogg Vorbis Decoder (0.0.17) - GNU Lesser General Public License
+JOrbis accepts Ogg Vorbis bitstreams and decodes them to raw PCM.
+http://www.jcraft.com/jorbis
+
+Secure Modular Jar handler (3.0.8) - MIT
+Making the Java modular system provide security information
+https://github.com/McModLauncher/SecureJarHandler
+
+SLF4J API Module (2.0.9) - MIT License
+The slf4j API
+http://www.slf4j.org
+
+SRG Utils (0.4.15) - LGPLv2.1
+Library for managing java obfuscation mappings in various formats.
+https://github.com/MinecraftForge/SrgUtils
+
+TerminalConsoleAppender (1.3.0) - MIT License
+JLine 3 appender for Log4j2, allows extending command line apps using colors and command completion
+https://github.com/Minecrell/TerminalConsoleAppender
+
+text2speech (1.17.9)
+
+TypeTools (0.6.3) - Apache License, Version 2.0
+Sonatype helps open source projects to set up Maven repositories on https://oss.sonatype.org/
+http://github.com/jhalterman/typetools/
