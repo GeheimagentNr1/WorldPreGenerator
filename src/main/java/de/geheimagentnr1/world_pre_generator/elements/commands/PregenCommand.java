@@ -47,7 +47,7 @@ public class PregenCommand implements CommandInterface {
 	public LiteralArgumentBuilder<CommandSourceStack> build() {
 		
 		LiteralArgumentBuilder<CommandSourceStack> pregenCommand = Commands.literal( "pregen" )
-			.requires( source -> source.hasPermission( 2 ) );
+			.requires( Commands.hasPermission( Commands.LEVEL_GAMEMASTERS ) );
 		pregenCommand.then( Commands.literal( "clear" )
 			.executes( this::clear ) );
 		

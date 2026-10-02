@@ -8,7 +8,7 @@ import de.geheimagentnr1.world_pre_generator.helpers.DimensionHelper;
 import de.geheimagentnr1.world_pre_generator.helpers.JsonHelper;
 import de.geheimagentnr1.world_pre_generator.save.Savable;
 import lombok.Getter;
-import net.minecraft.ResourceLocationException;
+import net.minecraft.IdentifierException;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
@@ -197,7 +197,7 @@ public class PregenTask implements Savable<JsonObject> {
 		if( JsonHelper.isString( json, dimensionName ) ) {
 			try {
 				dimension = DimensionHelper.getDimFromName( JsonHelper.getString( json, dimensionName ) );
-			} catch( ResourceLocationException exception ) {
+			} catch( IdentifierException exception ) {
 				throw new IllegalArgumentException( "Invalid dimension resource location.", exception );
 			}
 		} else {
