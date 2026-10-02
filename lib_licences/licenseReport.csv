@@ -1,0 +1,168 @@
+project,description,version,developers,url,year,licenses,license urls,dependency
+Access Transformers,Transforms class member access based on specification files,11.0.2,"cpw,DemonWav,NeoForged",https://github.com/NeoForged/AccessTransformers,,MIT,https://spdx.org/licenses/MIT,net.neoforged:accesstransformers:11.0.2
+"Access Transformers project ':parser'",Transforms class member access based on specification files,11.0.2,NeoForged,https://github.com/NeoForged/AccessTransformers,,MIT,https://spdx.org/licenses/MIT,net.neoforged.accesstransformers:at-parser:11.0.2
+Apache Commons Codec,"The Apache Commons Codec component contains encoders and decoders for
+     formats such as Base16, Base32, Base64, digest, and Hexadecimal. In addition to these
+     widely used encoders and decoders, the codec package also maintains a
+     collection of phonetic encoding utilities.",1.19.0,"Henri Yandell,Tim OBrien,Scott Sanders,Rodney Waldhoff,Daniel Rall,Jon S. Stevens,Gary Gregory,David Graham,Julius Davies,Thomas Neidhart,Rob Tompkins,Matt Sicker",https://commons.apache.org/proper/commons-codec/,2002,Apache-2.0,https://www.apache.org/licenses/LICENSE-2.0.txt,commons-codec:commons-codec:1.19.0
+Apache Commons Compress,"Apache Commons Compress defines an API for working with
+compression and archive formats. These include bzip2, gzip, pack200,
+LZMA, XZ, Snappy, traditional Unix Compress, DEFLATE, DEFLATE64, LZ4,
+Brotli, Zstandard and ar, cpio, jar, tar, zip, dump, 7z, arj.",1.28.0,"Torsten Curdt,Stefan Bodewig,Sebastian Bazley,Christian Grobmeier,Julius Davies,Damjan Jovanovic,Emmanuel Bourg,Gary Gregory,Rob Tompkins,Peter Alfred Lee",https://commons.apache.org/proper/commons-compress/,2002,Apache-2.0,https://www.apache.org/licenses/LICENSE-2.0.txt,org.apache.commons:commons-compress:1.28.0
+Apache Commons IO,"The Apache Commons IO library contains utility classes, stream implementations, file filters,
+file comparators, endian transformation classes, and much more.",2.20.0,"Scott Sanders,dIon Gillard,Nicola Ken Barozzi,Henri Yandell,Stephen Colebourne,Jeremias Maerki,Matthew Hawthorne,Martin Cooper,Rob Oxspring,Jochen Wiedmann,Niall Pemberton,Jukka Zitting,Gary Gregory,Kristian Rosenvold",https://commons.apache.org/proper/commons-io/,2002,Apache-2.0,https://www.apache.org/licenses/LICENSE-2.0.txt,commons-io:commons-io:2.20.0
+Apache Commons Lang,"Apache Commons Lang, a package of Java utility classes for the
+  classes that are in java.lang's hierarchy, or are considered to be so
+  standard as to justify existence in java.lang.
+
+  The code is tested using the latest revision of the JDK for supported
+  LTS releases: 8, 11, 17 and 21 currently.
+  See https://github.com/apache/commons-lang/blob/master/.github/workflows/maven.yml
+  
+  Please ensure your build environment is up-to-date and kindly report any build issues.",3.19.0,"Daniel Rall,Stephen Colebourne,Henri Yandell,Steven Caswell,Robert Burrell Donkin,Gary Gregory,Fredrik Westermarck,James Carman,Niall Pemberton,Matt Benson,Joerg Schaible,Oliver Heger,Paul Benedict,Benedikt Ritter,Duncan Jones,Loic Guibert,Rob Tompkins",https://commons.apache.org/proper/commons-lang/,2001,Apache-2.0,https://www.apache.org/licenses/LICENSE-2.0.txt,org.apache.commons:commons-lang3:3.19.0
+Apache Log4j API,"The logging API of the Log4j project.
+    Library and application code can log through this API.
+    It contains a simple built-in implementation (`SimpleLogger`) for trivial use cases.
+    Production applications are recommended to use Log4j API in combination with a fully-fledged implementation, such as Log4j Core.",2.25.2,"Ralph Goers,Gary Gregory,Scott Deboy,Remko Popma,Nick Williams,Matt Sicker,Bruce Brouwer,Raman Gupta,Mikael Ståldal,Carter Kozak,Volkan Yazıcı,Ron Grabowski,Piotr P. Karwasz,Christian Grobmeier",https://logging.apache.org/log4j/2.x/,1999,Apache-2.0,https://www.apache.org/licenses/LICENSE-2.0.txt,org.apache.logging.log4j:log4j-api:2.25.2
+Apache Log4j Core,"A versatile, industrial-grade, and reference implementation of the Log4j API.
+    It bundles a rich set of components to assist various use cases:
+    Appenders targeting files, network sockets, databases, SMTP servers;
+    Layouts that can render CSV, HTML, JSON, Syslog, etc. formatted outputs;
+    Filters that can be configured using log event rates, regular expressions, scripts, time, etc.
+    It contains several extension points to introduce custom components, if needed.",2.25.2,"Ralph Goers,Gary Gregory,Scott Deboy,Remko Popma,Nick Williams,Matt Sicker,Bruce Brouwer,Raman Gupta,Mikael Ståldal,Carter Kozak,Volkan Yazıcı,Ron Grabowski,Piotr P. Karwasz,Christian Grobmeier",https://logging.apache.org/log4j/2.x/,1999,Apache-2.0,https://www.apache.org/licenses/LICENSE-2.0.txt,org.apache.logging.log4j:log4j-core:2.25.2
+asm,"ASM, a very small and fast Java bytecode manipulation framework",9.9.1,"Eric Bruneton,Eugene Kuleshov,Remi Forax",http://asm.ow2.io/,2000,BSD-3-Clause,https://asm.ow2.io/license.html,org.ow2.asm:asm:9.9.1
+asm-analysis,"Static code analysis API of ASM, a very small and fast Java bytecode manipulation framework",9.9.1,"Eric Bruneton,Eugene Kuleshov,Remi Forax",http://asm.ow2.io/,2000,BSD-3-Clause,https://asm.ow2.io/license.html,org.ow2.asm:asm-analysis:9.9.1
+asm-commons,"Usefull class adapters based on ASM, a very small and fast Java bytecode manipulation framework",9.9.1,"Eric Bruneton,Eugene Kuleshov,Remi Forax",http://asm.ow2.io/,2000,BSD-3-Clause,https://asm.ow2.io/license.html,org.ow2.asm:asm-commons:9.9.1
+asm-tree,"Tree API of ASM, a very small and fast Java bytecode manipulation framework",9.9.1,"Eric Bruneton,Eugene Kuleshov,Remi Forax",http://asm.ow2.io/,2000,BSD-3-Clause,https://asm.ow2.io/license.html,org.ow2.asm:asm-tree:9.9.1
+asm-util,"Utilities for ASM, a very small and fast Java bytecode manipulation framework",9.9.1,"Eric Bruneton,Eugene Kuleshov,Remi Forax",http://asm.ow2.io/,2000,BSD-3-Clause,https://asm.ow2.io/license.html,org.ow2.asm:asm-util:9.9.1
+authlib,,7.0.63,,,,,,com.mojang:authlib:7.0.63
+blocklist,,1.0.10,,,,,,com.mojang:blocklist:1.0.10
+brigadier,,1.3.10,,,,,,com.mojang:brigadier:1.3.10
+Bus,High performance Event Bus library,8.0.5,NeoForged,https://github.com/NeoForged/Bus,,LGPL-2.1-only,https://spdx.org/licenses/LGPL-2.1-only,net.neoforged:bus:8.0.5
+datafixerupper,,9.0.19,,,,,,com.mojang:datafixerupper:9.0.19
+DevLaunch,,1.0.2,,,,,,net.neoforged:DevLaunch:1.0.2
+earlydisplay,,11.0.5,,,,,,net.neoforged.fancymodloader:earlydisplay:11.0.5
+error-prone annotations,Error Prone is a static analysis tool for Java that catches common programming mistakes at compile-time.,2.41.0,Eddie Aftandilian,https://errorprone.info,,Apache 2.0,http://www.apache.org/licenses/LICENSE-2.0.txt,com.google.errorprone:error_prone_annotations:2.41.0
+Fabric Mixin,Fabric Mixin is a trait/mixin and bytecode weaving framework for Java using ASM.,0.17.0+mixin.0.8.7,"modmuss50,Player",https://github.com/FabricMC/Mixin,,The MIT License,https://raw.githubusercontent.com/FabricMC/Mixin/main/LICENSE.txt,net.fabricmc:sponge-mixin:0.17.0+mixin.0.8.7
+fastutil,"fastutil extends the Java Collections Framework by providing type-specific maps, sets, lists, and queues with a small memory footprint and fast access and insertion; it provides also big (64-bit) arrays, sets and lists, sorting algorithms, fast, practical I/O classes for binary and text files, and facilities for memory mapping large files. Note that if you have both this jar and fastutil-core.jar in your dependencies, fastutil-core.jar should be excluded.",8.5.18,Sebastiano Vigna,http://fastutil.di.unimi.it/,,"Apache License, Version 2.0",http://www.apache.org/licenses/LICENSE-2.0.html,it.unimi.dsi:fastutil:8.5.18
+FindBugs-jsr305,JSR305 Annotations for Findbugs,3.0.2,,http://findbugs.sourceforge.net/,,"The Apache Software License, Version 2.0",http://www.apache.org/licenses/LICENSE-2.0.txt,com.google.code.findbugs:jsr305:3.0.2
+Gson,Gson JSON library,2.13.2,google,https://github.com/google/gson,,Apache-2.0,https://www.apache.org/licenses/LICENSE-2.0.txt,com.google.code.gson:gson:2.13.2
+Guava InternalFutureFailureAccess and InternalFutures,"Contains
+    com.google.common.util.concurrent.internal.InternalFutureFailureAccess and
+    InternalFutures. Most users will never need to use this artifact. Its
+    classes are conceptually a part of Guava, but they're in this separate
+    artifact so that Android libraries can use them without pulling in all of
+    Guava (just as they can use ListenableFuture by depending on the
+    listenablefuture artifact).",1.0.3,Kevin Bourrillion,https://github.com/google/guava,2010,"Apache License, Version 2.0",http://www.apache.org/licenses/LICENSE-2.0.txt,com.google.guava:failureaccess:1.0.3
+Guava ListenableFuture only,"An empty artifact that Guava depends on to signal that it is providing
+    ListenableFuture -- but is also available in a second ""version"" that
+    contains com.google.common.util.concurrent.ListenableFuture class, without
+    any other Guava classes. The idea is:
+
+    - If users want only ListenableFuture, they depend on listenablefuture-1.0.
+
+    - If users want all of Guava, they depend on guava, which, as of Guava
+    27.0, depends on
+    listenablefuture-9999.0-empty-to-avoid-conflict-with-guava. The 9999.0-...
+    version number is enough for some build systems (notably, Gradle) to select
+    that empty artifact over the ""real"" listenablefuture-1.0 -- avoiding a
+    conflict with the copy of ListenableFuture in guava itself. If users are
+    using an older version of Guava or a build system other than Gradle, they
+    may see class conflicts. If so, they can solve them by manually excluding
+    the listenablefuture artifact or manually forcing their build systems to
+    use 9999.0-....",9999.0-empty-to-avoid-conflict-with-guava,Kevin Bourrillion,https://github.com/google/guava,2010,"The Apache Software License, Version 2.0",http://www.apache.org/licenses/LICENSE-2.0.txt,com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava
+Guava: Google Core Libraries for Java,"Guava is a suite of core and expanded libraries that include
+    utility classes, Google's collections, I/O classes, and
+    much more.",33.5.0-jre,Chris Povirk,https://github.com/google/guava,2010,"Apache License, Version 2.0",http://www.apache.org/licenses/LICENSE-2.0.txt,com.google.guava:guava:33.5.0-jre
+ICU4J,"International Components for Unicode for Java (ICU4J) is a mature, widely used Java library
+    providing Unicode and Globalization support",77.1,"Markus Scherer,Richard Gillam",https://icu.unicode.org/,,Unicode-3.0,https://raw.githubusercontent.com/unicode-org/icu/maint/maint-77/LICENSE,com.ibm.icu:icu4j:77.1
+J2ObjC Annotations,"A set of annotations that provide additional information to the J2ObjC
+    translator to modify the result of translation.",3.1,Tom Ball,https://github.com/google/j2objc/,,"Apache License, Version 2.0",http://www.apache.org/licenses/LICENSE-2.0.txt,com.google.j2objc:j2objc-annotations:3.1
+JarJarMetadata,Jar in Jar Utilities including the required NIO FileSystems. SubSystem: JarJarMetadata,0.5.0,NeoForged,https://github.com/NeoForged/JarJar,,LGPL 2.1,https://github.com/NeoForged/JarJar/blob/main/LICENSE,net.neoforged:JarJarMetadata:0.5.0
+JarJarSelector,Jar in Jar Utilities including the required NIO FileSystems. SubSystem: JarJarSelector,0.5.0,NeoForged,https://github.com/NeoForged/JarJar,,LGPL 2.1,https://github.com/NeoForged/JarJar/blob/main/LICENSE,net.neoforged:JarJarSelector:0.5.0
+Java Native Access,Java Native Access,5.17.0,"Timothy Wall,Matthias Bläsing",https://github.com/java-native-access/jna,,"LGPL-2.1-or-later,Apache-2.0","https://www.gnu.org/licenses/old-licenses/lgpl-2.1,https://www.apache.org/licenses/LICENSE-2.0.txt",net.java.dev.jna:jna:5.17.0
+Java Native Access Platform,Java Native Access Platform,5.17.0,"Timothy Wall,Matthias Bläsing",https://github.com/java-native-access/jna,,"LGPL-2.1-or-later,Apache-2.0","https://www.gnu.org/licenses/old-licenses/lgpl-2.1,https://www.apache.org/licenses/LICENSE-2.0.txt",net.java.dev.jna:jna-platform:5.17.0
+Java-Objective-C-Bridge,A thin bridge that allows for two-way communication from Java to Objective-C.,1.1,"Steve Hannah,Matthias Fuchs",https://github.com/shannah/Java-Objective-C-Bridge,2012,"Apache License, Version 2.0",https://www.apache.org/licenses/LICENSE-2.0.txt,ca.weblite:java-objc-bridge:1.1
+JetBrains Java Annotations,A set of annotations used for code inspection support and code documentation.,26.0.2-1,JetBrains Team,https://github.com/JetBrains/java-annotations,,"The Apache Software License, Version 2.0",https://www.apache.org/licenses/LICENSE-2.0.txt,org.jetbrains:annotations:26.0.2-1
+JLine Reader,JLine,3.20.0,Guillaume Nodet,http://nexus.sonatype.org/oss-repository-hosting.html,,The BSD License,https://opensource.org/licenses/BSD-3-Clause,org.jline:jline-reader:3.20.0
+JLine Terminal,JLine,3.20.0,Guillaume Nodet,http://nexus.sonatype.org/oss-repository-hosting.html,,The BSD License,https://opensource.org/licenses/BSD-3-Clause,org.jline:jline-terminal:3.20.0
+JOML,Java OpenGL Math Library,1.10.8,Kai Burjack,http://joml.org,,MIT License,https://www.opensource.org/licenses/mit-license.php,org.joml:joml:1.10.8
+JOpt Simple,A Java library for parsing command line options,5.0.4,Paul Holser,http://jopt-simple.github.io/jopt-simple,,The MIT License,http://www.opensource.org/licenses/mit-license.php,net.sf.jopt-simple:jopt-simple:5.0.4
+JSpecify annotations,An artifact of well-named and well-specified annotations to power static analysis checks,1.0.0,Kevin Bourrillion,http://jspecify.org/,,"The Apache License, Version 2.0",http://www.apache.org/licenses/LICENSE-2.0.txt,org.jspecify:jspecify:1.0.0
+jtracy,,1.0.37,,,,,,com.mojang:jtracy:1.0.37
+loader,,11.0.5,,,,,,net.neoforged.fancymodloader:loader:11.0.5
+logging,,1.6.11,,,,,,com.mojang:logging:1.6.11
+LWJGL,The LWJGL core library.,3.4.1,Ioannis Tsakpinis,https://www.lwjgl.org,,BSD-3-Clause,https://www.lwjgl.org/license,org.lwjgl:lwjgl:3.4.1
+LWJGL - FreeType bindings,A freely available software library to render fonts.,3.4.1,Ioannis Tsakpinis,https://www.lwjgl.org,,BSD-3-Clause,https://www.lwjgl.org/license,org.lwjgl:lwjgl-freetype:3.4.1
+LWJGL - GLFW bindings,"A multi-platform library for OpenGL, OpenGL ES and Vulkan development on the desktop. It provides a simple API for creating windows, contexts and surfaces, receiving input and events.",3.4.1,Ioannis Tsakpinis,https://www.lwjgl.org,,BSD-3-Clause,https://www.lwjgl.org/license,org.lwjgl:lwjgl-glfw:3.4.1
+LWJGL - jemalloc bindings,A general purpose malloc implementation that emphasizes fragmentation avoidance and scalable concurrency support.,3.4.1,Ioannis Tsakpinis,https://www.lwjgl.org,,BSD-3-Clause,https://www.lwjgl.org/license,org.lwjgl:lwjgl-jemalloc:3.4.1
+LWJGL - OpenAL bindings,A cross-platform 3D audio API appropriate for use with gaming applications and many other types of audio applications.,3.4.1,Ioannis Tsakpinis,https://www.lwjgl.org,,BSD-3-Clause,https://www.lwjgl.org/license,org.lwjgl:lwjgl-openal:3.4.1
+LWJGL - OpenGL bindings,"The most widely adopted 2D and 3D graphics API in the industry, bringing thousands of applications to a wide variety of computer platforms.",3.4.1,Ioannis Tsakpinis,https://www.lwjgl.org,,BSD-3-Clause,https://www.lwjgl.org/license,org.lwjgl:lwjgl-opengl:3.4.1
+LWJGL - stb bindings,"Single-file public domain libraries for fonts, images, ogg vorbis files and more.",3.4.1,Ioannis Tsakpinis,https://www.lwjgl.org,,BSD-3-Clause,https://www.lwjgl.org/license,org.lwjgl:lwjgl-stb:3.4.1
+LWJGL - Tiny File Dialogs bindings,Provides basic modal dialogs.,3.4.1,Ioannis Tsakpinis,https://www.lwjgl.org,,BSD-3-Clause,https://www.lwjgl.org/license,org.lwjgl:lwjgl-tinyfd:3.4.1
+LZ4 Java Compression,Java bindings and pure Java implementations of LZ4 and XXHash,1.10.1,"Adrien Grand,Rei Odaira,Jonas Konrad",https://github.com/yawkat/lz4-java,,"Apache License, Version 2.0",https://www.apache.org/licenses/LICENSE-2.0,at.yawk.lz4:lz4-java:1.10.1
+Maven Artifact,"Maven is a software build management and
+    comprehension tool. Based on the concept of a project object model:
+    builds, dependency management, documentation creation, site
+    publication, and distribution publication are all controlled from
+    the declarative file. Maven can be extended by plugins to utilise a
+    number of other development tools for reporting or the build
+    process.",3.9.9,"Karl Heinz Marbaise,Arnaud Héritier,Anders Hammar,Barrie Treloar,Benson Margulies,Benjamin Marwell,Brian Fox,Tamas Cservenak,Dennis Lundberg,Daniel Kulp,Emmanuel Venisse,Guillaume Boué,Guillaume Nodet,Henning Schmiedehausen,Hervé Boutemy,Igor Fedorenko,Jason van Zyl,Kristian Rosenvold,Konrad Windszus,Milos Kleint,Maarten Mulders,Olivier Lamy,Michael Osipov,Robert Scholte,Ralph Goers,Slawomir Jaranowski,Stephen Connolly,Sylwester Lachiewicz,Mark Struberg,Tibor Digaňa,Vincent Siveton,Wayne Fay,Andreas Dangel,Brian Demers,Fabrice Bellingard,Benjamin Bentmann,Chris Graham,Dan Tran,Damian Bradicich,Brett Porter,Daniel Fabulich,Enrico Olivelli,Fabrizio Giustina,Evgeny Mandrikov,Andrew Williams,Dominik Bartholdi,Jeff Jensen,Lukas Theussl,Mark Hobson,Martin Kanters,Mauro Talevi,Mirko Friedenhagen,Manfred Moser,Nicolas de Loof,Maria Odea B. Ching,Paul Gier,Petar Tahchiev,Raphaël Piéroni,Christian Schulte,Stephane Nicoll,Simone Tripodi,Christian Stein,Tony Chemit,Vincent Massol,Elliotte Rusty Harold,Andreas Gudian,Allan Q. Ramirez,Henri Yandell,Carlos Sanchez,Chris Stevenson,David Blevins,Daniel Rall,Edwin Punzalan,Felipe Leme,John Casey,Jesse McConnell,Joakim Erdfelt,Johnny Ruiz III,James Strachan,Ernesto Tolentino Jr.,Kenney Westerhof,Mike Perham,Oleg Gusakov,Patrick Schneider,Rahul Thakur,Shinobu Kuwai,Torbjorn Eikli Smorgrav,Trygve Laugstol,Wendy Smoak",https://maven.apache.org/ref/${project.version}/,2001,Apache-2.0,https://www.apache.org/licenses/LICENSE-2.0.txt,org.apache.maven:maven-artifact:3.9.9
+MergeTool,"Merges two jar files together, useful for rebuilding Retroguard stripped jars.",2.0.7,NeoForged,https://github.com/neoforged/MergeTool,,LGPLv2.1,https://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt,net.neoforged:mergetool:2.0.7
+Microsoft Azure Java JSON Library,This package provides interfaces for reading and writing JSON.,1.4.0,Microsoft,https://github.com/Azure/azure-sdk-for-java,,The MIT License (MIT),http://opensource.org/licenses/MIT,com.azure:azure-json:1.4.0
+minecraft-dependencies,,26.1,,,,,,net.neoforged:minecraft-dependencies:26.1
+MixinExtras,Companion library to Mixin with lots of features to improve the compatibility and concision of your mixins!,0.5.3,LlamaLad7,https://github.com/LlamaLad7/MixinExtras,,MIT License,http://www.opensource.org/licenses/mit-license.php,io.github.llamalad7:mixinextras-neoforge:0.5.3
+msal4j,"Microsoft Authentication Library for Java gives you the ability to obtain tokens from Azure AD v2 (work and school
+		accounts, MSA) and Azure AD B2C, gaining access to Microsoft Cloud API and any other API secured by Microsoft
+		identities",1.23.1,"Microsoft Open Technologies, Inc.",https://github.com/AzureAD/microsoft-authentication-library-for-java,2013,MIT License,,com.microsoft.azure:msal4j:1.23.1
+neoforge,Modifactions to Minecraft to enable mod developers.,26.1.0.19-beta,,https://github.com/NeoForged/NeoForge,,LGPL 2.1,https://github.com/NeoForged/NeoForge/blob/1.13-pre/LICENSE.txt,net.neoforged:neoforge:26.1.0.19-beta
+NeoForm,Data and patches required to produce recompilable Minecraft source code,26.1-1,NeoForged,https://github.com/NeoForged/NeoForm,,LGPL-2.1-only,https://spdx.org/licenses/LGPL-2.1-only,net.neoforged:neoform:26.1-1
+Netty/Buffer,"Netty is an asynchronous event-driven network application framework for
+    rapid development of maintainable high performance protocol servers and
+    clients.",4.2.7.Final,The Netty Project Contributors,https://netty.io/,2008,"Apache License, Version 2.0",https://www.apache.org/licenses/LICENSE-2.0,io.netty:netty-buffer:4.2.7.Final
+Netty/Codec/Base,"Netty is an asynchronous event-driven network application framework for
+    rapid development of maintainable high performance protocol servers and
+    clients.",4.2.7.Final,The Netty Project Contributors,https://netty.io/,2008,"Apache License, Version 2.0",https://www.apache.org/licenses/LICENSE-2.0,io.netty:netty-codec-base:4.2.7.Final
+Netty/Codec/Compression,"Netty is an asynchronous event-driven network application framework for
+    rapid development of maintainable high performance protocol servers and
+    clients.",4.2.7.Final,The Netty Project Contributors,https://netty.io/,2008,"Apache License, Version 2.0",https://www.apache.org/licenses/LICENSE-2.0,io.netty:netty-codec-compression:4.2.7.Final
+Netty/Codec/HTTP,"Netty is an asynchronous event-driven network application framework for
+    rapid development of maintainable high performance protocol servers and
+    clients.",4.2.7.Final,The Netty Project Contributors,https://netty.io/,2008,"Apache License, Version 2.0",https://www.apache.org/licenses/LICENSE-2.0,io.netty:netty-codec-http:4.2.7.Final
+Netty/Common,"Netty is an asynchronous event-driven network application framework for
+    rapid development of maintainable high performance protocol servers and
+    clients.",4.2.7.Final,The Netty Project Contributors,https://netty.io/,2008,"Apache License, Version 2.0",https://www.apache.org/licenses/LICENSE-2.0,io.netty:netty-common:4.2.7.Final
+Netty/Handler,"Netty is an asynchronous event-driven network application framework for
+    rapid development of maintainable high performance protocol servers and
+    clients.",4.2.7.Final,The Netty Project Contributors,https://netty.io/,2008,"Apache License, Version 2.0",https://www.apache.org/licenses/LICENSE-2.0,io.netty:netty-handler:4.2.7.Final
+Netty/Resolver,"Netty is an asynchronous event-driven network application framework for
+    rapid development of maintainable high performance protocol servers and
+    clients.",4.2.7.Final,The Netty Project Contributors,https://netty.io/,2008,"Apache License, Version 2.0",https://www.apache.org/licenses/LICENSE-2.0,io.netty:netty-resolver:4.2.7.Final
+Netty/Transport,"Netty is an asynchronous event-driven network application framework for
+    rapid development of maintainable high performance protocol servers and
+    clients.",4.2.7.Final,The Netty Project Contributors,https://netty.io/,2008,"Apache License, Version 2.0",https://www.apache.org/licenses/LICENSE-2.0,io.netty:netty-transport:4.2.7.Final
+Netty/Transport/Classes/Epoll,"Netty is an asynchronous event-driven network application framework for
+    rapid development of maintainable high performance protocol servers and
+    clients.",4.2.7.Final,The Netty Project Contributors,https://netty.io/,2008,"Apache License, Version 2.0",https://www.apache.org/licenses/LICENSE-2.0,io.netty:netty-transport-classes-epoll:4.2.7.Final
+Netty/Transport/Classes/KQueue,"Netty is an asynchronous event-driven network application framework for
+    rapid development of maintainable high performance protocol servers and
+    clients.",4.2.7.Final,The Netty Project Contributors,https://netty.io/,2008,"Apache License, Version 2.0",https://www.apache.org/licenses/LICENSE-2.0,io.netty:netty-transport-classes-kqueue:4.2.7.Final
+Netty/Transport/Native/Unix/Common,Static library which contains common unix utilities.,4.2.7.Final,The Netty Project Contributors,https://netty.io/,2008,"Apache License, Version 2.0",https://www.apache.org/licenses/LICENSE-2.0,io.netty:netty-transport-native-unix-common:4.2.7.Final
+NightConfig core,"A multi-format configuration library, core module.",3.8.3,TheElectronWill,https://github.com/TheElectronWill/night-config,,GNU Lesser General Public License v3.0,https://www.gnu.org/licenses/lgpl-3.0.txt,com.electronwill.night-config:core:3.8.3
+NightConfig toml,"A multi-format configuration library, toml module.",3.8.3,TheElectronWill,https://github.com/TheElectronWill/night-config,,GNU Lesser General Public License v3.0,https://www.gnu.org/licenses/lgpl-3.0.txt,com.electronwill.night-config:toml:3.8.3
+oshi-core,"A JNA-based (native) operating system information library for Java that aims to provide a
+        cross-platform implementation to retrieve system information, such as version, memory, CPU, disk, battery, etc.",6.9.0,"Daniel Doubrovkine,Daniel Widdis",https://github.com/oshi/oshi,2010,MIT,https://opensource.org/licenses/MIT,com.github.oshi:oshi-core:6.9.0
+patchy,,2.2.10,,,,,,com.mojang:patchy:2.2.10
+Plexus Common Utilities,"A collection of various utility classes to ease working with strings, files, command lines, XML and
+    more.",3.5.1,"Jason van Zyl,Pete Kazmier,James Taylor,Dan Diephouse,Kasper Nielsen,Ben Walding,Mark Wilkinson,Michal Maczka,Emmanuel Venisse,Trygve Laugstøl,Kenney Westerhof,Carlos Sanchez,Brett Porter,John Casey,Andrew Williams,Rahul Thakur,Joakim Erdfelt,Olivier Lamy,Hervé Boutemy,Oleg Gusakov,Vincent Siveton,Kristian Rosenvold,Andreas Gudian,Karl Heinz Marbaise,Michael Osipov,Gabriel Belingueres",https://codehaus-plexus.github.io/,2001,"Apache License, Version 2.0",http://www.apache.org/licenses/LICENSE-2.0.txt,org.codehaus.plexus:plexus-utils:3.5.1
+Project Lombok,"Spice up your java: Automatic Resource Management, automatic generation of getters, setters, equals, hashCode and toString, and more!",1.18.48,"Reinier Zwitserloot,Roel Spilker",https://projectlombok.org,,The MIT License,https://projectlombok.org/LICENSE,org.projectlombok:lombok:1.18.48
+Pure Java Ogg Vorbis Decoder,JOrbis accepts Ogg Vorbis bitstreams and decodes them to raw PCM.,0.0.17,,http://www.jcraft.com/jorbis,,GNU Lesser General Public License,http://www.gnu.org/copyleft/lesser.html,org.jcraft:jorbis:0.0.17
+SLF4J 2 Provider for Log4j API,"SLF4J 2 provider (binding) for the Apache Log4j API.
+    It forwards SLF4J 2 calls to the Log4j API.
+    This effectively allows using Log4j as an implementation of SLF4J 2.
+    (Refer to the `log4j-to-slf4j` artifact for forwarding the Log4j API to SLF4J.)",2.25.2,"Ralph Goers,Gary Gregory,Scott Deboy,Remko Popma,Nick Williams,Matt Sicker,Bruce Brouwer,Raman Gupta,Mikael Ståldal,Carter Kozak,Volkan Yazıcı,Ron Grabowski,Piotr P. Karwasz,Christian Grobmeier",https://logging.apache.org/log4j/2.x/,1999,Apache-2.0,https://www.apache.org/licenses/LICENSE-2.0.txt,org.apache.logging.log4j:log4j-slf4j2-impl:2.25.2
+SLF4J API Module,The slf4j API,2.0.17,Ceki Gulcu,http://www.slf4j.org,2005,MIT,https://opensource.org/license/mit,org.slf4j:slf4j-api:2.0.17
+srgutils,Library for managing java obfuscation mappings in various formats.,1.0.10,NeoForged,https://github.com/NeoForged/SRGUtils,,LGPL-2.1-only,https://spdx.org/licenses/LGPL-2.1-only,net.neoforged:srgutils:1.0.10
+TerminalConsoleAppender,"JLine 3 appender for Log4j2, allows extending command line apps using colors and command completion",1.3.0,Minecrell,https://github.com/Minecrell/TerminalConsoleAppender,,MIT License,https://opensource.org/licenses/MIT,net.minecrell:terminalconsoleappender:1.3.0
+text2speech,,1.18.11,,,,,,com.mojang:text2speech:1.18.11
+TypeTools,Sonatype helps open source projects to set up Maven repositories on https://oss.sonatype.org/,0.6.3,Jonathan Halterman,http://github.com/jhalterman/typetools/,,"Apache License, Version 2.0",http://apache.org/licenses/LICENSE-2.0,net.jodah:typetools:0.6.3
