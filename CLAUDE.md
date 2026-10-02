@@ -2,11 +2,19 @@
 
 ## Projekt-Übersicht
 
-**World Pre Generator** ist ein NeoForge Minecraft Mod für Minecraft 1.21.1.
+**World Pre Generator** ist ein NeoForge Minecraft Mod.
 - **Mod ID**: `world_pre_generator`
 - **Package**: `de.geheimagentnr1.world_pre_generator`
-- **Java Version**: 21
-- **NeoForge Version**: 21.1.x
+- **Java Version**: 21 (`develop_26.1`: 25, `jdk-25.0.4.7-hotspot`)
+- **NeoForge Version**: je Branch, siehe Tabelle
+
+| Branch | MC | Range | NeoForge (kompiliert gegen) | Hinweis |
+|---|---|---|---|---|
+| `develop_1.21.1` | 1.21.1 - 1.21.10 | `[1.21.1,1.21.10]` | `21.1.216` | Release `1.21.1-5.0.2` (Config-`save()` für `/pregen sendFeedback`) |
+| `develop_1.21.11` | 1.21.11 | `[1.21.11,1.21.12)` | `21.11.45` | `Identifier`/`IdentifierException`, `LEVEL_GAMEMASTERS`, GameTest entfernt |
+| `develop_26.1` | 26.1 - 26.3 | `[26.1,27)` | `26.1.0.19-beta` (Java 25) | 26.x-Tooling, `ChunkPos.x()`/`z()` (Felder ab 26.1 privat) |
+
+Alle 5.0.2, released 2026-10-02; `develop_1.21.3` ist ein alter Forge-Stand. Details: [`../Docs/migrations/1.21.10-to-1.21.11.md`](../Docs/migrations/1.21.10-to-1.21.11.md) 9, [`../Docs/migrations/1.21.11-to-26.1.md`](../Docs/migrations/1.21.11-to-26.1.md).
 
 Bietet einen Pre-Generator für Minecraft-Welten.
 
@@ -66,7 +74,7 @@ Verschiedene Java-Versionen sind unter `C:\Program Files\Eclipse Adoptium` insta
 
 ```powershell
 # Java 21 für MC 1.20.5+ (NeoForge)
-$env:JAVA_HOME = "C:\Program Files\Eclipse Adoptium\jdk-21.0.9.10-hotspot"
+$env:JAVA_HOME = "C:\Program Files\Eclipse Adoptium\jdk-21.0.12.8-hotspot"
 ./gradlew build
 ```
 
@@ -82,20 +90,17 @@ Tests liegen unter `src/test/java/`. Ergebnisse: `build/reports/tests/test/index
 
 ### NeoForge GameTest Framework
 
-Für Integration Tests in einer echten Minecraft-Umgebung:
+Ab `develop_1.21.11` keine GameTests mehr (trivialer Smoke-Test samt Run-Config und CI-Job entfernt).
 
-```bash
-./gradlew runGameTestServer
-```
+### Automatischer Test (RCON)
 
-GameTest-Klassen werden mit `@GameTestHolder` annotiert und liegen unter `src/main/java/.../elements/gametests/`.
+Rein serverseitig, daher vollständig per RCON testbar: `pregen gen minecraft:overworld start chunk <x> <z> <radius>` in einem noch nicht generierten Bereich, `list`, `pause`, `resume`, `sendFeedback false/true` (Wert muss in der Config-Datei stehen und den Neustart überstehen), `cancel`; erneut starten, Server neu starten während die Aufgabe läuft (Fortschritt im Log muss weiterlaufen), `clear`. Beim Typ `chunk` sind die Mittelpunkt-Koordinaten Chunk-Koordinaten.
 
 ### CI/CD (GitHub Actions)
 
 Der Workflow `.github/workflows/build-and-test.yml` führt automatisch aus:
 1. **Build**: Kompiliert den Mod
 2. **Unit Tests**: Führt JUnit Tests aus
-3. **GameTests**: Startet GameTestServer (optional)
 
 ### Was kann automatisiert getestet werden?
 
