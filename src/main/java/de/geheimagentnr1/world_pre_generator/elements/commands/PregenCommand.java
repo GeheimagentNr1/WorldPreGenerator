@@ -128,8 +128,8 @@ public class PregenCommand implements CommandInterface {
 		switch( taskType ) {
 			case BLOCK -> {
 				ChunkPos chunkCenter = center.toChunkPos();
-				chunkX = chunkCenter.x;
-				chunkZ = chunkCenter.z;
+				chunkX = chunkCenter.x();
+				chunkZ = chunkCenter.z();
 				chunkRadius = SectionPos.blockToSectionCoord( radius );
 			}
 			case CHUNK -> {
