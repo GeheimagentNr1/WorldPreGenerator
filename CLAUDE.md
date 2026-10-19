@@ -7,7 +7,7 @@ World Pre Generator generiert per Befehl `/pregen` Chunks um einen Mittelpunkt i
 ## Versionen
 
 - Branches, Ranges und Tags: Zeile „WorldPreGenerator“ in [`../Docs/VERSIONEN.md`](../Docs/VERSIONEN.md).
-- NeoForge: `develop_1.21.1` (ein Jar 1.21.1 - 1.21.10), `develop_1.21.11`, `develop_26.1` (ein Jar 26.1 - 26.3). Forge: `develop_<mc>` bis 1.21.3 und `develop_1.21.1_forge`.
+- NeoForge: `develop_1.21.1` (ein Jar 1.21.1 - 1.21.10), `develop_1.21.11`, `develop_26.1` (26.1 - 26.2), `develop_26.3` (ab NeoForge 26.3.0.37-beta: Config-Typ `SYNCED` statt `SERVER` mit altem Dateinamen `<modid>-server.toml`, alte `world/serverconfig/`-Datei wird auf Dedicated Servern einmalig nach `world/syncedconfig/` kopiert - `config/ServerConfigRegistration`, `config/LegacyServerConfigMigration`, 2026-10-19). Forge: `develop_<mc>` bis 1.21.3 und `develop_1.21.1_forge`.
 - Code-Unterschiede NeoForge: 1.21.11 `Identifier`, `Commands.hasPermission( Commands.LEVEL_GAMEMASTERS )` statt `hasPermission( 2 )`; 26.1 `ChunkPos.x()`/`z()` (Felder privat).
 
 ## Abhängigkeiten
