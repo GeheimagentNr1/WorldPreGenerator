@@ -1,5 +1,6 @@
 package de.geheimagentnr1.world_pre_generator.api;
 
+import de.geheimagentnr1.world_pre_generator.config.ServerConfigRegistration;
 import de.geheimagentnr1.world_pre_generator.api.config.AbstractConfig;
 import de.geheimagentnr1.world_pre_generator.api.events.NeoForgeEventHandlerInterface;
 import net.neoforged.bus.api.IEventBus;
@@ -35,7 +36,11 @@ public abstract class AbstractMod {
 	protected <T extends AbstractConfig> T registerConfig( @NotNull Function<AbstractMod, T> configFactory ) {
 		
 		T config = configFactory.apply( this );
-		modContainer.registerConfig( config.type(), config.build() );
+		if( config.type() == ModConfig.Type.SYNCED ) {
+			ServerConfigRegistration.register( modContainer, config.build() );
+		} else {
+			modContainer.registerConfig( config.type(), config.build() );
+		}
 		return config;
 	}
 	

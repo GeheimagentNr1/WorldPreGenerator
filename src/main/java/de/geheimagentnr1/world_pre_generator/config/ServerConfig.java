@@ -44,7 +44,7 @@ public class ServerConfig extends AbstractConfig {
 	@Override
 	public ModConfig.Type type() {
 		
-		return ModConfig.Type.SERVER;
+		return ModConfig.Type.SYNCED;
 	}
 	
 	@Override
